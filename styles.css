@@ -98,6 +98,25 @@ h2 { margin: 0; font-size: clamp(2rem, 4vw, 3.6rem); }
   border-radius: 45% 45% 35% 35%;
   background: var(--acid);
 }
+.signal-card { grid-column: 1 / -1; background: #0b100c; }
+.signal-preview {
+  position: relative;
+  min-height: 235px;
+  padding: 30px clamp(24px, 6vw, 72px);
+  background:
+    repeating-linear-gradient(to bottom, transparent 0 3px, rgba(0,0,0,.12) 3px 4px),
+    radial-gradient(circle at 78% 20%, rgba(255,180,84,.09), transparent 18rem),
+    #101a12;
+}
+.signal-score { color: #a4ff68; font-family: ui-monospace, monospace; font-size: clamp(1.3rem, 4vw, 2.2rem); font-weight: 800; letter-spacing: .12em; }
+.signal-screen { display: grid; grid-template-columns: repeat(7, 1fr); gap: 5px; width: min(620px, 100%); margin-top: 23px; }
+.signal-screen span { aspect-ratio: 1; border: 1px solid rgba(164,255,104,.13); border-radius: 6px; background: rgba(164,255,104,.025); }
+.signal-screen .on { border-color: #c5ff9f; background: #a4ff68; box-shadow: 0 0 12px rgba(164,255,104,.27); }
+.signal-screen .amber { border-color: #ffd19b; background: #ffb454; box-shadow: 0 0 10px rgba(255,180,84,.22); }
+.signal-labels { display: grid; grid-template-columns: repeat(7, 1fr); gap: 5px; width: min(620px, 100%); margin-top: 7px; color: #ffb454; text-align: center; }
+.signal-labels i { font-family: ui-monospace, monospace; font-size: .65rem; font-style: normal; }
+.signal-card .project-copy { border-top: 1px solid rgba(164,255,104,.12); }
+.signal-card .project-copy span { color: #a4ff68; }
 
 .notes { padding-bottom: 72px; }
 .notes article { display: grid; grid-template-columns: 140px 1fr; max-width: 760px; gap: 24px; padding: 26px 0; border-top: 1px solid var(--line); }
@@ -114,6 +133,8 @@ footer { display: flex; justify-content: space-between; gap: 24px; padding: 30px
   .wordmark img { width: 30px; height: 30px; border-radius: 9px; }
   .section-heading { display: block; }.section-heading h2 { margin-top: 8px; }
   .project-grid { grid-template-columns: 1fr; }
+  .signal-card { grid-column: auto; }
+  .signal-preview { min-height: 190px; padding: 24px 18px; }
   .tile-grid, .lantern-preview { aspect-ratio: 1.7 / 1; }.notes article { grid-template-columns: 1fr; gap: 8px; }
   footer { display: block; } footer a { display: inline-block; margin-top: 12px; }
 }

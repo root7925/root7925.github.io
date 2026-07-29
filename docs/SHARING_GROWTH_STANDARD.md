@@ -18,6 +18,18 @@ challenge a friend to the exact same puzzle
 friend lands directly in that puzzle
 ```
 
+For an endless game, the earned moment may be a verified local run instead:
+
+```text
+finish a real run
+        ↓
+earn a score title
+        ↓
+share score + clean-result count
+        ↓
+friend lands on a fresh, private run
+```
+
 ## Required behavior
 
 - Award titles only from verified local completion counts.
@@ -31,6 +43,8 @@ friend lands directly in that puzzle
 - A cancelled share must not display a success message.
 - Shared URLs must not reveal progress, identity, solution data, or private
   generator parameters.
+- Endless-score shares must not serialize the board, random state, or seed.
+- Do not claim a rank or percentile without a real comparison population.
 
 ## Reusable implementation
 
@@ -62,4 +76,3 @@ The useful metric is:
 Share-button clicks alone are a vanity metric. Referral identifiers may be
 added later only if they are anonymous, short-lived, and explained in the
 privacy statement.
-

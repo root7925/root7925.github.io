@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="Signal Stack is an endless retro logic game by Leslie. Place two-tone pieces, tune the row signals, and keep the channel open."
+    />
+    <meta name="theme-color" content="#090d09" />
+    <title>Signal Stack — an endless Leslie / Play puzzle</title>
+    <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="styles.css?v=d5d7150607d5" />
+  </head>
+  <body>
+    <main>
+      <nav>
+        <a class="brand" href="../">
+          <img src="../assets/leslie-play-mark.svg" alt="" width="30" height="30" />
+          <span>Leslie / Play</span>
+        </a>
+        <span>Transmission 03 · Endless</span>
+      </nav>
+
+      <header class="game-hero">
+        <div>
+          <p class="eyebrow">A pocket logic transmission</p>
+          <h1>Signal<br /><em>Stack</em></h1>
+        </div>
+        <p>
+          Place the two-tone pieces. Complete rows and columns. Match the
+          numbered signal for a clean transmission—and keep the channel alive.
+        </p>
+      </header>
+
+      <section class="play-layout" aria-label="Signal Stack game and instructions">
+        <section class="console" aria-label="Signal Stack endless game">
+          <div class="console-top">
+            <div>
+              <small>score</small>
+              <strong id="score">000000</strong>
+            </div>
+            <div>
+              <small>best</small>
+              <strong id="best">000000</strong>
+            </div>
+            <div>
+              <small>chain</small>
+              <strong id="combo">×0</strong>
+            </div>
+          </div>
+
+          <div class="signal-message" id="message" aria-live="polite">
+            Select a piece. Tap it again to rotate.
+          </div>
+
+          <div class="display" id="display">
+            <div class="column-clues" id="column-clues" aria-label="Column signal targets"></div>
+            <div class="board-row">
+              <div class="board" id="board" aria-label="Signal placement grid"></div>
+              <div class="row-clues" id="row-clues" aria-label="Row signal targets"></div>
+            </div>
+            <div class="signal-flash" id="signal-flash" hidden aria-live="polite"></div>
+            <div class="game-over" id="game-over" hidden role="dialog" aria-modal="true" aria-labelledby="game-over-title">
+              <span>TRANSMISSION ENDED</span>
+              <h2 id="game-over-title">Channel closed.</h2>
+              <strong id="final-score">0</strong>
+              <p id="run-title">First Transmission</p>
+              <div>
+                <button type="button" id="restart-run">Tune again</button>
+                <button type="button" id="share-score">Share score</button>
+              </div>
+              <small id="share-status" aria-live="polite"></small>
+            </div>
+          </div>
+
+          <div class="tray-head">
+            <span>incoming pieces</span>
+            <button type="button" id="rotate-piece" disabled>Rotate ↻</button>
+          </div>
+          <div class="piece-tray" id="piece-tray" aria-label="Available signal pieces"></div>
+
+          <div class="console-bottom">
+            <span><i class="lamp lamp-light"></i> light</span>
+            <span><i class="lamp lamp-dark"></i> dark</span>
+            <button type="button" id="new-run">New run</button>
+          </div>
+        </section>
+
+        <aside>
+          <p class="eyebrow">How the receiver works</p>
+          <h2>Clear space.<br />Tune the signal.</h2>
+          <ol>
+            <li><strong>Select</strong> one of three pieces.</li>
+            <li><strong>Tap it again</strong> to rotate 90°.</li>
+            <li><strong>Tap the board</strong> to place it.</li>
+            <li>Any full line clears. Match its edge number with the number of green cells for a <strong>Clean Signal</strong>.</li>
+          </ol>
+          <p class="privacy">
+            Runs stay on this device. Shared results contain only the public
+            game address, score, and clean-signal count—never a seed, identity,
+            board state, or diagnostic.
+          </p>
+        </aside>
+      </section>
+
+      <footer>
+        <strong>Signal Stack</strong> is an endless Leslie / Play experiment.
+        No account, tracking, advertisement, or hidden purchase.
+      </footer>
+    </main>
+    <script src="app.js?v=d5d7150607d5" type="module"></script>
+  </body>
+</html>

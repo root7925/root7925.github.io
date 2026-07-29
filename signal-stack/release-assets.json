@@ -1,0 +1,16 @@
+{
+  "assets": [
+    "app.js",
+    "game-core.js",
+    "piece-deck.js",
+    "../shared/grid-core.js",
+    "../shared/share-core.js",
+    "styles.css",
+    "index.html"
+  ],
+  "references": [
+    "app.js",
+    "game-core.js",
+    "index.html"
+  ]
+}

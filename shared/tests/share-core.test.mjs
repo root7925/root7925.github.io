@@ -5,6 +5,8 @@ import {
   achievementFor,
   challengeText,
   challengeUrl,
+  scoreText,
+  scoreUrl,
   shareChallenge,
 } from "../share-core.js";
 
@@ -17,6 +19,25 @@ test("achievement titles advance only after earned thresholds", () => {
   assert.equal(achievementFor(1, titles), "Beginner");
   assert.equal(achievementFor(9, titles), "Keeper");
   assert.equal(achievementFor(16, titles), "Master");
+});
+
+test("score shares strip every private or incidental URL parameter", () => {
+  assert.equal(
+    scoreUrl({ href: "https://example.com/signal/?seed=secret&score=900#debug" }),
+    "https://example.com/signal/",
+  );
+});
+
+test("score copy celebrates a verified local result without fake rank claims", () => {
+  const text = scoreText({
+    achievement: "Signal Keeper",
+    gameName: "Signal Stack",
+    score: 1240,
+    cleanCount: 3,
+  });
+  assert.match(text, /1,240/);
+  assert.match(text, /3 clean signals/);
+  assert.doesNotMatch(text, /top|rank|percent/i);
 });
 
 test("challenge URLs keep only the intended puzzle parameter", () => {

@@ -77,6 +77,11 @@ Private generators must reject unsolved or non-unique content before export.
 Public tests then verify the exported shape, interaction contract, completion
 rules, mobile tap budget, and absence of private fields.
 
+Infinite games add deterministic tests for simultaneous clears, scoring,
+game-over move detection, restart-safe progress parsing, and any procedural
+runtime deck. Runtime randomness must not publish or share seeds, board states,
+solutions, or diagnostics.
+
 ## Sharing contract
 
 Any game with a completion share must follow

@@ -30,6 +30,26 @@ export function challengeText({
   ].join("\n");
 }
 
+export function scoreUrl(locationLike) {
+  const url = new URL(locationLike.href);
+  url.search = "";
+  url.hash = "";
+  return url.toString();
+}
+
+export function scoreText({
+  achievement,
+  gameName,
+  score,
+  cleanCount,
+}) {
+  return [
+    `${achievement} ✦`,
+    `I scored ${Number(score).toLocaleString("en-US")} in ${gameName} with ${cleanCount} clean signal${cleanCount === 1 ? "" : "s"}.`,
+    "Can you beat my signal?",
+  ].join("\n");
+}
+
 export async function shareChallenge({
   navigatorLike,
   title,
