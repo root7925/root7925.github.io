@@ -6,6 +6,7 @@ import {
   computeLayoutMetrics,
   nextAllowedRotation,
   placementAllowed,
+  resolveTapAction,
   rotateClockwise,
   stablePieceDimensions,
 } from "../game-core.js";
@@ -51,6 +52,28 @@ test("restricted rotations cycle only through authored turns", () => {
   assert.equal(nextAllowedRotation(3, [0, 1, 2, 3]), 0);
 });
 
+test("selecting and tapping the same fragment again advances its rotation", () => {
+  const piece = COLLECTION.levels[0].pieces[0];
+  const firstTap = resolveTapAction({
+    wasSelected: false,
+    selectedId: null,
+    pieceId: piece.id,
+  });
+  const secondTap = resolveTapAction({
+    wasSelected: true,
+    selectedId: piece.id,
+    pieceId: piece.id,
+  });
+  const nextRotation = nextAllowedRotation(
+    piece.rotation,
+    piece.allowedRotations,
+  );
+
+  assert.equal(firstTap, "select");
+  assert.equal(secondTap, "rotate");
+  assert.notEqual(nextRotation, piece.rotation);
+});
+
 test("the first collection contains sixteen structurally complete studies", () => {
   assert.equal(COLLECTION.levels.length, 16);
   assert.equal(new Set(COLLECTION.levels.map((level) => level.id)).size, 16);
@@ -66,6 +89,16 @@ test("the first collection contains sixteen structurally complete studies", () =
       level.pieces.every((piece) =>
         piece.allowedRotations.includes(piece.rotation),
       ),
+    );
+    assert.ok(
+      level.pieces.every((piece) =>
+        piece.allowedRotations.length > 1,
+      ),
+      `${level.id} contains a fragment that cannot rotate`,
+    );
+    assert.ok(
+      level.pieces.some((piece) => piece.rotation !== 0),
+      `${level.id} does not require any opening rotation`,
     );
     assert.equal("diagnostics" in level, false);
     assert.equal("authoredSolution" in level, false);
@@ -91,6 +124,7 @@ test("every collection study keeps its board and tray inside the mobile budget",
     });
 
     assert.ok(layout.cell >= 42, `${level.id} cells became too small`);
+    assert.ok(layout.trayCell >= 12, `${level.id} fragments became too small`);
     assert.ok(layout.height <= 756, `${level.id} overflowed vertically`);
   }
 });

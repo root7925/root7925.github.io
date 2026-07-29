@@ -101,7 +101,7 @@ export function computeLayoutMetrics({
   const trayRows = Math.ceil(pieceCount / trayColumns);
   const slot = stageWidth / trayColumns;
 
-  const measure = (boardPixels) => {
+  const measure = (boardPixels, trayCellLimit = Number.POSITIVE_INFINITY) => {
     const cell = boardPixels / levelSize;
     const hideTarget = compact && clueMode;
     const targetPixels = hideTarget
@@ -116,7 +116,10 @@ export function computeLayoutMetrics({
       ? hideTarget ? 88 : targetTop + targetPixels + 50
       : 42 + targetPixels + 82;
     const trayCell = compact
-      ? Math.max(15, Math.min(19, cell * 0.42, (slot - 14) / maxWidth))
+      ? Math.max(
+          12,
+          Math.min(19, cell * 0.42, (slot - 14) / maxWidth, trayCellLimit),
+        )
       : Math.max(19, Math.min(cell * 0.52, (slot - 12) / maxWidth));
     const maxTrayHeight = maxHeight * trayCell;
     const trayGap = compact ? 12 : 18;
@@ -159,6 +162,18 @@ export function computeLayoutMetrics({
   while (result.height > heightBudget && boardPixels > minimumBoard) {
     boardPixels = Math.max(minimumBoard, boardPixels - 2);
     result = measure(boardPixels);
+  }
+  if (result.height > heightBudget) {
+    const trayGap = 12;
+    const bottomSpace = 28;
+    const fixedHeight =
+      result.trayTop
+      + trayGap * Math.max(0, result.trayRows - 1)
+      + bottomSpace;
+    const availablePerPieceRow =
+      (heightBudget - fixedHeight) / result.trayRows;
+    const trayCellLimit = availablePerPieceRow / maxHeight;
+    result = measure(boardPixels, trayCellLimit);
   }
   return result;
 }

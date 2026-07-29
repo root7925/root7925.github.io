@@ -3,6 +3,9 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "test": "node --test pattern-atlas/tests/*.test.mjs"
+    "prepare": "node scripts/install-git-hooks.mjs",
+    "test": "node --test pattern-atlas/tests/*.test.mjs",
+    "test:watch": "node --test --watch pattern-atlas/tests/*.test.mjs",
+    "verify": "npm test"
   }
 }

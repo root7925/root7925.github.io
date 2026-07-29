@@ -23,3 +23,8 @@ Run the public logic and collection checks with:
 ```sh
 npm test
 ```
+
+`npm run test:watch` reruns the suite during development. A repository
+pre-push hook and the `Game quality` GitHub Actions workflow run the same gate
+automatically. The cross-game release rules are recorded in
+[`docs/GAME_QUALITY_STANDARD.md`](docs/GAME_QUALITY_STANDARD.md).

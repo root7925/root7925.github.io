@@ -40,19 +40,27 @@ export const COLLECTION = {
               "lime"
             ],
             [
-              0,
-              1,
-              "violet"
-            ],
-            [
               1,
               1,
               "orange"
+            ],
+            [
+              0,
+              2,
+              "teal"
+            ],
+            [
+              1,
+              2,
+              "coral"
             ]
           ],
           "rotation": 0,
           "allowedRotations": [
-            0
+            0,
+            1,
+            2,
+            3
           ]
         },
         {
@@ -67,21 +75,14 @@ export const COLLECTION = {
               0,
               1,
               "orange"
-            ],
-            [
-              1,
-              1,
-              "teal"
-            ],
-            [
-              2,
-              1,
-              "coral"
             ]
           ],
           "rotation": 0,
           "allowedRotations": [
-            0
+            0,
+            1,
+            2,
+            3
           ]
         },
         {
@@ -96,11 +97,19 @@ export const COLLECTION = {
               1,
               0,
               "blue"
+            ],
+            [
+              1,
+              1,
+              "violet"
             ]
           ],
-          "rotation": 0,
+          "rotation": 1,
           "allowedRotations": [
-            0
+            0,
+            1,
+            2,
+            3
           ]
         }
       ]
@@ -140,25 +149,6 @@ export const COLLECTION = {
               "teal"
             ],
             [
-              1,
-              0,
-              "coral"
-            ]
-          ],
-          "rotation": 0,
-          "allowedRotations": [
-            0
-          ]
-        },
-        {
-          "id": "piece-3",
-          "cells": [
-            [
-              0,
-              0,
-              "teal"
-            ],
-            [
               0,
               1,
               "blue"
@@ -166,7 +156,37 @@ export const COLLECTION = {
           ],
           "rotation": 0,
           "allowedRotations": [
-            0
+            0,
+            1,
+            2,
+            3
+          ]
+        },
+        {
+          "id": "piece-3",
+          "cells": [
+            [
+              1,
+              0,
+              "orange"
+            ],
+            [
+              0,
+              1,
+              "teal"
+            ],
+            [
+              1,
+              1,
+              "coral"
+            ]
+          ],
+          "rotation": 0,
+          "allowedRotations": [
+            0,
+            1,
+            2,
+            3
           ]
         },
         {
@@ -181,16 +201,14 @@ export const COLLECTION = {
               1,
               0,
               "violet"
-            ],
-            [
-              0,
-              1,
-              "orange"
             ]
           ],
           "rotation": 0,
           "allowedRotations": [
-            0
+            0,
+            1,
+            2,
+            3
           ]
         },
         {
@@ -207,9 +225,12 @@ export const COLLECTION = {
               "violet"
             ]
           ],
-          "rotation": 0,
+          "rotation": 2,
           "allowedRotations": [
-            0
+            0,
+            1,
+            2,
+            3
           ]
         }
       ]
@@ -253,34 +274,27 @@ export const COLLECTION = {
           "id": "piece-4",
           "cells": [
             [
-              0,
-              0,
-              "coral"
-            ],
-            [
-              0,
               1,
+              0,
               "lime"
             ],
             [
-              1,
+              0,
               1,
               "violet"
             ],
             [
-              2,
+              1,
               1,
               "orange"
-            ],
-            [
-              3,
-              1,
-              "teal"
             ]
           ],
           "rotation": 0,
           "allowedRotations": [
-            0
+            0,
+            1,
+            2,
+            3
           ]
         },
         {
@@ -292,11 +306,6 @@ export const COLLECTION = {
               "lime"
             ],
             [
-              1,
-              0,
-              "violet"
-            ],
-            [
               0,
               1,
               "orange"
@@ -307,14 +316,27 @@ export const COLLECTION = {
               "teal"
             ],
             [
+              0,
+              2,
+              "coral"
+            ],
+            [
               1,
               2,
               "blue"
+            ],
+            [
+              0,
+              3,
+              "lime"
             ]
           ],
-          "rotation": 0,
+          "rotation": 3,
           "allowedRotations": [
-            0
+            0,
+            1,
+            2,
+            3
           ]
         },
         {
@@ -323,22 +345,25 @@ export const COLLECTION = {
             [
               0,
               0,
+              "violet"
+            ],
+            [
+              1,
+              0,
               "orange"
             ],
             [
-              0,
-              1,
-              "coral"
-            ],
-            [
-              0,
               2,
-              "lime"
+              0,
+              "teal"
             ]
           ],
           "rotation": 0,
           "allowedRotations": [
-            0
+            0,
+            1,
+            2,
+            3
           ]
         },
         {
@@ -347,22 +372,30 @@ export const COLLECTION = {
             [
               0,
               0,
-              "teal"
+              "coral"
             ],
             [
-              0,
               1,
+              0,
               "blue"
             ],
             [
-              0,
-              2,
+              1,
+              1,
               "violet"
+            ],
+            [
+              1,
+              2,
+              "teal"
             ]
           ],
           "rotation": 0,
           "allowedRotations": [
-            0
+            0,
+            1,
+            2,
+            3
           ]
         }
       ]
@@ -418,7 +451,10 @@ export const COLLECTION = {
           ],
           "rotation": 0,
           "allowedRotations": [
-            0
+            0,
+            1,
+            2,
+            3
           ]
         },
         {
@@ -427,85 +463,84 @@ export const COLLECTION = {
             [
               0,
               0,
-              "lime"
-            ],
-            [
-              1,
-              0,
               "violet"
             ],
             [
-              2,
+              1,
               0,
               "orange"
             ],
             [
-              1,
+              0,
               1,
               "teal"
             ],
             [
-              2,
+              1,
               1,
               "coral"
             ]
           ],
           "rotation": 0,
           "allowedRotations": [
-            0
+            0,
+            1,
+            2,
+            3
           ]
         },
         {
           "id": "piece-3",
           "cells": [
             [
-              0,
-              0,
-              "teal"
-            ],
-            [
-              0,
               1,
-              "blue"
-            ]
-          ],
-          "rotation": 0,
-          "allowedRotations": [
-            0
-          ]
-        },
-        {
-          "id": "piece-2",
-          "cells": [
-            [
-              1,
-              0,
-              "teal"
-            ],
-            [
-              2,
               0,
               "coral"
             ],
             [
               0,
               1,
-              "coral"
-            ],
-            [
-              1,
-              1,
               "blue"
             ],
             [
-              2,
+              1,
               1,
               "lime"
             ]
           ],
           "rotation": 0,
           "allowedRotations": [
-            0
+            0,
+            1,
+            2,
+            3
+          ]
+        },
+        {
+          "id": "piece-2",
+          "cells": [
+            [
+              0,
+              0,
+              "orange"
+            ],
+            [
+              1,
+              0,
+              "teal"
+            ],
+            [
+              0,
+              1,
+              "coral"
+            ]
+          ],
+          "rotation": 0,
+          "allowedRotations": [
+            0,
+            1,
+            2,
+            3
           ]
         },
         {
@@ -517,14 +552,27 @@ export const COLLECTION = {
               "violet"
             ],
             [
-              1,
               0,
-              "orange"
+              1,
+              "teal"
+            ],
+            [
+              0,
+              2,
+              "blue"
+            ],
+            [
+              1,
+              2,
+              "lime"
             ]
           ],
-          "rotation": 0,
+          "rotation": 1,
           "allowedRotations": [
-            0
+            0,
+            1,
+            2,
+            3
           ]
         }
       ]
@@ -573,47 +621,85 @@ export const COLLECTION = {
               "coral"
             ],
             [
-              1,
               0,
-              "lime"
+              1,
+              "violet"
+            ],
+            [
+              1,
+              1,
+              "teal"
             ]
           ],
-          "rotation": 0,
+          "rotation": 3,
           "allowedRotations": [
-            0
+            0,
+            1,
+            2,
+            3
           ]
         },
         {
           "id": "piece-3",
           "cells": [
             [
+              0,
+              0,
+              "lime"
+            ],
+            [
               1,
               0,
               "orange"
-            ],
-            [
-              0,
-              1,
-              "teal"
-            ],
-            [
-              1,
-              1,
-              "blue"
-            ],
-            [
-              0,
-              2,
-              "lime"
             ]
           ],
           "rotation": 0,
           "allowedRotations": [
-            0
+            0,
+            1,
+            2,
+            3
           ]
         },
         {
           "id": "piece-4",
+          "cells": [
+            [
+              1,
+              0,
+              "blue"
+            ],
+            [
+              0,
+              1,
+              "lime"
+            ],
+            [
+              1,
+              1,
+              "orange"
+            ],
+            [
+              0,
+              2,
+              "teal"
+            ],
+            [
+              1,
+              2,
+              "blue"
+            ]
+          ],
+          "rotation": 0,
+          "allowedRotations": [
+            0,
+            1,
+            2,
+            3
+          ]
+        },
+        {
+          "id": "piece-5",
           "cells": [
             [
               0,
@@ -628,32 +714,10 @@ export const COLLECTION = {
           ],
           "rotation": 0,
           "allowedRotations": [
-            0
-          ]
-        },
-        {
-          "id": "piece-5",
-          "cells": [
-            [
-              1,
-              0,
-              "orange"
-            ],
-            [
-              0,
-              1,
-              "teal"
-            ],
-            [
-              1,
-              1,
-              "blue"
-            ]
-          ],
-          "rotation": 2,
-          "allowedRotations": [
             0,
-            2
+            1,
+            2,
+            3
           ]
         },
         {
@@ -672,7 +736,10 @@ export const COLLECTION = {
           ],
           "rotation": 0,
           "allowedRotations": [
-            0
+            0,
+            1,
+            2,
+            3
           ]
         },
         {
@@ -687,16 +754,14 @@ export const COLLECTION = {
               0,
               1,
               "blue"
-            ],
-            [
-              1,
-              1,
-              "violet"
             ]
           ],
-          "rotation": 0,
+          "rotation": 2,
           "allowedRotations": [
-            0
+            0,
+            1,
+            2,
+            3
           ]
         }
       ]
@@ -751,63 +816,74 @@ export const COLLECTION = {
           "id": "piece-4",
           "cells": [
             [
-              1,
               0,
-              "orange"
-            ],
-            [
               0,
-              1,
               "teal"
             ],
             [
+              0,
               1,
-              1,
-              "blue"
+              "lime"
             ],
             [
               0,
               2,
-              "lime"
+              "teal"
             ]
           ],
           "rotation": 0,
           "allowedRotations": [
-            0
+            0,
+            1,
+            2,
+            3
           ]
         },
         {
           "id": "piece-3",
           "cells": [
             [
-              1,
+              3,
               0,
-              "blue"
-            ],
-            [
-              0,
-              1,
-              "lime"
-            ],
-            [
-              1,
-              1,
               "orange"
             ],
             [
+              2,
+              1,
+              "teal"
+            ],
+            [
+              3,
+              1,
+              "blue"
+            ],
+            [
               0,
               2,
-              "teal"
+              "orange"
             ],
             [
               1,
               2,
-              "blue"
+              "coral"
+            ],
+            [
+              2,
+              2,
+              "lime"
+            ],
+            [
+              3,
+              2,
+              "orange"
             ]
           ],
           "rotation": 0,
           "allowedRotations": [
-            0
+            0,
+            1,
+            2,
+            3
           ]
         },
         {
@@ -816,22 +892,30 @@ export const COLLECTION = {
             [
               0,
               0,
-              "violet"
+              "orange"
             ],
             [
               1,
               0,
-              "teal"
-            ],
-            [
-              0,
-              1,
               "coral"
+            ],
+            [
+              0,
+              1,
+              "blue"
+            ],
+            [
+              1,
+              1,
+              "violet"
             ]
           ],
-          "rotation": 0,
+          "rotation": 1,
           "allowedRotations": [
-            0
+            0,
+            1,
+            2,
+            3
           ]
         },
         {
@@ -848,14 +932,37 @@ export const COLLECTION = {
               "blue"
             ],
             [
+              2,
               0,
+              "violet"
+            ],
+            [
+              3,
+              0,
+              "teal"
+            ],
+            [
+              4,
+              0,
+              "blue"
+            ],
+            [
+              0,
+              1,
+              "lime"
+            ],
+            [
+              3,
               1,
               "lime"
             ]
           ],
-          "rotation": 0,
+          "rotation": 3,
           "allowedRotations": [
-            0
+            0,
+            1,
+            2,
+            3
           ]
         },
         {
@@ -864,67 +971,42 @@ export const COLLECTION = {
             [
               0,
               0,
-              "violet"
-            ],
-            [
-              1,
-              0,
               "teal"
             ],
             [
-              2,
+              1,
               0,
               "blue"
             ]
           ],
           "rotation": 0,
           "allowedRotations": [
-            0
+            0,
+            1,
+            2,
+            3
           ]
         },
         {
           "id": "piece-5",
           "cells": [
             [
-              2,
+              0,
+              0,
+              "blue"
+            ],
+            [
+              1,
               0,
               "violet"
-            ],
-            [
-              1,
-              1,
-              "orange"
-            ],
-            [
-              2,
-              1,
-              "coral"
-            ],
-            [
-              3,
-              1,
-              "lime"
-            ],
-            [
-              4,
-              1,
-              "orange"
-            ],
-            [
-              0,
-              2,
-              "teal"
-            ],
-            [
-              1,
-              2,
-              "blue"
             ]
           ],
-          "rotation": 2,
+          "rotation": 0,
           "allowedRotations": [
             0,
-            2
+            1,
+            2,
+            3
           ]
         }
       ]
@@ -979,11 +1061,6 @@ export const COLLECTION = {
           "id": "piece-6",
           "cells": [
             [
-              0,
-              0,
-              "violet"
-            ],
-            [
               1,
               0,
               "teal"
@@ -1001,7 +1078,10 @@ export const COLLECTION = {
           ],
           "rotation": 0,
           "allowedRotations": [
-            0
+            0,
+            1,
+            2,
+            3
           ]
         },
         {
@@ -1010,17 +1090,20 @@ export const COLLECTION = {
             [
               0,
               0,
-              "coral"
+              "lime"
             ],
             [
               1,
               0,
-              "lime"
+              "orange"
             ]
           ],
           "rotation": 0,
           "allowedRotations": [
-            0
+            0,
+            1,
+            2,
+            3
           ]
         },
         {
@@ -1032,53 +1115,54 @@ export const COLLECTION = {
               "coral"
             ],
             [
+              0,
               1,
-              0,
-              "lime"
+              "violet"
             ],
             [
+              0,
               2,
-              0,
-              "orange"
-            ],
-            [
-              3,
-              0,
               "coral"
             ]
           ],
-          "rotation": 0,
+          "rotation": 1,
           "allowedRotations": [
-            0
+            0,
+            1,
+            2,
+            3
           ]
         },
         {
           "id": "piece-2",
           "cells": [
             [
-              1,
+              0,
               0,
               "lime"
             ],
             [
-              0,
               1,
-              "violet"
+              0,
+              "orange"
             ],
             [
-              1,
+              0,
               1,
               "teal"
             ],
             [
-              1,
+              0,
               2,
               "lime"
             ]
           ],
-          "rotation": 0,
+          "rotation": 2,
           "allowedRotations": [
-            0
+            0,
+            1,
+            2,
+            3
           ]
         },
         {
@@ -1087,17 +1171,25 @@ export const COLLECTION = {
             [
               0,
               0,
-              "violet"
+              "coral"
             ],
             [
-              0,
               1,
-              "coral"
+              0,
+              "lime"
+            ],
+            [
+              1,
+              1,
+              "teal"
             ]
           ],
           "rotation": 0,
           "allowedRotations": [
-            0
+            0,
+            1,
+            2,
+            3
           ]
         },
         {
@@ -1106,46 +1198,44 @@ export const COLLECTION = {
             [
               0,
               0,
-              "teal"
+              "blue"
             ],
             [
               1,
               0,
-              "blue"
+              "violet"
             ],
             [
-              0,
+              1,
+              1,
+              "coral"
+            ],
+            [
+              2,
               1,
               "lime"
             ],
             [
               1,
-              1,
-              "orange"
-            ],
-            [
-              1,
               2,
-              "blue"
-            ],
-            [
-              1,
-              3,
-              "orange"
+              "violet"
             ]
           ],
           "rotation": 0,
           "allowedRotations": [
-            0
+            0,
+            1,
+            2,
+            3
           ]
         },
         {
           "id": "piece-5",
           "cells": [
             [
+              2,
               0,
-              0,
-              "coral"
+              "orange"
             ],
             [
               0,
@@ -1156,12 +1246,24 @@ export const COLLECTION = {
               1,
               1,
               "teal"
+            ],
+            [
+              2,
+              1,
+              "blue"
+            ],
+            [
+              0,
+              2,
+              "coral"
             ]
           ],
-          "rotation": 2,
+          "rotation": 0,
           "allowedRotations": [
             0,
-            2
+            1,
+            2,
+            3
           ]
         }
       ]
@@ -1228,41 +1330,42 @@ export const COLLECTION = {
           ],
           "rotation": 0,
           "allowedRotations": [
-            0
+            0,
+            1,
+            2,
+            3
           ]
         },
         {
           "id": "piece-5",
           "cells": [
             [
+              1,
               0,
-              0,
-              "violet"
+              "blue"
             ],
             [
               0,
-              1,
-              "coral"
-            ],
-            [
-              1,
               1,
               "lime"
             ],
             [
-              2,
+              1,
               1,
               "orange"
             ],
             [
-              0,
               2,
-              "violet"
+              1,
+              "coral"
             ]
           ],
           "rotation": 0,
           "allowedRotations": [
-            0
+            0,
+            1,
+            2,
+            3
           ]
         },
         {
@@ -1279,11 +1382,6 @@ export const COLLECTION = {
               "coral"
             ],
             [
-              0,
-              1,
-              "blue"
-            ],
-            [
               1,
               1,
               "violet"
@@ -1291,30 +1389,14 @@ export const COLLECTION = {
           ],
           "rotation": 0,
           "allowedRotations": [
-            0
+            0,
+            1,
+            2,
+            3
           ]
         },
         {
           "id": "piece-3",
-          "cells": [
-            [
-              0,
-              0,
-              "orange"
-            ],
-            [
-              0,
-              1,
-              "blue"
-            ]
-          ],
-          "rotation": 0,
-          "allowedRotations": [
-            0
-          ]
-        },
-        {
-          "id": "piece-2",
           "cells": [
             [
               0,
@@ -1334,7 +1416,37 @@ export const COLLECTION = {
           ],
           "rotation": 0,
           "allowedRotations": [
-            0
+            0,
+            1,
+            2,
+            3
+          ]
+        },
+        {
+          "id": "piece-2",
+          "cells": [
+            [
+              0,
+              0,
+              "violet"
+            ],
+            [
+              0,
+              1,
+              "coral"
+            ],
+            [
+              1,
+              1,
+              "lime"
+            ]
+          ],
+          "rotation": 3,
+          "allowedRotations": [
+            0,
+            1,
+            2,
+            3
           ]
         },
         {
@@ -1346,19 +1458,19 @@ export const COLLECTION = {
               "blue"
             ],
             [
-              1,
               0,
-              "violet"
+              1,
+              "orange"
             ],
             [
-              1,
-              1,
-              "coral"
-            ],
-            [
+              0,
               2,
+              "blue"
+            ],
+            [
               1,
-              "lime"
+              2,
+              "violet"
             ],
             [
               2,
@@ -1366,9 +1478,12 @@ export const COLLECTION = {
               "teal"
             ]
           ],
-          "rotation": 0,
+          "rotation": 2,
           "allowedRotations": [
-            0
+            0,
+            1,
+            2,
+            3
           ]
         },
         {
@@ -1377,15 +1492,15 @@ export const COLLECTION = {
             [
               0,
               0,
-              "teal"
+              "blue"
             ],
             [
               1,
               0,
-              "blue"
+              "violet"
             ]
           ],
-          "rotation": 2,
+          "rotation": 0,
           "allowedRotations": [
             0,
             1,
@@ -1405,11 +1520,19 @@ export const COLLECTION = {
               0,
               1,
               "violet"
+            ],
+            [
+              1,
+              1,
+              "teal"
             ]
           ],
           "rotation": 0,
           "allowedRotations": [
-            0
+            0,
+            1,
+            2,
+            3
           ]
         }
       ]
@@ -1508,91 +1631,94 @@ export const COLLECTION = {
             [
               0,
               0,
-              "orange"
+              "blue"
             ],
             [
               0,
               1,
-              "teal"
-            ],
-            [
-              1,
-              1,
-              "coral"
-            ],
-            [
-              0,
-              2,
-              "coral"
+              "lime"
             ]
           ],
           "rotation": 0,
           "allowedRotations": [
-            0
+            0,
+            1,
+            2,
+            3
           ]
         },
         {
           "id": "piece-6",
           "cells": [
             [
-              0,
-              0,
-              "teal"
-            ],
-            [
               1,
               0,
-              "coral"
+              "blue"
             ],
             [
-              1,
+              0,
               1,
               "blue"
+            ],
+            [
+              1,
+              1,
+              "lime"
+            ],
+            [
+              2,
+              1,
+              "violet"
+            ],
+            [
+              2,
+              2,
+              "orange"
             ]
           ],
           "rotation": 0,
           "allowedRotations": [
-            0
+            0,
+            1,
+            2,
+            3
           ]
         },
         {
           "id": "piece-7",
           "cells": [
             [
-              3,
-              0,
-              "lime"
-            ],
-            [
-              3,
               1,
-              "violet"
+              0,
+              "coral"
             ],
             [
               0,
-              2,
+              1,
+              "coral"
+            ],
+            [
+              1,
+              1,
               "blue"
             ],
             [
-              1,
               2,
+              1,
               "lime"
             ],
             [
-              2,
-              2,
-              "violet"
-            ],
-            [
               3,
-              2,
-              "orange"
+              1,
+              "violet"
             ]
           ],
-          "rotation": 2,
+          "rotation": 0,
           "allowedRotations": [
             0,
-            2
+            1,
+            2,
+            3
           ]
         },
         {
@@ -1609,9 +1735,12 @@ export const COLLECTION = {
               "violet"
             ]
           ],
-          "rotation": 0,
+          "rotation": 3,
           "allowedRotations": [
-            0
+            0,
+            1,
+            2,
+            3
           ]
         },
         {
@@ -1623,14 +1752,27 @@ export const COLLECTION = {
               "violet"
             ],
             [
-              0,
               1,
+              0,
               "orange"
+            ],
+            [
+              1,
+              1,
+              "teal"
+            ],
+            [
+              1,
+              2,
+              "coral"
             ]
           ],
-          "rotation": 0,
+          "rotation": 1,
           "allowedRotations": [
-            0
+            0,
+            1,
+            2,
+            3
           ]
         },
         {
@@ -1639,56 +1781,57 @@ export const COLLECTION = {
             [
               0,
               0,
-              "orange"
-            ],
-            [
-              1,
-              0,
-              "teal"
-            ],
-            [
-              0,
-              1,
               "teal"
             ],
             [
               1,
-              1,
+              0,
               "coral"
             ],
             [
+              0,
               1,
-              2,
-              "blue"
-            ],
-            [
-              1,
-              3,
-              "lime"
+              "coral"
             ]
           ],
-          "rotation": 0,
+          "rotation": 2,
           "allowedRotations": [
-            0
+            0,
+            1,
+            2,
+            3
           ]
         },
         {
           "id": "piece-4",
           "cells": [
             [
+              1,
               0,
-              0,
-              "coral"
+              "orange"
             ],
             [
               0,
               1,
-              "blue"
+              "orange"
+            ],
+            [
+              1,
+              1,
+              "teal"
+            ],
+            [
+              0,
+              2,
+              "teal"
             ]
           ],
           "rotation": 0,
           "allowedRotations": [
-            0
+            0,
+            1,
+            2,
+            3
           ]
         }
       ]
@@ -1781,39 +1924,27 @@ export const COLLECTION = {
           "id": "piece-4",
           "cells": [
             [
-              1,
               0,
+              0,
+              "orange"
+            ],
+            [
+              0,
+              1,
+              "teal"
+            ],
+            [
+              0,
+              2,
               "coral"
-            ],
-            [
-              1,
-              1,
-              "blue"
-            ],
-            [
-              2,
-              1,
-              "lime"
-            ],
-            [
-              3,
-              1,
-              "violet"
-            ],
-            [
-              0,
-              2,
-              "blue"
-            ],
-            [
-              1,
-              2,
-              "lime"
             ]
           ],
           "rotation": 0,
           "allowedRotations": [
-            0
+            0,
+            1,
+            2,
+            3
           ]
         },
         {
@@ -1828,11 +1959,19 @@ export const COLLECTION = {
               0,
               1,
               "lime"
+            ],
+            [
+              0,
+              2,
+              "violet"
             ]
           ],
-          "rotation": 0,
+          "rotation": 3,
           "allowedRotations": [
-            0
+            0,
+            1,
+            2,
+            3
           ]
         },
         {
@@ -1841,17 +1980,25 @@ export const COLLECTION = {
             [
               0,
               0,
+              "teal"
+            ],
+            [
+              1,
+              0,
               "coral"
             ],
             [
-              0,
+              1,
               1,
               "blue"
             ]
           ],
-          "rotation": 0,
+          "rotation": 2,
           "allowedRotations": [
-            0
+            0,
+            1,
+            2,
+            3
           ]
         },
         {
@@ -1868,43 +2015,9 @@ export const COLLECTION = {
               "orange"
             ],
             [
-              2,
-              0,
-              "teal"
-            ],
-            [
-              0,
-              1,
-              "orange"
-            ],
-            [
               1,
               1,
               "teal"
-            ]
-          ],
-          "rotation": 0,
-          "allowedRotations": [
-            0
-          ]
-        },
-        {
-          "id": "piece-8",
-          "cells": [
-            [
-              0,
-              0,
-              "blue"
-            ],
-            [
-              1,
-              0,
-              "lime"
-            ],
-            [
-              2,
-              0,
-              "violet"
             ]
           ],
           "rotation": 1,
@@ -1916,22 +2029,52 @@ export const COLLECTION = {
           ]
         },
         {
-          "id": "piece-7",
+          "id": "piece-8",
           "cells": [
             [
               0,
               0,
-              "orange"
+              "lime"
             ],
             [
               0,
               1,
-              "teal"
+              "violet"
             ]
           ],
           "rotation": 0,
           "allowedRotations": [
-            0
+            0,
+            1,
+            2,
+            3
+          ]
+        },
+        {
+          "id": "piece-7",
+          "cells": [
+            [
+              1,
+              0,
+              "blue"
+            ],
+            [
+              0,
+              1,
+              "blue"
+            ],
+            [
+              1,
+              1,
+              "lime"
+            ]
+          ],
+          "rotation": 0,
+          "allowedRotations": [
+            0,
+            1,
+            2,
+            3
           ]
         },
         {
@@ -1940,28 +2083,41 @@ export const COLLECTION = {
             [
               0,
               0,
-              "violet"
+              "lime"
             ],
             [
               0,
               1,
+              "violet"
+            ],
+            [
+              1,
+              1,
               "orange"
+            ],
+            [
+              0,
+              2,
+              "orange"
+            ],
+            [
+              1,
+              2,
+              "teal"
             ]
           ],
           "rotation": 0,
           "allowedRotations": [
-            0
+            0,
+            1,
+            2,
+            3
           ]
         },
         {
           "id": "piece-5",
           "cells": [
             [
-              0,
-              0,
-              "teal"
-            ],
-            [
               1,
               0,
               "coral"
@@ -1970,11 +2126,19 @@ export const COLLECTION = {
               0,
               1,
               "coral"
+            ],
+            [
+              1,
+              1,
+              "blue"
             ]
           ],
           "rotation": 0,
           "allowedRotations": [
-            0
+            0,
+            1,
+            2,
+            3
           ]
         }
       ]
@@ -2098,22 +2262,25 @@ export const COLLECTION = {
             [
               0,
               0,
-              "coral"
+              "violet"
+            ],
+            [
+              0,
+              1,
+              "orange"
             ],
             [
               1,
-              0,
-              "blue"
-            ],
-            [
-              2,
-              0,
-              "lime"
+              1,
+              "teal"
             ]
           ],
           "rotation": 0,
           "allowedRotations": [
-            0
+            0,
+            1,
+            2,
+            3
           ]
         },
         {
@@ -2128,55 +2295,66 @@ export const COLLECTION = {
               1,
               0,
               "teal"
+            ],
+            [
+              2,
+              0,
+              "coral"
+            ],
+            [
+              3,
+              0,
+              "blue"
+            ],
+            [
+              1,
+              1,
+              "coral"
+            ],
+            [
+              2,
+              1,
+              "blue"
+            ],
+            [
+              3,
+              1,
+              "lime"
             ]
           ],
-          "rotation": 0,
+          "rotation": 2,
           "allowedRotations": [
-            0
+            0,
+            1,
+            2,
+            3
           ]
         },
         {
           "id": "piece-2",
           "cells": [
             [
-              2,
               0,
-              "coral"
-            ],
-            [
               0,
-              1,
-              "teal"
-            ],
-            [
-              1,
-              1,
-              "coral"
-            ],
-            [
-              2,
-              1,
-              "blue"
-            ],
-            [
-              0,
-              2,
-              "coral"
-            ],
-            [
-              1,
-              2,
-              "blue"
-            ],
-            [
-              1,
-              3,
               "lime"
+            ],
+            [
+              1,
+              0,
+              "violet"
+            ],
+            [
+              1,
+              1,
+              "orange"
             ]
           ],
-          "rotation": 0,
+          "rotation": 3,
           "allowedRotations": [
-            0
+            0,
+            1,
+            2,
+            3
           ]
         },
         {
@@ -2185,22 +2363,40 @@ export const COLLECTION = {
             [
               0,
               0,
-              "blue"
+              "teal"
             ],
             [
               0,
               1,
-              "lime"
+              "coral"
             ],
             [
               0,
               2,
+              "blue"
+            ],
+            [
+              1,
+              2,
+              "lime"
+            ],
+            [
+              0,
+              3,
+              "lime"
+            ],
+            [
+              0,
+              4,
               "violet"
             ]
           ],
-          "rotation": 0,
+          "rotation": 1,
           "allowedRotations": [
-            0
+            0,
+            1,
+            2,
+            3
           ]
         },
         {
@@ -2209,37 +2405,30 @@ export const COLLECTION = {
             [
               0,
               0,
-              "lime"
-            ],
-            [
-              1,
-              0,
               "violet"
             ],
             [
               0,
-              1,
-              "violet"
-            ],
-            [
-              1,
               1,
               "orange"
             ],
             [
-              1,
+              0,
               2,
               "teal"
             ],
             [
-              1,
+              0,
               3,
               "coral"
             ]
           ],
           "rotation": 0,
           "allowedRotations": [
-            0
+            0,
+            1,
+            2,
+            3
           ]
         },
         {
@@ -2248,32 +2437,25 @@ export const COLLECTION = {
             [
               0,
               0,
+              "blue"
+            ],
+            [
+              1,
+              0,
               "lime"
             ],
             [
+              2,
               0,
-              1,
               "violet"
-            ],
-            [
-              1,
-              1,
-              "orange"
-            ],
-            [
-              0,
-              2,
-              "orange"
-            ],
-            [
-              1,
-              2,
-              "teal"
             ]
           ],
           "rotation": 0,
           "allowedRotations": [
-            0
+            0,
+            1,
+            2,
+            3
           ]
         },
         {
@@ -2282,27 +2464,25 @@ export const COLLECTION = {
             [
               0,
               0,
-              "orange"
-            ],
-            [
-              0,
-              1,
               "teal"
             ],
             [
               0,
-              2,
+              1,
               "coral"
             ],
             [
-              1,
+              0,
               2,
               "blue"
             ]
           ],
           "rotation": 0,
           "allowedRotations": [
-            0
+            0,
+            1,
+            2,
+            3
           ]
         },
         {
@@ -2311,38 +2491,45 @@ export const COLLECTION = {
             [
               0,
               0,
-              "blue"
-            ],
-            [
-              0,
-              1,
-              "lime"
-            ],
-            [
-              1,
-              1,
-              "violet"
-            ],
-            [
-              0,
-              2,
               "violet"
             ],
             [
               1,
-              2,
+              0,
               "orange"
             ],
             [
-              2,
-              2,
+              0,
+              1,
+              "orange"
+            ],
+            [
+              1,
+              1,
               "teal"
+            ],
+            [
+              1,
+              2,
+              "coral"
+            ],
+            [
+              2,
+              2,
+              "blue"
+            ],
+            [
+              3,
+              2,
+              "lime"
             ]
           ],
-          "rotation": 2,
+          "rotation": 0,
           "allowedRotations": [
             0,
-            2
+            1,
+            2,
+            3
           ]
         }
       ]
@@ -2464,82 +2651,101 @@ export const COLLECTION = {
           "id": "piece-7",
           "cells": [
             [
+              1,
               0,
-              0,
-              "coral"
-            ],
-            [
-              0,
-              1,
-              "blue"
-            ],
-            [
-              1,
-              1,
-              "lime"
-            ],
-            [
-              1,
-              2,
               "violet"
+            ],
+            [
+              0,
+              1,
+              "violet"
+            ],
+            [
+              1,
+              1,
+              "orange"
+            ],
+            [
+              0,
+              2,
+              "orange"
             ]
           ],
           "rotation": 0,
           "allowedRotations": [
-            0
+            0,
+            1,
+            2,
+            3
           ]
         },
         {
           "id": "piece-6",
           "cells": [
             [
+              1,
               0,
+              "coral"
+            ],
+            [
               0,
-              "lime"
+              1,
+              "coral"
             ],
             [
               1,
-              0,
-              "violet"
+              1,
+              "blue"
             ],
             [
+              0,
               2,
-              0,
-              "orange"
+              "blue"
             ],
             [
+              0,
               3,
-              0,
-              "teal"
-            ],
-            [
-              1,
-              1,
-              "orange"
+              "lime"
             ]
           ],
           "rotation": 0,
           "allowedRotations": [
-            0
+            0,
+            1,
+            2,
+            3
           ]
         },
         {
           "id": "piece-5",
           "cells": [
             [
-              0,
-              0,
-              "violet"
-            ],
-            [
               1,
               0,
               "orange"
+            ],
+            [
+              2,
+              0,
+              "teal"
+            ],
+            [
+              0,
+              1,
+              "orange"
+            ],
+            [
+              1,
+              1,
+              "teal"
             ]
           ],
           "rotation": 0,
           "allowedRotations": [
-            0
+            0,
+            1,
+            2,
+            3
           ]
         },
         {
@@ -2548,17 +2754,35 @@ export const COLLECTION = {
             [
               0,
               0,
+              "coral"
+            ],
+            [
+              0,
+              1,
               "blue"
             ],
             [
               1,
+              1,
+              "lime"
+            ],
+            [
+              2,
+              1,
+              "violet"
+            ],
+            [
               0,
+              2,
               "lime"
             ]
           ],
           "rotation": 0,
           "allowedRotations": [
-            0
+            0,
+            1,
+            2,
+            3
           ]
         },
         {
@@ -2567,76 +2791,62 @@ export const COLLECTION = {
             [
               0,
               0,
-              "lime"
-            ],
-            [
-              1,
-              0,
               "violet"
             ],
             [
-              2,
+              1,
               0,
               "orange"
-            ],
-            [
-              2,
-              1,
-              "teal"
-            ],
-            [
-              2,
-              2,
-              "coral"
-            ],
-            [
-              2,
-              3,
-              "blue"
             ]
           ],
-          "rotation": 0,
+          "rotation": 2,
           "allowedRotations": [
-            0
+            0,
+            1,
+            2,
+            3
           ]
         },
         {
           "id": "piece-2",
           "cells": [
             [
-              1,
+              0,
               0,
               "blue"
             ],
             [
-              0,
               1,
-              "blue"
+              0,
+              "lime"
             ],
             [
-              1,
+              0,
               1,
               "lime"
             ],
             [
-              2,
+              1,
               1,
               "violet"
             ],
             [
-              3,
+              2,
               1,
               "orange"
             ],
             [
               3,
-              2,
+              1,
               "teal"
             ]
           ],
-          "rotation": 0,
+          "rotation": 1,
           "allowedRotations": [
-            0
+            0,
+            1,
+            2,
+            3
           ]
         },
         {
@@ -2653,18 +2863,43 @@ export const COLLECTION = {
               "coral"
             ],
             [
-              0,
               1,
-              "coral"
+              1,
+              "blue"
             ]
           ],
-          "rotation": 0,
+          "rotation": 3,
           "allowedRotations": [
-            0
+            0,
+            1,
+            2,
+            3
           ]
         },
         {
           "id": "piece-9",
+          "cells": [
+            [
+              0,
+              0,
+              "lime"
+            ],
+            [
+              0,
+              1,
+              "violet"
+            ]
+          ],
+          "rotation": 0,
+          "allowedRotations": [
+            0,
+            1,
+            2,
+            3
+          ]
+        },
+        {
+          "id": "piece-8",
           "cells": [
             [
               1,
@@ -2690,38 +2925,14 @@ export const COLLECTION = {
               2,
               1,
               "blue"
-            ],
-            [
-              3,
-              1,
-              "lime"
             ]
           ],
-          "rotation": 3,
+          "rotation": 0,
           "allowedRotations": [
             0,
             1,
             2,
             3
-          ]
-        },
-        {
-          "id": "piece-8",
-          "cells": [
-            [
-              0,
-              0,
-              "violet"
-            ],
-            [
-              0,
-              1,
-              "orange"
-            ]
-          ],
-          "rotation": 0,
-          "allowedRotations": [
-            0
           ]
         }
       ]
@@ -2832,78 +3043,49 @@ export const COLLECTION = {
               "teal"
             ],
             [
-              1,
               0,
+              1,
               "teal"
             ],
             [
+              0,
               2,
-              0,
               "teal"
-            ],
-            [
-              0,
-              1,
-              "teal"
-            ],
-            [
-              1,
-              1,
-              "teal"
-            ],
-            [
-              2,
-              1,
-              "blue"
             ]
           ],
           "rotation": 0,
           "allowedRotations": [
-            0
+            0,
+            1,
+            2,
+            3
           ]
         },
         {
           "id": "piece-7",
           "cells": [
             [
-              1,
+              0,
               0,
               "violet"
             ],
             [
-              2,
               0,
+              1,
               "teal"
             ],
             [
               0,
-              1,
-              "violet"
-            ],
-            [
-              1,
-              1,
-              "teal"
-            ],
-            [
-              2,
-              1,
-              "blue"
-            ],
-            [
-              1,
               2,
               "blue"
-            ],
-            [
-              2,
-              2,
-              "violet"
             ]
           ],
           "rotation": 0,
           "allowedRotations": [
-            0
+            0,
+            1,
+            2,
+            3
           ]
         },
         {
@@ -2912,20 +3094,20 @@ export const COLLECTION = {
             [
               0,
               0,
+              "teal"
+            ],
+            [
+              0,
+              1,
               "blue"
             ],
             [
               1,
-              0,
+              1,
               "violet"
-            ],
-            [
-              2,
-              0,
-              "teal"
             ]
           ],
-          "rotation": 1,
+          "rotation": 0,
           "allowedRotations": [
             0,
             1,
@@ -2942,49 +3124,6 @@ export const COLLECTION = {
               "teal"
             ],
             [
-              0,
-              1,
-              "teal"
-            ]
-          ],
-          "rotation": 0,
-          "allowedRotations": [
-            0
-          ]
-        },
-        {
-          "id": "piece-2",
-          "cells": [
-            [
-              0,
-              0,
-              "teal"
-            ],
-            [
-              0,
-              1,
-              "teal"
-            ],
-            [
-              1,
-              1,
-              "teal"
-            ]
-          ],
-          "rotation": 0,
-          "allowedRotations": [
-            0
-          ]
-        },
-        {
-          "id": "piece-3",
-          "cells": [
-            [
-              0,
-              0,
-              "teal"
-            ],
-            [
               1,
               0,
               "teal"
@@ -3000,43 +3139,138 @@ export const COLLECTION = {
               "teal"
             ],
             [
+              0,
+              1,
+              "teal"
+            ]
+          ],
+          "rotation": 1,
+          "allowedRotations": [
+            0,
+            1,
+            2,
+            3
+          ]
+        },
+        {
+          "id": "piece-2",
+          "cells": [
+            [
+              1,
+              0,
+              "teal"
+            ],
+            [
+              2,
+              0,
+              "teal"
+            ],
+            [
               1,
               1,
               "teal"
             ],
             [
+              0,
               2,
+              "teal"
+            ],
+            [
               1,
+              2,
+              "blue"
+            ],
+            [
+              0,
+              3,
+              "blue"
+            ]
+          ],
+          "rotation": 2,
+          "allowedRotations": [
+            0,
+            1,
+            2,
+            3
+          ]
+        },
+        {
+          "id": "piece-3",
+          "cells": [
+            [
+              1,
+              0,
+              "teal"
+            ],
+            [
+              0,
+              1,
+              "teal"
+            ],
+            [
+              1,
+              1,
+              "teal"
+            ],
+            [
+              1,
+              2,
               "teal"
             ]
           ],
-          "rotation": 0,
+          "rotation": 3,
           "allowedRotations": [
-            0
+            0,
+            1,
+            2,
+            3
           ]
         },
         {
           "id": "piece-4",
           "cells": [
             [
+              0,
+              0,
+              "teal"
+            ],
+            [
               1,
               0,
-              "blue"
+              "teal"
             ],
             [
               0,
               1,
+              "teal"
+            ],
+            [
+              0,
+              2,
+              "teal"
+            ],
+            [
+              0,
+              3,
               "blue"
             ],
             [
               1,
-              1,
+              3,
               "violet"
+            ],
+            [
+              1,
+              4,
+              "teal"
             ]
           ],
-          "rotation": 0,
+          "rotation": 1,
           "allowedRotations": [
-            0
+            0,
+            1,
+            2,
+            3
           ]
         },
         {
@@ -3045,37 +3279,35 @@ export const COLLECTION = {
             [
               0,
               0,
-              "teal"
-            ],
-            [
-              0,
-              1,
-              "teal"
-            ],
-            [
-              0,
-              2,
-              "teal"
-            ],
-            [
-              1,
-              2,
-              "teal"
-            ],
-            [
-              2,
-              2,
               "blue"
             ],
             [
               0,
-              3,
+              1,
+              "violet"
+            ],
+            [
+              0,
+              2,
               "teal"
+            ],
+            [
+              0,
+              3,
+              "blue"
+            ],
+            [
+              0,
+              4,
+              "violet"
             ]
           ],
           "rotation": 0,
           "allowedRotations": [
-            0
+            0,
+            1,
+            2,
+            3
           ]
         }
       ]
@@ -3177,53 +3409,74 @@ export const COLLECTION = {
           "id": "piece-4",
           "cells": [
             [
-              1,
               0,
+              0,
+              "coral"
+            ],
+            [
+              0,
+              1,
+              "coral"
+            ],
+            [
+              1,
+              1,
               "coral"
             ],
             [
               2,
-              0,
-              "coral"
-            ],
-            [
-              0,
               1,
               "coral"
             ],
             [
-              1,
-              1,
+              0,
+              2,
               "coral"
             ]
           ],
-          "rotation": 0,
+          "rotation": 2,
           "allowedRotations": [
-            0
+            0,
+            1,
+            2,
+            3
           ]
         },
         {
           "id": "piece-3",
           "cells": [
             [
-              0,
+              1,
               0,
               "coral"
             ],
             [
               0,
               1,
+              "coral"
+            ],
+            [
+              1,
+              1,
               "lime"
             ],
             [
               0,
               2,
+              "lime"
+            ],
+            [
+              1,
+              2,
               "orange"
             ]
           ],
-          "rotation": 0,
+          "rotation": 1,
           "allowedRotations": [
-            0
+            0,
+            1,
+            2,
+            3
           ]
         },
         {
@@ -3243,11 +3496,19 @@ export const COLLECTION = {
               2,
               0,
               "coral"
+            ],
+            [
+              1,
+              1,
+              "coral"
             ]
           ],
-          "rotation": 0,
+          "rotation": 3,
           "allowedRotations": [
-            0
+            0,
+            1,
+            2,
+            3
           ]
         },
         {
@@ -3267,25 +3528,16 @@ export const COLLECTION = {
               0,
               1,
               "coral"
-            ]
-          ],
-          "rotation": 0,
-          "allowedRotations": [
-            0
-          ]
-        },
-        {
-          "id": "piece-9",
-          "cells": [
-            [
-              0,
-              0,
-              "lime"
             ],
             [
-              0,
               1,
-              "orange"
+              1,
+              "coral"
+            ],
+            [
+              2,
+              1,
+              "coral"
             ]
           ],
           "rotation": 2,
@@ -3297,7 +3549,7 @@ export const COLLECTION = {
           ]
         },
         {
-          "id": "piece-8",
+          "id": "piece-9",
           "cells": [
             [
               0,
@@ -3308,26 +3560,51 @@ export const COLLECTION = {
               1,
               0,
               "lime"
-            ],
-            [
-              0,
-              1,
-              "lime"
-            ],
-            [
-              1,
-              1,
-              "orange"
-            ],
-            [
-              2,
-              1,
-              "coral"
             ]
           ],
           "rotation": 0,
           "allowedRotations": [
-            0
+            0,
+            1,
+            2,
+            3
+          ]
+        },
+        {
+          "id": "piece-8",
+          "cells": [
+            [
+              2,
+              0,
+              "coral"
+            ],
+            [
+              0,
+              1,
+              "orange"
+            ],
+            [
+              1,
+              1,
+              "coral"
+            ],
+            [
+              2,
+              1,
+              "lime"
+            ],
+            [
+              3,
+              1,
+              "orange"
+            ]
+          ],
+          "rotation": 0,
+          "allowedRotations": [
+            0,
+            1,
+            2,
+            3
           ]
         },
         {
@@ -3341,67 +3618,63 @@ export const COLLECTION = {
             [
               1,
               0,
-              "coral"
+              "lime"
             ],
             [
-              0,
-              1,
-              "coral"
-            ],
-            [
-              0,
               2,
-              "coral"
+              0,
+              "orange"
             ]
           ],
           "rotation": 0,
           "allowedRotations": [
-            0
+            0,
+            1,
+            2,
+            3
           ]
         },
         {
           "id": "piece-6",
           "cells": [
             [
-              1,
+              0,
               0,
               "lime"
             ],
             [
               1,
-              1,
-              "orange"
-            ],
-            [
-              2,
-              1,
-              "coral"
-            ],
-            [
               0,
-              2,
               "orange"
             ],
             [
-              1,
               2,
+              0,
               "coral"
             ],
             [
+              2,
               1,
-              3,
               "lime"
             ]
           ],
           "rotation": 0,
           "allowedRotations": [
-            0
+            0,
+            1,
+            2,
+            3
           ]
         },
         {
           "id": "piece-5",
           "cells": [
             [
+              0,
+              0,
+              "coral"
+            ],
+            [
               1,
               0,
               "coral"
@@ -3410,31 +3683,14 @@ export const COLLECTION = {
               2,
               0,
               "coral"
-            ],
-            [
-              0,
-              1,
-              "coral"
-            ],
-            [
-              1,
-              1,
-              "coral"
-            ],
-            [
-              0,
-              2,
-              "coral"
-            ],
-            [
-              1,
-              2,
-              "lime"
             ]
           ],
           "rotation": 0,
           "allowedRotations": [
-            0
+            0,
+            1,
+            2,
+            3
           ]
         }
       ]
@@ -3559,258 +3815,18 @@ export const COLLECTION = {
           "id": "piece-4",
           "cells": [
             [
-              3,
+              1,
+              0,
+              "lime"
+            ],
+            [
+              5,
               0,
               "orange"
             ],
             [
               0,
               1,
-              "lime"
-            ],
-            [
-              1,
-              1,
-              "lime"
-            ],
-            [
-              2,
-              1,
-              "orange"
-            ],
-            [
-              3,
-              1,
-              "coral"
-            ],
-            [
-              0,
-              2,
-              "lime"
-            ],
-            [
-              2,
-              2,
-              "coral"
-            ],
-            [
-              3,
-              2,
-              "lime"
-            ],
-            [
-              2,
-              3,
-              "lime"
-            ]
-          ],
-          "rotation": 0,
-          "allowedRotations": [
-            0
-          ]
-        },
-        {
-          "id": "piece-5",
-          "cells": [
-            [
-              0,
-              0,
-              "lime"
-            ],
-            [
-              1,
-              0,
-              "lime"
-            ],
-            [
-              0,
-              1,
-              "lime"
-            ],
-            [
-              0,
-              2,
-              "lime"
-            ]
-          ],
-          "rotation": 0,
-          "allowedRotations": [
-            0
-          ]
-        },
-        {
-          "id": "piece-6",
-          "cells": [
-            [
-              1,
-              0,
-              "lime"
-            ],
-            [
-              0,
-              1,
-              "lime"
-            ],
-            [
-              1,
-              1,
-              "lime"
-            ],
-            [
-              2,
-              1,
-              "orange"
-            ],
-            [
-              2,
-              2,
-              "coral"
-            ]
-          ],
-          "rotation": 0,
-          "allowedRotations": [
-            0
-          ]
-        },
-        {
-          "id": "piece-7",
-          "cells": [
-            [
-              0,
-              0,
-              "orange"
-            ],
-            [
-              0,
-              1,
-              "coral"
-            ],
-            [
-              2,
-              1,
-              "orange"
-            ],
-            [
-              0,
-              2,
-              "lime"
-            ],
-            [
-              1,
-              2,
-              "orange"
-            ],
-            [
-              2,
-              2,
-              "coral"
-            ],
-            [
-              0,
-              3,
-              "orange"
-            ],
-            [
-              1,
-              3,
-              "coral"
-            ],
-            [
-              2,
-              3,
-              "lime"
-            ]
-          ],
-          "rotation": 0,
-          "allowedRotations": [
-            0
-          ]
-        },
-        {
-          "id": "piece-8",
-          "cells": [
-            [
-              1,
-              0,
-              "lime"
-            ],
-            [
-              2,
-              0,
-              "orange"
-            ],
-            [
-              0,
-              1,
-              "lime"
-            ],
-            [
-              1,
-              1,
-              "orange"
-            ],
-            [
-              2,
-              1,
-              "coral"
-            ],
-            [
-              3,
-              1,
-              "lime"
-            ]
-          ],
-          "rotation": 2,
-          "allowedRotations": [
-            0,
-            2
-          ]
-        },
-        {
-          "id": "piece-1",
-          "cells": [
-            [
-              0,
-              0,
-              "lime"
-            ],
-            [
-              1,
-              0,
-              "lime"
-            ],
-            [
-              2,
-              0,
-              "lime"
-            ],
-            [
-              0,
-              1,
-              "lime"
-            ],
-            [
-              1,
-              1,
-              "lime"
-            ],
-            [
-              0,
-              2,
-              "lime"
-            ]
-          ],
-          "rotation": 0,
-          "allowedRotations": [
-            0
-          ]
-        },
-        {
-          "id": "piece-2",
-          "cells": [
-            [
-              2,
-              0,
               "lime"
             ],
             [
@@ -3831,6 +3847,228 @@ export const COLLECTION = {
             [
               4,
               1,
+              "orange"
+            ],
+            [
+              5,
+              1,
+              "coral"
+            ],
+            [
+              0,
+              2,
+              "lime"
+            ]
+          ],
+          "rotation": 3,
+          "allowedRotations": [
+            0,
+            1,
+            2,
+            3
+          ]
+        },
+        {
+          "id": "piece-5",
+          "cells": [
+            [
+              0,
+              0,
+              "lime"
+            ],
+            [
+              1,
+              0,
+              "lime"
+            ],
+            [
+              0,
+              1,
+              "lime"
+            ]
+          ],
+          "rotation": 0,
+          "allowedRotations": [
+            0,
+            1,
+            2,
+            3
+          ]
+        },
+        {
+          "id": "piece-6",
+          "cells": [
+            [
+              1,
+              0,
+              "orange"
+            ],
+            [
+              2,
+              0,
+              "coral"
+            ],
+            [
+              0,
+              1,
+              "orange"
+            ],
+            [
+              1,
+              1,
+              "coral"
+            ],
+            [
+              2,
+              1,
+              "lime"
+            ],
+            [
+              0,
+              2,
+              "coral"
+            ],
+            [
+              1,
+              2,
+              "lime"
+            ],
+            [
+              2,
+              2,
+              "orange"
+            ]
+          ],
+          "rotation": 0,
+          "allowedRotations": [
+            0,
+            1,
+            2,
+            3
+          ]
+        },
+        {
+          "id": "piece-7",
+          "cells": [
+            [
+              0,
+              0,
+              "lime"
+            ],
+            [
+              0,
+              1,
+              "lime"
+            ],
+            [
+              1,
+              1,
+              "orange"
+            ]
+          ],
+          "rotation": 0,
+          "allowedRotations": [
+            0,
+            1,
+            2,
+            3
+          ]
+        },
+        {
+          "id": "piece-8",
+          "cells": [
+            [
+              0,
+              0,
+              "orange"
+            ],
+            [
+              1,
+              0,
+              "coral"
+            ],
+            [
+              0,
+              1,
+              "coral"
+            ],
+            [
+              1,
+              1,
+              "lime"
+            ]
+          ],
+          "rotation": 0,
+          "allowedRotations": [
+            0,
+            1,
+            2,
+            3
+          ]
+        },
+        {
+          "id": "piece-1",
+          "cells": [
+            [
+              0,
+              0,
+              "lime"
+            ],
+            [
+              1,
+              0,
+              "lime"
+            ],
+            [
+              0,
+              1,
+              "lime"
+            ],
+            [
+              1,
+              1,
+              "lime"
+            ],
+            [
+              0,
+              2,
+              "lime"
+            ]
+          ],
+          "rotation": 3,
+          "allowedRotations": [
+            0,
+            1,
+            2,
+            3
+          ]
+        },
+        {
+          "id": "piece-2",
+          "cells": [
+            [
+              0,
+              0,
+              "lime"
+            ],
+            [
+              1,
+              0,
+              "lime"
+            ],
+            [
+              0,
+              1,
+              "lime"
+            ],
+            [
+              1,
+              1,
+              "lime"
+            ],
+            [
+              2,
+              1,
               "lime"
             ],
             [
@@ -3842,11 +4080,19 @@ export const COLLECTION = {
               1,
               2,
               "lime"
+            ],
+            [
+              2,
+              2,
+              "lime"
             ]
           ],
-          "rotation": 0,
+          "rotation": 1,
           "allowedRotations": [
-            0
+            0,
+            1,
+            2,
+            3
           ]
         },
         {
@@ -3866,11 +4112,44 @@ export const COLLECTION = {
               2,
               0,
               "lime"
+            ],
+            [
+              1,
+              1,
+              "lime"
+            ],
+            [
+              2,
+              1,
+              "orange"
+            ],
+            [
+              2,
+              2,
+              "coral"
+            ],
+            [
+              2,
+              3,
+              "lime"
+            ],
+            [
+              1,
+              4,
+              "lime"
+            ],
+            [
+              2,
+              4,
+              "orange"
             ]
           ],
-          "rotation": 0,
+          "rotation": 2,
           "allowedRotations": [
-            0
+            0,
+            1,
+            2,
+            3
           ]
         }
       ]
@@ -4000,7 +4279,22 @@ export const COLLECTION = {
               "violet"
             ],
             [
+              1,
               0,
+              "violet"
+            ],
+            [
+              2,
+              0,
+              "violet"
+            ],
+            [
+              0,
+              1,
+              "violet"
+            ],
+            [
+              1,
               1,
               "violet"
             ],
@@ -4010,72 +4304,179 @@ export const COLLECTION = {
               "violet"
             ],
             [
+              1,
+              2,
+              "violet"
+            ],
+            [
               0,
               3,
-              "violet"
-            ],
-            [
-              1,
-              3,
-              "violet"
-            ],
-            [
-              2,
-              3,
-              "violet"
-            ],
-            [
-              3,
-              3,
-              "violet"
-            ],
-            [
-              2,
-              4,
               "violet"
             ]
           ],
-          "rotation": 0,
+          "rotation": 1,
           "allowedRotations": [
-            0
+            0,
+            1,
+            2,
+            3
           ]
         },
         {
           "id": "piece-9",
           "cells": [
             [
-              0,
-              0,
-              "violet"
-            ],
-            [
               1,
               0,
-              "teal"
+              "blue"
             ],
             [
               0,
-              1,
-              "teal"
-            ],
-            [
-              1,
               1,
               "blue"
+            ],
+            [
+              1,
+              1,
+              "violet"
             ]
           ],
           "rotation": 0,
           "allowedRotations": [
-            0
+            0,
+            1,
+            2,
+            3
           ]
         },
         {
           "id": "piece-8",
           "cells": [
             [
+              0,
+              0,
+              "teal"
+            ],
+            [
+              1,
+              0,
+              "blue"
+            ]
+          ],
+          "rotation": 0,
+          "allowedRotations": [
+            0,
+            1,
+            2,
+            3
+          ]
+        },
+        {
+          "id": "piece-7",
+          "cells": [
+            [
+              4,
+              0,
+              "blue"
+            ],
+            [
+              0,
+              1,
+              "violet"
+            ],
+            [
+              4,
+              1,
+              "violet"
+            ],
+            [
+              0,
+              2,
+              "violet"
+            ],
+            [
+              1,
+              2,
+              "teal"
+            ],
+            [
+              2,
+              2,
+              "blue"
+            ],
+            [
+              3,
+              2,
+              "violet"
+            ],
+            [
+              4,
+              2,
+              "teal"
+            ]
+          ],
+          "rotation": 0,
+          "allowedRotations": [
+            0,
+            1,
+            2,
+            3
+          ]
+        },
+        {
+          "id": "piece-6",
+          "cells": [
+            [
+              1,
+              0,
+              "violet"
+            ],
+            [
               2,
               0,
               "violet"
+            ],
+            [
+              0,
+              1,
+              "violet"
+            ],
+            [
+              1,
+              1,
+              "violet"
+            ],
+            [
+              2,
+              1,
+              "violet"
+            ],
+            [
+              3,
+              1,
+              "teal"
+            ],
+            [
+              1,
+              2,
+              "violet"
+            ]
+          ],
+          "rotation": 0,
+          "allowedRotations": [
+            0,
+            1,
+            2,
+            3
+          ]
+        },
+        {
+          "id": "piece-5",
+          "cells": [
+            [
+              0,
+              0,
+              "teal"
             ],
             [
               0,
@@ -4083,23 +4484,50 @@ export const COLLECTION = {
               "blue"
             ],
             [
-              1,
-              1,
+              0,
+              2,
               "violet"
             ],
             [
-              2,
+              0,
+              3,
+              "teal"
+            ]
+          ],
+          "rotation": 0,
+          "allowedRotations": [
+            0,
+            1,
+            2,
+            3
+          ]
+        },
+        {
+          "id": "piece-4",
+          "cells": [
+            [
+              0,
+              0,
+              "violet"
+            ],
+            [
+              0,
               1,
               "teal"
             ],
             [
               0,
               2,
+              "blue"
+            ],
+            [
+              0,
+              3,
               "violet"
             ],
             [
-              1,
-              2,
+              0,
+              4,
               "teal"
             ]
           ],
@@ -4112,127 +4540,6 @@ export const COLLECTION = {
           ]
         },
         {
-          "id": "piece-7",
-          "cells": [
-            [
-              0,
-              0,
-              "violet"
-            ],
-            [
-              1,
-              0,
-              "violet"
-            ],
-            [
-              0,
-              1,
-              "violet"
-            ],
-            [
-              0,
-              2,
-              "violet"
-            ]
-          ],
-          "rotation": 0,
-          "allowedRotations": [
-            0
-          ]
-        },
-        {
-          "id": "piece-6",
-          "cells": [
-            [
-              0,
-              0,
-              "blue"
-            ],
-            [
-              1,
-              0,
-              "violet"
-            ],
-            [
-              1,
-              1,
-              "teal"
-            ],
-            [
-              1,
-              2,
-              "blue"
-            ],
-            [
-              0,
-              3,
-              "blue"
-            ],
-            [
-              1,
-              3,
-              "violet"
-            ]
-          ],
-          "rotation": 0,
-          "allowedRotations": [
-            0
-          ]
-        },
-        {
-          "id": "piece-5",
-          "cells": [
-            [
-              1,
-              0,
-              "teal"
-            ],
-            [
-              0,
-              1,
-              "teal"
-            ],
-            [
-              1,
-              1,
-              "blue"
-            ]
-          ],
-          "rotation": 0,
-          "allowedRotations": [
-            0
-          ]
-        },
-        {
-          "id": "piece-4",
-          "cells": [
-            [
-              0,
-              0,
-              "violet"
-            ],
-            [
-              1,
-              0,
-              "teal"
-            ],
-            [
-              0,
-              1,
-              "teal"
-            ],
-            [
-              1,
-              1,
-              "blue"
-            ]
-          ],
-          "rotation": 0,
-          "allowedRotations": [
-            0
-          ]
-        },
-        {
           "id": "piece-3",
           "cells": [
             [
@@ -4241,55 +4548,43 @@ export const COLLECTION = {
               "violet"
             ],
             [
+              1,
+              1,
+              "violet"
+            ],
+            [
+              2,
+              1,
+              "violet"
+            ],
+            [
+              1,
+              2,
+              "violet"
+            ],
+            [
+              0,
               3,
-              0,
-              "violet"
-            ],
-            [
-              4,
-              0,
               "violet"
             ],
             [
               1,
-              1,
-              "violet"
-            ],
-            [
-              2,
-              1,
-              "violet"
-            ],
-            [
-              0,
-              2,
-              "violet"
-            ],
-            [
-              1,
-              2,
-              "violet"
-            ],
-            [
-              2,
-              2,
-              "violet"
+              3,
+              "teal"
             ]
           ],
-          "rotation": 0,
+          "rotation": 3,
           "allowedRotations": [
-            0
+            0,
+            1,
+            2,
+            3
           ]
         },
         {
           "id": "piece-2",
           "cells": [
             [
-              0,
-              0,
-              "violet"
-            ],
-            [
               1,
               0,
               "violet"
@@ -4311,13 +4606,21 @@ export const COLLECTION = {
             ],
             [
               0,
+              2,
+              "violet"
+            ],
+            [
+              1,
               2,
               "violet"
             ]
           ],
-          "rotation": 0,
+          "rotation": 2,
           "allowedRotations": [
-            0
+            0,
+            1,
+            2,
+            3
           ]
         }
       ]
