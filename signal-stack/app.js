@@ -10,13 +10,13 @@ import {
   resolveGridPieceTap,
   rotateCellsClockwise,
   safeProgress,
-} from "./game-core.js?v=314055bca56b";
-import { drawPiece } from "./piece-deck.js?v=314055bca56b";
+} from "./game-core.js?v=bd9e6c95dbb6";
+import { drawPiece } from "./piece-deck.js?v=bd9e6c95dbb6";
 import {
   scoreText,
   scoreUrl,
   shareChallenge,
-} from "../shared/share-core.js?v=314055bca56b";
+} from "../shared/share-core.js?v=bd9e6c95dbb6";
 
 const ROWS = 8;
 const COLUMNS = 7;
@@ -269,13 +269,11 @@ function renderClues() {
 }
 
 function renderBoard() {
-  const preview = previewKeys();
   const cells = [];
   for (let y = 0; y < ROWS; y += 1) {
     for (let x = 0; x < COLUMNS; x += 1) {
       const cell = document.createElement("button");
       const tone = grid[y][x];
-      const key = `${x},${y}`;
       cell.type = "button";
       cell.className = "cell";
       cell.dataset.x = x;
@@ -284,13 +282,22 @@ function renderBoard() {
         ? `${tone} signal cell, row ${y + 1}, column ${x + 1}`
         : `Empty cell, row ${y + 1}, column ${x + 1}`;
       if (tone) cell.classList.add(`tone-${tone}`);
-      if (preview.keys.has(key)) {
-        cell.classList.add(preview.valid ? "preview-valid" : "preview-invalid");
-      }
       cells.push(cell);
     }
   }
   boardRoot.replaceChildren(...cells);
+  applyBoardPreview();
+}
+
+function applyBoardPreview() {
+  const preview = previewKeys();
+  boardRoot.querySelectorAll(".cell").forEach((cell) => {
+    const key = `${cell.dataset.x},${cell.dataset.y}`;
+    cell.classList.remove("preview-valid", "preview-invalid");
+    if (preview.keys.has(key)) {
+      cell.classList.add(preview.valid ? "preview-valid" : "preview-invalid");
+    }
+  });
 }
 
 function pieceBounds(cells) {
@@ -365,9 +372,18 @@ trayRoot.addEventListener("click", (event) => {
   const button = event.target.closest("[data-piece-id]");
   if (button) selectOrRotate(button.dataset.pieceId);
 });
-boardRoot.addEventListener("click", (event) => {
+function activateBoardCell(event) {
   const cell = event.target.closest("[data-x][data-y]");
   if (cell) placeSelected({ x: Number(cell.dataset.x), y: Number(cell.dataset.y) });
+}
+
+boardRoot.addEventListener("pointerdown", (event) => {
+  if (event.button !== 0) return;
+  event.preventDefault();
+  activateBoardCell(event);
+});
+boardRoot.addEventListener("click", (event) => {
+  if (event.detail === 0) activateBoardCell(event);
 });
 boardRoot.addEventListener("pointerover", (event) => {
   const cell = event.target.closest("[data-x][data-y]");
@@ -377,11 +393,11 @@ boardRoot.addEventListener("pointerover", (event) => {
   hoverOrigin = piece
     ? placementOriginForTap(grid, piece.cells, pointer)
     : pointer;
-  renderBoard();
+  applyBoardPreview();
 });
 boardRoot.addEventListener("pointerleave", () => {
   hoverOrigin = null;
-  renderBoard();
+  applyBoardPreview();
 });
 rotateButton.addEventListener("click", rotateSelected);
 newRunButton.addEventListener("click", startRun);
