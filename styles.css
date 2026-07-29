@@ -23,6 +23,7 @@ body {
 main, footer { width: min(1120px, calc(100% - 40px)); margin: 0 auto; }
 nav {
   display: flex;
+  align-items: center;
   justify-content: space-between;
   padding: 24px 0;
   font-size: .79rem;
@@ -31,7 +32,19 @@ nav {
   text-transform: uppercase;
 }
 a { color: inherit; text-decoration: none; }
-.wordmark { color: var(--blue); }
+.wordmark {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--blue);
+}
+.wordmark img {
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+  transition: transform .24s cubic-bezier(.2,.8,.2,1);
+}
+.wordmark:hover img { transform: rotate(8deg) scale(1.06); }
 .eyebrow { margin: 0; color: var(--muted); font-size: .72rem; font-weight: 750; letter-spacing: .12em; text-transform: uppercase; }
 
 .hero { padding: clamp(68px, 13vw, 168px) 0 clamp(96px, 15vw, 190px); }
@@ -97,6 +110,8 @@ footer { display: flex; justify-content: space-between; gap: 24px; padding: 30px
   nav { padding-top: 18px; }
   .hero { padding: 78px 0 104px; }
   h1 { font-size: clamp(3.35rem, 17vw, 5.2rem); }
+  .wordmark { gap: 8px; }
+  .wordmark img { width: 30px; height: 30px; border-radius: 9px; }
   .section-heading { display: block; }.section-heading h2 { margin-top: 8px; }
   .project-grid { grid-template-columns: 1fr; }
   .tile-grid, .lantern-preview { aspect-ratio: 1.7 / 1; }.notes article { grid-template-columns: 1fr; gap: 8px; }

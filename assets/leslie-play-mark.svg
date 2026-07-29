@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" role="img" aria-labelledby="title desc">
+  <title id="title">Leslie Play mark</title>
+  <desc id="desc">Four playful tiles gathering around a central point.</desc>
+  <rect width="48" height="48" rx="13" fill="#172219"/>
+  <rect x="19" y="4" width="10" height="17" rx="5" fill="#CDF65F"/>
+  <rect x="27" y="19" width="17" height="10" rx="5" fill="#EF5E4D"/>
+  <rect x="19" y="27" width="10" height="17" rx="5" fill="#F5F0E7"/>
+  <rect x="4" y="19" width="17" height="10" rx="5" fill="#4A63D9"/>
+  <circle cx="24" cy="24" r="4" fill="#9870D8"/>
+</svg>
