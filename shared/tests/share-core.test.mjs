@@ -7,6 +7,7 @@ import {
   challengeUrl,
   scoreText,
   scoreUrl,
+  runScoreText,
   shareChallenge,
 } from "../share-core.js";
 
@@ -38,6 +39,18 @@ test("score copy celebrates a verified local result without fake rank claims", (
   assert.match(text, /1,240/);
   assert.match(text, /3 clean signals/);
   assert.doesNotMatch(text, /top|rank|percent/i);
+});
+
+test("generic run copy supports game-specific earned details", () => {
+  const text = runScoreText({
+    achievement: "Harmony Finder",
+    gameName: "Pebble Choir",
+    score: 2480,
+    detail: "largest voice: Chorus",
+  });
+  assert.match(text, /2,480/);
+  assert.match(text, /Chorus/);
+  assert.doesNotMatch(text, /rank|top \d/i);
 });
 
 test("challenge URLs keep only the intended puzzle parameter", () => {

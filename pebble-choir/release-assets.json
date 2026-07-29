@@ -1,15 +1,15 @@
 {
   "assets": [
+    "index.html",
+    "styles.css",
     "app.js",
     "game-core.js",
-    "collection-01.js",
     "../shared/feedback-core.js",
     "../shared/share-core.js",
-    "styles.css",
-    "index.html"
+    "../shared/vendor/matter-js/matter.min.js"
   ],
   "references": [
-    "app.js",
-    "index.html"
+    "index.html",
+    "app.js"
   ]
 }

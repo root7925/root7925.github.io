@@ -1,4 +1,4 @@
-import { LANTERN_GROVE_COLLECTION } from "./collection-01.js?v=32985620bec1";
+import { LANTERN_GROVE_COLLECTION } from "./collection-01.js?v=335dc7949f04";
 import {
   CELL_LANTERN,
   CELL_MARK,
@@ -9,13 +9,14 @@ import {
   getRuleProgress,
   isPuzzleSolved,
   regionEdges,
-} from "./game-core.js?v=32985620bec1";
+} from "./game-core.js?v=335dc7949f04";
 import {
   achievementFor,
   challengeText,
   challengeUrl,
   shareChallenge,
-} from "../shared/share-core.js?v=32985620bec1";
+} from "../shared/share-core.js?v=335dc7949f04";
+import { createFeedbackSystem } from "../shared/feedback-core.js?v=335dc7949f04";
 
 const STORAGE_KEY = "leslie-play:lantern-grove:v1";
 const palette = [
@@ -47,6 +48,8 @@ const nextButton = document.querySelector("#next-level");
 const closeWinButton = document.querySelector("#close-win");
 const shareButton = document.querySelector("#share-challenge");
 const shareStatus = document.querySelector("#share-status");
+const soundToggle = document.querySelector("#sound-toggle");
+const feedback = createFeedbackSystem();
 
 let activeIndex = 0;
 let mode = "lantern";
@@ -54,6 +57,7 @@ let state = createGameState(LANTERN_GROVE_COLLECTION[0]);
 let history = [];
 let completed = new Set();
 let startedAt = Date.now();
+let completionTimer = null;
 const GROVE_TITLES = [
   { threshold: 1, title: "Grove Keeper" },
   { threshold: 4, title: "Dawn Keeper" },
@@ -114,7 +118,12 @@ function setMode(nextMode) {
   });
 }
 
-function renderBoard() {
+function updateSoundToggle() {
+  soundToggle.textContent = feedback.enabled ? "Sound on" : "Sound off";
+  soundToggle.setAttribute("aria-pressed", String(feedback.enabled));
+}
+
+function renderBoard({ actionIndex = -1, progressPulse = false } = {}) {
   const puzzle = state.puzzle;
   const conflicts = getConflicts(state);
   const metrics = computeBoardSize(window.innerWidth, puzzle.size);
@@ -125,6 +134,7 @@ function renderBoard() {
     "aria-label",
     `${puzzle.size} by ${puzzle.size} Lantern Grove puzzle`,
   );
+  board.classList.toggle("is-progress", progressPulse);
 
   board.replaceChildren(
     ...state.cells.map((value, index) => {
@@ -140,6 +150,10 @@ function renderBoard() {
         cell.classList.toggle(`edge-${edge}`, visible);
       }
       cell.classList.toggle("is-lantern", value === CELL_LANTERN);
+      cell.classList.toggle(
+        "is-new-lantern",
+        value === CELL_LANTERN && index === actionIndex,
+      );
       cell.classList.toggle("is-mark", value === CELL_MARK);
       cell.classList.toggle("is-conflict", conflicts.has(index));
       cell.setAttribute(
@@ -177,20 +191,31 @@ function render() {
 }
 
 function handleCell(index) {
+  const before = getRuleProgress(state);
   history.push([...state.cells]);
   state = applyCellAction(state, index, mode);
-  renderBoard();
+  const after = getRuleProgress(state);
   const conflicts = getConflicts(state);
+  const progressPulse =
+    after.rows > before.rows ||
+    after.columns > before.columns ||
+    after.regions > before.regions;
+  renderBoard({ actionIndex: index, progressPulse });
   ruleStatus.classList.toggle("is-error", conflicts.size > 0);
   if (conflicts.size > 0) {
+    feedback.play("conflict");
+    feedback.vibrate(18);
     ruleStatus.textContent =
       "Red lights conflict: they share a row, column, garden, or touch.";
   } else if (state.cells[index] === CELL_LANTERN) {
+    feedback.play(progressPulse ? "progress" : "place");
     ruleStatus.textContent =
       "Good. Keep every row, column, and colored garden to one light.";
   } else if (state.cells[index] === CELL_MARK) {
+    feedback.play("mark");
     ruleStatus.textContent = "Marked empty. Use marks to eliminate impossible squares.";
   } else {
+    feedback.play("clear");
     ruleStatus.textContent = "Square cleared. Tap another square when you are ready.";
   }
   if (isPuzzleSolved(state)) completePuzzle();
@@ -213,7 +238,14 @@ function completePuzzle() {
   document.querySelector("#achievement-title").textContent = achievement;
   shareStatus.textContent = "";
   nextButton.hidden = activeIndex >= LANTERN_GROVE_COLLECTION.length - 1;
-  winDialog.showModal();
+  board.classList.add("is-solved");
+  feedback.play("complete");
+  feedback.vibrate([18, 35, 24]);
+  clearTimeout(completionTimer);
+  completionTimer = setTimeout(
+    () => winDialog.showModal(),
+    feedback.reducedMotion ? 0 : 720,
+  );
 }
 
 async function shareCurrentChallenge() {
@@ -242,6 +274,7 @@ async function shareCurrentChallenge() {
 }
 
 function openLevel(index) {
+  clearTimeout(completionTimer);
   activeIndex = index;
   state = createGameState(LANTERN_GROVE_COLLECTION[index]);
   history = [];
@@ -259,6 +292,7 @@ modeButtons.forEach((button) =>
 );
 
 restartButton.addEventListener("click", () => {
+  clearTimeout(completionTimer);
   state = createGameState(state.puzzle);
   history = [];
   startedAt = Date.now();
@@ -282,9 +316,15 @@ helpDialog
 closeWinButton.addEventListener("click", () => winDialog.close());
 nextButton.addEventListener("click", () => openLevel(activeIndex + 1));
 shareButton.addEventListener("click", shareCurrentChallenge);
+soundToggle.addEventListener("click", () => {
+  const enabled = feedback.toggle();
+  updateSoundToggle();
+  if (enabled) feedback.play("place");
+});
 window.addEventListener("resize", renderBoard);
 
 loadProgress();
+updateSoundToggle();
 const requestedGrove = Number(new URLSearchParams(location.search).get("g"));
 if (
   Number.isInteger(requestedGrove) &&

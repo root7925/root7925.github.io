@@ -82,6 +82,11 @@ game-over move detection, restart-safe progress parsing, and any procedural
 runtime deck. Runtime randomness must not publish or share seeds, board states,
 solutions, or diagnostics.
 
+Physics games additionally test spawn bounds, merge eligibility, duplicate
+collision suppression, scoring, sustained overflow, mobile vessel size, and
+keyboard/touch input. The third-party engine never owns Leslie / Play scoring,
+progress, privacy, or product rules.
+
 ## Sharing contract
 
 Any game with a completion share must follow

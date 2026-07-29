@@ -8,6 +8,8 @@
   --moss: #2e5942;
   --lime: #d7f46c;
   --danger: #b84336;
+  --dusk: #27352e;
+  --glow: #fff2a0;
   --shadow: 0 22px 70px rgba(35, 48, 39, 0.13);
 }
 
@@ -44,6 +46,7 @@ a { color: inherit; text-decoration: none; }
   text-transform: uppercase;
 }
 .brand { color: var(--moss); }
+.header-actions { display: flex; align-items: center; gap: 18px; }
 .text-button {
   border: 0;
   background: transparent;
@@ -113,7 +116,10 @@ h1 { font-family: Georgia, serif; font-size: clamp(2.8rem, 6vw, 4.8rem); font-we
   overflow: hidden;
   border: 3px solid var(--ink);
   border-radius: 18px;
-  background: var(--ink);
+  background: var(--dusk);
+  box-shadow:
+    inset 0 0 0 1px rgba(255,255,255,.06),
+    0 16px 38px rgba(23,37,29,.18);
   touch-action: manipulation;
 }
 .cell {
@@ -124,9 +130,20 @@ h1 { font-family: Georgia, serif; font-size: clamp(2.8rem, 6vw, 4.8rem); font-we
   min-height: 0;
   padding: 0;
   border: 0 solid rgba(23, 37, 29, .85);
-  background: color-mix(in srgb, var(--region-color) 72%, white);
+  background: color-mix(in srgb, var(--region-color) 43%, var(--dusk));
   cursor: pointer;
   -webkit-tap-highlight-color: transparent;
+}
+.cell::before {
+  content: "";
+  position: absolute;
+  z-index: 1;
+  inset: -26%;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 241, 145, .72), rgba(255, 220, 91, .16) 38%, transparent 68%);
+  opacity: 0;
+  transform: scale(.42);
+  pointer-events: none;
 }
 .cell::after {
   content: "";
@@ -136,19 +153,25 @@ h1 { font-family: Georgia, serif; font-size: clamp(2.8rem, 6vw, 4.8rem); font-we
   background: rgba(255, 255, 255, 0);
   transition: background .14s ease, transform .14s ease;
 }
-.cell:hover::after { background: rgba(255, 255, 255, .25); }
+.cell:hover::after { background: rgba(255, 255, 255, .14); }
 .cell:focus-visible { z-index: 3; outline: 4px solid white; outline-offset: -6px; }
 .cell.edge-top { border-top-width: 2px; }
 .cell.edge-right { border-right-width: 2px; }
 .cell.edge-bottom { border-bottom-width: 2px; }
 .cell.edge-left { border-left-width: 2px; }
 .cell.is-conflict {
-  background: #f3afa5;
+  background: #9f493f;
   animation: nudge .24s ease;
 }
+.cell.is-lantern::before {
+  opacity: 1;
+  transform: scale(1);
+  transition: opacity .2s ease, transform .25s ease;
+}
+.cell.is-new-lantern::before { animation: light-spread .42s ease both; }
 .mark {
   z-index: 1;
-  color: rgba(23, 37, 29, .48);
+  color: rgba(255,255,255,.55);
   font-size: clamp(1rem, 4vw, 1.6rem);
   font-weight: 500;
 }
@@ -161,7 +184,10 @@ h1 { font-family: Georgia, serif; font-size: clamp(2.8rem, 6vw, 4.8rem); font-we
   border: 3px solid var(--ink);
   border-radius: 45% 45% 36% 36%;
   background: var(--lime);
-  box-shadow: 0 0 0 5px rgba(255,255,255,.35), 0 4px 0 rgba(23,37,29,.22);
+  box-shadow:
+    0 0 0 5px rgba(255,255,255,.28),
+    0 0 28px rgba(255,235,120,.7),
+    0 4px 0 rgba(23,37,29,.22);
   animation: bloom .22s ease both;
 }
 .lantern::before {
@@ -292,6 +318,19 @@ footer a { color: var(--moss); font-weight: 800; }
 .celebration { display: flex; gap: 18px; margin-bottom: 20px; color: #d49b24; font-size: 1.7rem; }
 .celebration span:nth-child(2) { transform: translateY(-8px) scale(1.25); }
 
+.board.is-progress {
+  animation: board-breathe .42s ease;
+}
+.board.is-solved .cell.is-lantern::before {
+  animation: solved-glow .7s ease both;
+}
+.board.is-solved .cell.is-lantern:nth-child(3n + 2)::before {
+  animation-delay: .08s;
+}
+.board.is-solved .cell.is-lantern:nth-child(3n)::before {
+  animation-delay: .16s;
+}
+
 @keyframes bloom {
   from { opacity: 0; transform: scale(.55) rotate(-9deg); }
   to { opacity: 1; transform: scale(1) rotate(0); }
@@ -300,10 +339,24 @@ footer a { color: var(--moss); font-weight: 800; }
   40% { transform: translateX(-2px); }
   70% { transform: translateX(2px); }
 }
+@keyframes light-spread {
+  from { opacity: 0; transform: scale(.2); }
+  55% { opacity: 1; transform: scale(1.18); }
+  to { opacity: 1; transform: scale(1); }
+}
+@keyframes board-breathe {
+  50% { box-shadow: inset 0 0 0 2px rgba(255,241,145,.35), 0 18px 44px rgba(23,37,29,.24); }
+}
+@keyframes solved-glow {
+  from { opacity: .45; transform: scale(.75); }
+  55% { opacity: 1; transform: scale(1.38); }
+  to { opacity: 1; transform: scale(1); }
+}
 
 @media (max-width: 640px) {
   .game-shell { width: min(100% - 20px, 980px); }
   .game-header { min-height: 52px; }
+  .header-actions { gap: 11px; }
   .game-intro {
     display: block;
     padding: 4px 4px 12px;

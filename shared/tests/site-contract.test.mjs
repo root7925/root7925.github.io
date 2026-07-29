@@ -4,12 +4,13 @@ import test from "node:test";
 
 const homeUrl = new URL("../../index.html", import.meta.url);
 
-test("the studio home links and explains all three released games", async () => {
+test("the studio home links and explains all four released games", async () => {
   const html = await readFile(homeUrl, "utf8");
   const games = [
     ["pattern-atlas/", "Rotate and fit colored fragments"],
     ["lantern-grove/", "Place lanterns by row, region, and spacing clues"],
     ["signal-stack/", "Place two-tone pieces, clear full lines"],
+    ["pebble-choir/", "Drop matching pebbles, grow eight voices"],
   ];
 
   for (const [href, description] of games) {

@@ -7,14 +7,14 @@ import {
   resolveTapAction,
   rotateClockwise,
   stablePieceDimensions,
-} from "./game-core.js?v=49301d7363f5";
-import { COLLECTION } from "./collection-01.js?v=49301d7363f5";
+} from "./game-core.js?v=c90d66c59981";
+import { COLLECTION } from "./collection-01.js?v=c90d66c59981";
 import {
   achievementFor,
   challengeText,
   challengeUrl,
   shareChallenge,
-} from "../shared/share-core.js?v=49301d7363f5";
+} from "../shared/share-core.js?v=c90d66c59981";
 
 const PALETTE = {
   coral: "#e45748",

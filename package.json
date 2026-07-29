@@ -3,10 +3,10 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "assets:stamp": "node scripts/stamp-game-assets.mjs pattern-atlas && node scripts/stamp-game-assets.mjs lantern-grove && node scripts/stamp-game-assets.mjs signal-stack",
+    "assets:stamp": "node scripts/stamp-game-assets.mjs pattern-atlas && node scripts/stamp-game-assets.mjs lantern-grove && node scripts/stamp-game-assets.mjs signal-stack && node scripts/stamp-game-assets.mjs pebble-choir",
     "prepare": "node scripts/install-git-hooks.mjs",
-    "test": "node --test shared/tests/*.test.mjs pattern-atlas/tests/*.test.mjs lantern-grove/tests/*.test.mjs signal-stack/tests/*.test.mjs",
-    "test:watch": "node --test --watch shared/tests/*.test.mjs pattern-atlas/tests/*.test.mjs lantern-grove/tests/*.test.mjs signal-stack/tests/*.test.mjs",
-    "verify": "npm test && node scripts/stamp-game-assets.mjs pattern-atlas --check && node scripts/stamp-game-assets.mjs lantern-grove --check && node scripts/stamp-game-assets.mjs signal-stack --check"
+    "test": "node --test shared/tests/*.test.mjs pattern-atlas/tests/*.test.mjs lantern-grove/tests/*.test.mjs signal-stack/tests/*.test.mjs pebble-choir/tests/*.test.mjs",
+    "test:watch": "node --test --watch shared/tests/*.test.mjs pattern-atlas/tests/*.test.mjs lantern-grove/tests/*.test.mjs signal-stack/tests/*.test.mjs pebble-choir/tests/*.test.mjs",
+    "verify": "npm test && node scripts/stamp-game-assets.mjs pattern-atlas --check && node scripts/stamp-game-assets.mjs lantern-grove --check && node scripts/stamp-game-assets.mjs signal-stack --check && node scripts/stamp-game-assets.mjs pebble-choir --check"
   }
 }

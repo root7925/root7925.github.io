@@ -17,6 +17,9 @@ The current releases are:
   `/pattern-atlas/`.
 - **Lantern Grove: Collection 01**, a 16-puzzle single-tap deduction collection
   at `/lantern-grove/`.
+- **Signal Stack**, an endless two-tone spatial score game at `/signal-stack/`.
+- **Pebble Choir**, a one-thumb physics merge and procedural music test at
+  `/pebble-choir/`.
 
 Progress is saved locally in the browser.
 
@@ -34,3 +37,6 @@ npm test
 pre-push hook and the `Game quality` GitHub Actions workflow run the same gate
 automatically. The cross-game release rules are recorded in
 [`docs/GAME_QUALITY_STANDARD.md`](docs/GAME_QUALITY_STANDARD.md).
+Shared sound, motion, and haptic behavior is documented in
+[`docs/FEEDBACK_SYSTEM.md`](docs/FEEDBACK_SYSTEM.md), and every vendored
+dependency is recorded in [`docs/THIRD_PARTY.md`](docs/THIRD_PARTY.md).

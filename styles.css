@@ -135,6 +135,46 @@ h2 { margin: 0; font-size: clamp(2rem, 4vw, 3.6rem); }
 .signal-labels i { font-family: ui-monospace, monospace; font-size: .65rem; font-style: normal; }
 .signal-card .project-copy { border-top: 1px solid rgba(164,255,104,.12); }
 .signal-card .project-copy span { color: #a4ff68; }
+.choir-card { background: #211c25; }
+.choir-preview {
+  position: relative;
+  min-height: 280px;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 24% 18%, rgba(142,131,198,.23), transparent 14rem),
+    linear-gradient(#2a2230, #121116);
+}
+.choir-rim {
+  position: absolute;
+  inset: 38px clamp(32px, 8vw, 100px) -45px;
+  border: 2px solid rgba(243,234,223,.25);
+  border-top-color: rgba(242,217,133,.55);
+  border-radius: 20px 20px 45% 45%;
+}
+.choir-pebble {
+  position: absolute;
+  display: block;
+  aspect-ratio: 1;
+  border: 2px solid #211c23;
+  border-radius: 50%;
+  box-shadow: inset 6px 6px 0 rgba(255,255,255,.24), 0 0 20px rgba(0,0,0,.22);
+}
+.choir-one { width: 56px; left: 29%; bottom: 20px; background: #6fc1aa; }
+.choir-two { width: 72px; left: 39%; bottom: 16px; background: #69a9c6; }
+.choir-three { width: 44px; left: 51%; bottom: 24px; background: #e8b75e; }
+.choir-four { width: 86px; left: 58%; bottom: 14px; background: #8e83c6; }
+.choir-five { width: 34px; left: 49%; top: 34px; background: #f08b72; }
+.choir-preview > span {
+  position: absolute;
+  right: 12%;
+  top: 24px;
+  color: var(--acid);
+  font-family: Georgia, serif;
+  font-size: 3rem;
+  transform: rotate(8deg);
+}
+.choir-card .project-copy { border-top: 1px solid rgba(242,217,133,.14); }
+.choir-card .project-copy > span { color: #f2d985; }
 
 .notes { padding-bottom: 72px; }
 .notes article { display: grid; grid-template-columns: 140px 1fr; max-width: 760px; gap: 24px; padding: 26px 0; border-top: 1px solid var(--line); }

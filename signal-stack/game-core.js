@@ -11,7 +11,7 @@ import {
   resolveGridPieceTap,
   rotateCellsClockwise,
   scorePlacement,
-} from "../shared/grid-core.js?v=bd9e6c95dbb6";
+} from "../shared/grid-core.js?v=bf65f8d163c7";
 
 export {
   boardMetrics,

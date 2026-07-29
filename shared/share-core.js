@@ -50,6 +50,20 @@ export function scoreText({
   ].join("\n");
 }
 
+export function runScoreText({
+  achievement,
+  gameName,
+  score,
+  detail,
+  challenge = "Can you beat my run?",
+}) {
+  return [
+    `${achievement} ✦`,
+    `I scored ${Number(score).toLocaleString("en-US")} in ${gameName}${detail ? ` — ${detail}` : ""}.`,
+    challenge,
+  ].join("\n");
+}
+
 export async function shareChallenge({
   navigatorLike,
   title,

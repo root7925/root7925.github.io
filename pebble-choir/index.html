@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#151319" />
+    <meta
+      name="description"
+      content="Pebble Choir is a small physics merge game where every collision makes music."
+    />
+    <title>Pebble Choir — Leslie / Play</title>
+    <link rel="stylesheet" href="styles.css?v=05e7b08d5a41" />
+  </head>
+  <body>
+    <main class="game-shell">
+      <header>
+        <a href="../" class="brand">LESLIE / PLAY</a>
+        <div class="header-actions">
+          <button id="sound-toggle" type="button" aria-pressed="true">Sound on</button>
+          <button id="new-run" type="button">New run</button>
+        </div>
+      </header>
+
+      <section class="intro" aria-labelledby="game-title">
+        <div>
+          <p class="eyebrow">A pocket physics toy</p>
+          <h1 id="game-title">Pebble<br />Choir</h1>
+        </div>
+        <div class="intro-copy">
+          <p>Drop a note. Match two. Grow a choir.</p>
+          <span>Tap inside the vessel to release the next pebble.</span>
+        </div>
+      </section>
+
+      <section class="play-card" aria-label="Pebble Choir game">
+        <div class="score-bar">
+          <div><span>Score</span><strong id="score">000000</strong></div>
+          <div class="next-wrap">
+            <span>Next note</span>
+            <i id="next-pebble" aria-hidden="true"></i>
+          </div>
+          <div><span>Best</span><strong id="best">000000</strong></div>
+        </div>
+
+        <div class="vessel-wrap">
+          <canvas
+            id="vessel"
+            width="720"
+            height="936"
+            role="button"
+            tabindex="0"
+            aria-label="Tap to drop a pebble into the choir vessel"
+          ></canvas>
+          <div id="drop-guide" class="drop-guide" aria-hidden="true"></div>
+          <p id="status" class="status" aria-live="polite">
+            Tap anywhere in the vessel to drop the first note.
+          </p>
+        </div>
+      </section>
+
+      <section class="note-ladder" aria-labelledby="ladder-title">
+        <div>
+          <p class="eyebrow">Eight voices</p>
+          <h2 id="ladder-title">Every merge adds a note.</h2>
+        </div>
+        <div id="tier-list" class="tier-list"></div>
+      </section>
+
+      <footer>
+        <p>Physics by Matter.js · no ads, account, or tracking.</p>
+        <a href="../lantern-grove/">Play Lantern Grove →</a>
+      </footer>
+    </main>
+
+    <dialog id="game-over" class="result-dialog">
+      <p class="eyebrow">The vessel is full</p>
+      <p id="achievement" class="achievement">First Note</p>
+      <h2>Your choir reached <span id="largest-name">Hush</span>.</h2>
+      <p><strong id="final-score">0</strong> points · best <span id="final-best">0</span></p>
+      <div class="dialog-actions">
+        <button id="restart-run" class="primary-button" type="button">Sing again →</button>
+        <button id="share-score" class="secondary-button" type="button">Share score</button>
+      </div>
+      <p id="share-status" class="share-status" aria-live="polite"></p>
+    </dialog>
+
+    <script src="../shared/vendor/matter-js/matter.min.js?v=05e7b08d5a41"></script>
+    <script type="module" src="app.js?v=05e7b08d5a41"></script>
+  </body>
+</html>

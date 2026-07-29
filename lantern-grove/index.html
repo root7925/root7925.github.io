@@ -6,13 +6,21 @@
     <meta name="theme-color" content="#17251d" />
     <meta name="description" content="Lantern Grove is a calm daily-style logic puzzle by Leslie / Play." />
     <title>Lantern Grove — Leslie / Play</title>
-    <link rel="stylesheet" href="styles.css?v=32985620bec1" />
+    <link rel="stylesheet" href="styles.css?v=335dc7949f04" />
   </head>
   <body>
     <main class="game-shell">
       <header class="game-header">
         <a href="../" class="brand">LESLIE / PLAY</a>
-        <button id="help" class="text-button" type="button">How to play</button>
+        <div class="header-actions">
+          <button
+            id="sound-toggle"
+            class="text-button"
+            type="button"
+            aria-pressed="true"
+          >Sound on</button>
+          <button id="help" class="text-button" type="button">How to play</button>
+        </div>
       </header>
 
       <section class="game-intro" aria-labelledby="game-title">
@@ -99,6 +107,6 @@
       <p id="share-status" class="share-status" aria-live="polite"></p>
     </dialog>
 
-    <script type="module" src="app.js?v=32985620bec1"></script>
+    <script type="module" src="app.js?v=335dc7949f04"></script>
   </body>
 </html>
