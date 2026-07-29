@@ -6,17 +6,19 @@ import {
   createGrid,
   evaluateLines,
   hasAnyMove,
+  placementOriginForTap,
   placeCells,
   resolveGridPieceTap,
   rotateCellsClockwise,
   scorePlacement,
-} from "../shared/grid-core.js?v=d5d7150607d5";
+} from "../shared/grid-core.js?v=314055bca56b";
 
 export {
   boardMetrics,
   canPlaceCells,
   createGrid,
   hasAnyMove,
+  placementOriginForTap,
   resolveGridPieceTap,
   rotateCellsClockwise,
 };

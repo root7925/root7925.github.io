@@ -6,7 +6,7 @@
     <meta name="theme-color" content="#17251d" />
     <meta name="description" content="Lantern Grove is a calm daily-style logic puzzle by Leslie / Play." />
     <title>Lantern Grove — Leslie / Play</title>
-    <link rel="stylesheet" href="styles.css?v=8cf296656f31" />
+    <link rel="stylesheet" href="styles.css?v=32985620bec1" />
   </head>
   <body>
     <main class="game-shell">
@@ -30,6 +30,14 @@
             <span id="difficulty-label">Dawn · 5×5</span>
           </div>
           <strong id="progress-label">0 / 5 lights</strong>
+        </div>
+
+        <div class="rule-guide">
+          <strong>Goal: one light in every row, column, and colored garden.</strong>
+          <span>Lights cannot touch—not even diagonally.</span>
+          <p id="rule-status" aria-live="polite">
+            Tap any square to place your first light. Red lights break a rule.
+          </p>
         </div>
 
         <div id="board" class="board" role="grid"></div>
@@ -91,6 +99,6 @@
       <p id="share-status" class="share-status" aria-live="polite"></p>
     </dialog>
 
-    <script type="module" src="app.js?v=8cf296656f31"></script>
+    <script type="module" src="app.js?v=32985620bec1"></script>
   </body>
 </html>

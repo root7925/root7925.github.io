@@ -80,7 +80,28 @@ h1 { font-family: Georgia, serif; font-size: clamp(2.8rem, 6vw, 4.8rem); font-we
 .puzzle-meta { margin-bottom: 18px; }
 .puzzle-meta p { margin: 0 0 3px; font-size: 1.08rem; font-weight: 800; }
 .puzzle-meta span { color: var(--muted); font-size: .78rem; }
-.puzzle-meta strong { color: var(--moss); font-size: .82rem; }
+.puzzle-meta strong { max-width: 390px; color: var(--moss); font-size: .72rem; line-height: 1.45; text-align: right; }
+
+.rule-guide {
+  width: min(560px, 100%);
+  margin: -3px 0 15px;
+  padding: 12px 14px;
+  border: 1px solid #d8d7c5;
+  border-radius: 14px;
+  background: #f4f2e5;
+  font-size: .76rem;
+  line-height: 1.45;
+}
+.rule-guide strong, .rule-guide span { display: block; }
+.rule-guide span { margin-top: 2px; color: var(--muted); }
+.rule-guide p {
+  margin: 8px 0 0;
+  padding-top: 8px;
+  border-top: 1px solid #dcdbca;
+  color: var(--moss);
+  font-weight: 750;
+}
+.rule-guide p.is-error { color: var(--danger); }
 
 .board {
   --grid-size: 5;
@@ -291,6 +312,8 @@ footer a { color: var(--moss); font-weight: 800; }
   .game-intro > p { margin-top: 10px; font-size: .86rem; }
   .play-card { padding: 14px 9px 16px; border-radius: 20px; }
   .puzzle-meta { width: calc(100% - 10px); margin-bottom: 11px; }
+  .puzzle-meta strong { max-width: 210px; font-size: .62rem; }
+  .rule-guide { margin-bottom: 10px; padding: 9px 11px; font-size: .68rem; }
   .board { border-radius: 14px; }
   .controls { width: calc(100% - 8px); margin-top: 12px; }
   .mode-button, .icon-button { min-height: 40px; }

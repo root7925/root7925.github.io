@@ -6,16 +6,17 @@ import {
   createSignalTargets,
   drawSignalTarget,
   hasAnyMove,
+  placementOriginForTap,
   resolveGridPieceTap,
   rotateCellsClockwise,
   safeProgress,
-} from "./game-core.js?v=d5d7150607d5";
-import { drawPiece } from "./piece-deck.js?v=d5d7150607d5";
+} from "./game-core.js?v=314055bca56b";
+import { drawPiece } from "./piece-deck.js?v=314055bca56b";
 import {
   scoreText,
   scoreUrl,
   shareChallenge,
-} from "../shared/share-core.js?v=d5d7150607d5";
+} from "../shared/share-core.js?v=314055bca56b";
 
 const ROWS = 8;
 const COLUMNS = 7;
@@ -69,6 +70,7 @@ let combo = 0;
 let cleanThisRun = 0;
 let active = true;
 let flashTimer = null;
+let rejectTimer = null;
 
 function saveProgress() {
   try {
@@ -129,7 +131,7 @@ function startRun() {
   active = true;
   gameOverRoot.hidden = true;
   shareStatus.textContent = "";
-  setMessage("Select a piece. Tap it again to rotate.");
+  setMessage("1 Pick a piece · 2 tap it again to rotate · 3 tap its center.");
   render();
 }
 
@@ -182,17 +184,23 @@ function placeSelected(origin) {
     setMessage("Select one of the incoming pieces first.");
     return;
   }
+  const fittedOrigin = placementOriginForTap(grid, piece.cells, origin);
   const result = advanceTurn({
     grid,
     piece,
-    origin,
+    origin: fittedOrigin,
     rowTargets: targets.rows,
     columnTargets: targets.columns,
     combo,
   });
   if (!result.ok) {
-    hoverOrigin = origin;
-    setMessage("That space is blocked. Try another square or rotation.");
+    hoverOrigin = fittedOrigin;
+    clearTimeout(rejectTimer);
+    boardRoot.classList.remove("is-rejected");
+    void boardRoot.offsetWidth;
+    boardRoot.classList.add("is-rejected");
+    rejectTimer = setTimeout(() => boardRoot.classList.remove("is-rejected"), 420);
+    setMessage("Red outline = blocked. Your piece is still selected—tap another spot.");
     render();
     return;
   }
@@ -276,7 +284,7 @@ function renderBoard() {
         ? `${tone} signal cell, row ${y + 1}, column ${x + 1}`
         : `Empty cell, row ${y + 1}, column ${x + 1}`;
       if (tone) cell.classList.add(`tone-${tone}`);
-      if (!tone && preview.keys.has(key)) {
+      if (preview.keys.has(key)) {
         cell.classList.add(preview.valid ? "preview-valid" : "preview-invalid");
       }
       cells.push(cell);
@@ -364,7 +372,11 @@ boardRoot.addEventListener("click", (event) => {
 boardRoot.addEventListener("pointerover", (event) => {
   const cell = event.target.closest("[data-x][data-y]");
   if (!cell || event.pointerType === "touch") return;
-  hoverOrigin = { x: Number(cell.dataset.x), y: Number(cell.dataset.y) };
+  const piece = selectedPiece();
+  const pointer = { x: Number(cell.dataset.x), y: Number(cell.dataset.y) };
+  hoverOrigin = piece
+    ? placementOriginForTap(grid, piece.cells, pointer)
+    : pointer;
   renderBoard();
 });
 boardRoot.addEventListener("pointerleave", () => {

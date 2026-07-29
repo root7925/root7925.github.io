@@ -55,6 +55,38 @@ export function canPlaceCells(grid, cells, origin) {
   });
 }
 
+export function placementOriginForTap(grid, cells, tap) {
+  const rows = grid.length;
+  const columns = grid[0]?.length ?? 0;
+  const width = Math.max(...cells.map((cell) => cell.x)) + 1;
+  const height = Math.max(...cells.map((cell) => cell.y)) + 1;
+  const centered = {
+    x: Math.max(0, Math.min(columns - width, tap.x - Math.floor(width / 2))),
+    y: Math.max(0, Math.min(rows - height, tap.y - Math.floor(height / 2))),
+  };
+  if (canPlaceCells(grid, cells, centered)) return centered;
+
+  const alternatives = cells
+    .map((cell) => ({ x: tap.x - cell.x, y: tap.y - cell.y }))
+    .filter(
+      (origin) =>
+        origin.x >= 0 &&
+        origin.y >= 0 &&
+        origin.x + width <= columns &&
+        origin.y + height <= rows &&
+        canPlaceCells(grid, cells, origin),
+    )
+    .sort(
+      (left, right) =>
+        Math.abs(left.x - centered.x) +
+        Math.abs(left.y - centered.y) -
+        Math.abs(right.x - centered.x) -
+        Math.abs(right.y - centered.y),
+    );
+
+  return alternatives[0] ?? centered;
+}
+
 export function placeCells(grid, cells, origin, valueForCell = (cell) => cell.tone) {
   if (!canPlaceCells(grid, cells, origin)) return null;
   const next = grid.map((row) => [...row]);

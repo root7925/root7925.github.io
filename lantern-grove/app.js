@@ -1,4 +1,4 @@
-import { LANTERN_GROVE_COLLECTION } from "./collection-01.js?v=8cf296656f31";
+import { LANTERN_GROVE_COLLECTION } from "./collection-01.js?v=32985620bec1";
 import {
   CELL_LANTERN,
   CELL_MARK,
@@ -9,13 +9,13 @@ import {
   getRuleProgress,
   isPuzzleSolved,
   regionEdges,
-} from "./game-core.js?v=8cf296656f31";
+} from "./game-core.js?v=32985620bec1";
 import {
   achievementFor,
   challengeText,
   challengeUrl,
   shareChallenge,
-} from "../shared/share-core.js?v=8cf296656f31";
+} from "../shared/share-core.js?v=32985620bec1";
 
 const STORAGE_KEY = "leslie-play:lantern-grove:v1";
 const palette = [
@@ -33,6 +33,7 @@ const board = document.querySelector("#board");
 const levelLabel = document.querySelector("#level-label");
 const difficultyLabel = document.querySelector("#difficulty-label");
 const progressLabel = document.querySelector("#progress-label");
+const ruleStatus = document.querySelector("#rule-status");
 const levelPicker = document.querySelector("#level-picker");
 const modeButtons = [...document.querySelectorAll("[data-mode]")];
 const restartButton = document.querySelector("#restart");
@@ -159,7 +160,11 @@ function renderBoard() {
   );
 
   const progress = getRuleProgress(state);
-  progressLabel.textContent = `${progress.lanterns} / ${progress.target} lights`;
+  progressLabel.textContent =
+    `Lights ${progress.lanterns}/${progress.target} · ` +
+    `Rows ${progress.rows}/${progress.target} · ` +
+    `Columns ${progress.columns}/${progress.target} · ` +
+    `Gardens ${progress.regions}/${progress.target}`;
   undoButton.disabled = history.length === 0;
 }
 
@@ -175,6 +180,19 @@ function handleCell(index) {
   history.push([...state.cells]);
   state = applyCellAction(state, index, mode);
   renderBoard();
+  const conflicts = getConflicts(state);
+  ruleStatus.classList.toggle("is-error", conflicts.size > 0);
+  if (conflicts.size > 0) {
+    ruleStatus.textContent =
+      "Red lights conflict: they share a row, column, garden, or touch.";
+  } else if (state.cells[index] === CELL_LANTERN) {
+    ruleStatus.textContent =
+      "Good. Keep every row, column, and colored garden to one light.";
+  } else if (state.cells[index] === CELL_MARK) {
+    ruleStatus.textContent = "Marked empty. Use marks to eliminate impossible squares.";
+  } else {
+    ruleStatus.textContent = "Square cleared. Tap another square when you are ready.";
+  }
   if (isPuzzleSolved(state)) completePuzzle();
 }
 
@@ -228,6 +246,9 @@ function openLevel(index) {
   state = createGameState(LANTERN_GROVE_COLLECTION[index]);
   history = [];
   startedAt = Date.now();
+  ruleStatus.classList.remove("is-error");
+  ruleStatus.textContent =
+    "Tap any square to place your first light. Red lights break a rule.";
   saveProgress();
   render();
   winDialog.close();
@@ -241,6 +262,9 @@ restartButton.addEventListener("click", () => {
   state = createGameState(state.puzzle);
   history = [];
   startedAt = Date.now();
+  ruleStatus.classList.remove("is-error");
+  ruleStatus.textContent =
+    "Tap any square to place your first light. Red lights break a rule.";
   renderBoard();
 });
 

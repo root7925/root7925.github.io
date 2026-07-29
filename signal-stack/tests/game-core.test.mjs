@@ -9,6 +9,7 @@ import {
   createGrid,
   createSignalTargets,
   hasAnyMove,
+  placementOriginForTap,
   resolveGridPieceTap,
   rotateCellsClockwise,
   safeProgress,
@@ -38,6 +39,36 @@ test("placement rejects overflow and occupied cells", () => {
   assert.equal(canPlaceCells(grid, domino, { x: 2, y: 0 }), false);
   assert.equal(canPlaceCells(grid, domino, { x: 0, y: 1 }), false);
   assert.equal(canPlaceCells(grid, domino, { x: 0, y: 0 }), true);
+});
+
+test("a tap near an edge centers and clamps the whole piece onto the board", () => {
+  const grid = createGrid(4, 4);
+  const ell = [
+    { x: 0, y: 0, tone: "light" },
+    { x: 0, y: 1, tone: "dark" },
+    { x: 1, y: 1, tone: "light" },
+  ];
+  assert.deepEqual(placementOriginForTap(grid, ell, { x: 3, y: 3 }), {
+    x: 2,
+    y: 2,
+  });
+  assert.deepEqual(placementOriginForTap(grid, ell, { x: 0, y: 0 }), {
+    x: 0,
+    y: 0,
+  });
+});
+
+test("a blocked center may use another valid alignment that still covers the tap", () => {
+  const grid = createGrid(3, 4);
+  grid[0][1] = "dark";
+  const domino = [
+    { x: 0, y: 0, tone: "light" },
+    { x: 1, y: 0, tone: "dark" },
+  ];
+  assert.deepEqual(
+    placementOriginForTap(grid, domino, { x: 2, y: 0 }),
+    { x: 2, y: 0 },
+  );
 });
 
 test("a simultaneous row and column clear is evaluated before removal", () => {
