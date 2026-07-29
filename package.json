@@ -3,9 +3,10 @@
   "private": true,
   "type": "module",
   "scripts": {
+    "assets:stamp": "node scripts/stamp-game-assets.mjs pattern-atlas",
     "prepare": "node scripts/install-git-hooks.mjs",
     "test": "node --test pattern-atlas/tests/*.test.mjs",
     "test:watch": "node --test --watch pattern-atlas/tests/*.test.mjs",
-    "verify": "npm test"
+    "verify": "npm test && node scripts/stamp-game-assets.mjs pattern-atlas --check"
   }
 }

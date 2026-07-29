@@ -32,6 +32,9 @@ public content pack → pure game core → browser adapter
 
 - `npm test` runs all deterministic checks.
 - `npm run test:watch` reruns them while developing.
+- `npm run assets:stamp` derives a content fingerprint for a game's public
+  code, collection, and styles. GitHub Pages then serves changed URLs instead
+  of silently reusing an old game from browser cache.
 - The committed pre-push hook runs tests before code leaves the machine.
 - GitHub Actions runs the same suite on every push and pull request.
 
@@ -52,9 +55,10 @@ For every reproducible bug:
 2. add or strengthen a regression test;
 3. make the smallest fix in core, content, or adapter;
 4. run the full suite;
-5. verify the real browser interaction locally;
-6. publish only after both automated and browser checks pass;
-7. verify the live URL and console.
+5. stamp changed public assets;
+6. verify the real browser interaction locally;
+7. publish only after both automated and browser checks pass;
+8. verify the live URL and console.
 
 ## Rule for future games
 

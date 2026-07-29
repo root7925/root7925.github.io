@@ -20,5 +20,5 @@ jobs:
         with:
           node-version: 24
           package-manager-cache: false
-      - name: Run logic, content, interaction, and layout tests
-        run: npm test
+      - name: Run tests and static-release checks
+        run: npm run verify

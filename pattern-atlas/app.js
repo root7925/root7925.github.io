@@ -7,8 +7,8 @@ import {
   resolveTapAction,
   rotateClockwise,
   stablePieceDimensions,
-} from "./game-core.js";
-import { COLLECTION } from "./collection-01.js";
+} from "./game-core.js?v=079cac954401";
+import { COLLECTION } from "./collection-01.js?v=079cac954401";
 
 const PALETTE = {
   coral: "#e45748",
