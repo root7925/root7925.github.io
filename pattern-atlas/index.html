@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="Pattern Atlas: a quiet visual logic puzzle by Leslie."
+    />
+    <title>Pattern Atlas — private playtest</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main>
+      <nav>
+        <a class="brand" href="../">Leslie / Play</a>
+        <span>Pattern Atlas · 01</span>
+      </nav>
+
+      <section class="game-shell" aria-labelledby="puzzle-title">
+        <aside>
+          <p class="eyebrow" id="study-number">Study 02</p>
+          <h2 id="puzzle-title">Nocturne grid</h2>
+          <p class="body-copy" id="puzzle-description">
+            Reassemble the loose color fragments so that every square matches
+            the field above it. Each study has one intended solution.
+          </p>
+          <div class="pills" aria-label="Puzzle details">
+            <span id="difficulty">Daily</span>
+            <span id="progress">0 / 5 fragments</span>
+          </div>
+          <div class="controls">
+            <button class="reset" type="button" id="reset">Restart</button>
+          </div>
+          <p class="status" id="status" aria-live="polite">
+            Drag a fragment into the frame. Tap a fragment, then a square if
+            you prefer.
+          </p>
+        </aside>
+
+        <div class="stage" id="stage" aria-label="Pattern Atlas puzzle">
+          <div class="stage-head">
+            <p class="frame-label" id="field-label">target field</p>
+            <div class="level-switcher" aria-label="Choose a puzzle">
+              <button type="button" data-level="warmup">01</button>
+              <button type="button" data-level="daily" class="active">02</button>
+              <button type="button" data-level="deep">03</button>
+              <button type="button" data-level="veiled">04</button>
+            </div>
+          </div>
+          <div class="target" id="target" aria-label="Target color field"></div>
+          <div class="stage-actions" aria-live="polite">
+            <span id="selection-label">Select a fragment to rotate</span>
+            <button class="rotate" type="button" id="rotate" disabled>Rotate ↻</button>
+            <button class="place" type="button" id="place" disabled>Place</button>
+          </div>
+          <p class="frame-label restoration-label">restoration frame</p>
+          <div class="board" id="board" aria-label="Restoration board"></div>
+          <div class="preview" id="preview" aria-hidden="true"></div>
+          <p class="tray-label">loose pieces</p>
+          <div id="pieces"></div>
+          <div class="complete" id="complete" hidden role="status">
+            <span>✦</span>
+            <div>
+              <strong>Pattern restored</strong>
+              <small id="completion-copy">Try the next study when you are ready.</small>
+            </div>
+            <div class="completion-actions">
+              <button type="button" id="next-study">Next study →</button>
+              <button type="button" id="replay-study">Play again</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="hero">
+        <div>
+          <p class="eyebrow">A daily visual logic puzzle</p>
+          <h1>Make the pattern<br /><em>click</em> back into place.</h1>
+        </div>
+        <p>
+          Read the color field. Rotate the fragments. Find the one exact
+          arrangement—without a clock running beside you.
+        </p>
+      </section>
+
+      <footer>
+      <strong>Pattern Atlas</strong> — Tell the person who sent this: which study
+        felt satisfying, which felt unfair, and whether you would return for a new
+        one tomorrow.
+      </footer>
+    </main>
+    <script src="app.js" type="module"></script>
+  </body>
+</html>

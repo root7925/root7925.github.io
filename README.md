@@ -11,4 +11,6 @@ This repository is intended to be named `root7925.github.io` and published with 
 - no copied Nicky Case writing, illustration, branding, or site code;
 - no private Pattern Atlas generator or solver code.
 
-The playable build is linked externally while the game remains in active testing.
+The public playtest is a static build at `/pattern-atlas/`. It includes only the
+client game needed to play; the private generator and solver stay outside this
+repository.
