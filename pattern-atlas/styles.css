@@ -121,9 +121,12 @@ h2 { font-size: clamp(2.35rem, 4vw, 3.7rem); line-height: .97; }
 .complete { position: absolute; z-index: 20; top: var(--board-top, 250px); left: var(--board-left, 24px); display: grid; place-content: center; justify-items: center; gap: 12px; width: var(--board-size, calc(100% - 48px)); height: var(--board-size, 320px); padding: 24px; border: 1px solid rgba(213,254,85,.68); border-radius: 15px; background: radial-gradient(circle at 50% 26%, rgba(213,254,85,.16), transparent 12rem), rgba(17,23,34,.96); box-shadow: 0 20px 56px rgba(0,0,0,.48), inset 0 0 0 5px rgba(213,254,85,.035); text-align: center; animation: arrival .42s cubic-bezier(.2,.9,.2,1.18); }
 .complete[hidden] { display: none; }
 .complete > span { color: #d5fe55; font-size: 2rem; text-shadow: 0 0 20px rgba(213,254,85,.5); }.complete div { display: grid; gap: 4px; }.complete strong { font-family: Georgia, serif; font-size: clamp(1.8rem, 5vw, 2.5rem); font-weight: 400; }.complete small { color: rgba(245,242,233,.66); font-size: .84rem; line-height: 1.5; }
-.completion-actions { display: flex !important; grid-template-columns: 1fr 1fr; gap: 8px; width: min(240px, 100%); margin-top: 6px; }
+.achievement { color: #d5fe55; font-size: .69rem; font-weight: 850; letter-spacing: .12em; text-transform: uppercase; }
+.completion-actions { display: flex !important; flex-wrap: wrap; justify-content: center; gap: 8px; width: min(350px, 100%); margin-top: 6px; }
 .completion-actions button { min-height: 39px; border: 1px solid rgba(245,242,233,.2); border-radius: 9px; background: transparent; color: #f5f2e9; cursor: pointer; font-size: .73rem; font-weight: 800; }
 .completion-actions button:first-child { border-color: #d5fe55; background: #d5fe55; color: #111722; }
+.completion-actions #share-challenge { border-color: rgba(167,185,255,.65); color: #dce3ff; }
+.share-status { min-height: 1.4em; color: #a7b9ff !important; font-size: .7rem !important; }
 @keyframes arrival { from { opacity: 0; transform: scale(.92); } to { opacity: 1; transform: scale(1); } }
 footer { max-width: 620px; padding: 86px 0; color: rgba(245,242,233,.52); font-size: .84rem; line-height: 1.7; }
 footer strong { color: #a7b9ff; font-size: .72rem; letter-spacing: .09em; text-transform: uppercase; }

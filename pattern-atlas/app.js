@@ -7,8 +7,14 @@ import {
   resolveTapAction,
   rotateClockwise,
   stablePieceDimensions,
-} from "./game-core.js?v=079cac954401";
-import { COLLECTION } from "./collection-01.js?v=079cac954401";
+} from "./game-core.js?v=420b199058de";
+import { COLLECTION } from "./collection-01.js?v=420b199058de";
+import {
+  achievementFor,
+  challengeText,
+  challengeUrl,
+  shareChallenge,
+} from "../shared/share-core.js?v=420b199058de";
 
 const PALETTE = {
   coral: "#e45748",
@@ -40,10 +46,16 @@ const completedIds = new Set(
 );
 const firstIncomplete =
   LEVEL_ORDER.find((id) => !completedIds.has(id)) ?? LEVEL_ORDER[0];
+const requestedStudy = Number(new URLSearchParams(location.search).get("study"));
+const requestedLevelKey =
+  Number.isInteger(requestedStudy) &&
+  requestedStudy >= 1 &&
+  requestedStudy <= LEVEL_ORDER.length
+    ? LEVEL_ORDER[requestedStudy - 1]
+    : null;
 
-let levelKey = LEVELS[savedProgress.lastStudy]
-  ? savedProgress.lastStudy
-  : firstIncomplete;
+let levelKey = requestedLevelKey ??
+  (LEVELS[savedProgress.lastStudy] ? savedProgress.lastStudy : firstIncomplete);
 let level = null;
 let pieces = [];
 let rotations = new Map();
@@ -55,6 +67,14 @@ let tapWasSelected = false;
 let previewOrigin = null;
 let stageWidth = 390;
 let layout = null;
+let completionPresented = false;
+const ATLAS_TITLES = [
+  { threshold: 1, title: "Pattern Reader" },
+  { threshold: 4, title: "Atlas Apprentice" },
+  { threshold: 8, title: "Field Restorer" },
+  { threshold: 12, title: "Pattern Cartographer" },
+  { threshold: 16, title: "Keeper of the Atlas" },
+];
 
 const stage = document.querySelector("#stage");
 const target = document.querySelector("#target");
@@ -69,6 +89,9 @@ const preview = document.querySelector("#preview");
 const selectionLabel = document.querySelector("#selection-label");
 const nextStudyButton = document.querySelector("#next-study");
 const replayStudyButton = document.querySelector("#replay-study");
+const shareButton = document.querySelector("#share-challenge");
+const shareStatus = document.querySelector("#share-status");
+const achievementTitle = document.querySelector("#achievement-title");
 const previousStudyButton = document.querySelector("#previous-study");
 const followingStudyButton = document.querySelector("#following-study");
 const levelCount = document.querySelector("#level-count");
@@ -119,7 +142,9 @@ function setLevel(nextLevelKey) {
   drag = null;
   tapWasSelected = false;
   previewOrigin = null;
+  completionPresented = false;
   complete.hidden = true;
+  shareStatus.textContent = "";
   saveProgress();
   document.querySelector("#study-number").textContent = level.number;
   document.querySelector("#puzzle-title").textContent = level.title;
@@ -306,12 +331,44 @@ function checkComplete() {
   progress.textContent = `${placements.size} / ${pieces.length} fragments`;
   const solved = placements.size === pieces.length && boardMatchesSolution();
   complete.hidden = !solved;
-  if (solved && !completedIds.has(levelKey)) {
-    completedIds.add(levelKey);
-    saveProgress();
-    updateCollectionProgress();
+  if (solved && !completionPresented) {
+    if (!completedIds.has(levelKey)) {
+      completedIds.add(levelKey);
+      saveProgress();
+      updateCollectionProgress();
+    }
+    achievementTitle.textContent = achievementFor(
+      completedIds.size,
+      ATLAS_TITLES,
+    );
+    shareStatus.textContent = "";
+    completionPresented = true;
   }
   return solved;
+}
+
+async function shareCurrentChallenge() {
+  const studyNumber = currentLevelIndex() + 1;
+  const text = challengeText({
+    achievement: achievementFor(completedIds.size, ATLAS_TITLES),
+    gameName: "Pattern Atlas",
+    puzzleLabel: `Study ${String(studyNumber).padStart(2, "0")}`,
+    detail: `${level.chapter} · ${level.difficulty}`,
+  });
+  const result = await shareChallenge({
+    navigatorLike: navigator,
+    title: "Pattern Atlas challenge",
+    text,
+    url: challengeUrl(location, "study", studyNumber),
+  });
+  shareStatus.textContent =
+    result === "shared"
+      ? "Challenge sent."
+      : result === "copied"
+        ? "Challenge copied. Send it to someone sharp."
+        : result === "cancelled"
+          ? ""
+          : "Sharing is unavailable in this browser.";
 }
 
 function renderTarget() {
@@ -549,6 +606,7 @@ nextStudyButton.addEventListener("click", () => {
   setLevel(LEVEL_ORDER[(current + 1) % LEVEL_ORDER.length]);
 });
 replayStudyButton.addEventListener("click", () => setLevel(levelKey));
+shareButton.addEventListener("click", shareCurrentChallenge);
 previousStudyButton.addEventListener("click", () => {
   const current = currentLevelIndex();
   if (current > 0) setLevel(LEVEL_ORDER[current - 1]);

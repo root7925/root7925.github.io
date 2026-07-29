@@ -76,3 +76,11 @@ shared refactors must keep every released title green.
 Private generators must reject unsolved or non-unique content before export.
 Public tests then verify the exported shape, interaction contract, completion
 rules, mobile tap budget, and absence of private fields.
+
+## Sharing contract
+
+Any game with a completion share must follow
+`docs/SHARING_GROWTH_STANDARD.md`. Shared behavior lives in
+`shared/share-core.js`; it must not be reimplemented differently per game.
+Deep links and native-share/clipboard fallbacks are part of the automatic test
+suite and the public asset fingerprint.

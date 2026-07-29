@@ -1,4 +1,4 @@
-import { LANTERN_GROVE_COLLECTION } from "./collection-01.js?v=968c80db90a1";
+import { LANTERN_GROVE_COLLECTION } from "./collection-01.js?v=af2eb3470263";
 import {
   CELL_LANTERN,
   CELL_MARK,
@@ -9,7 +9,13 @@ import {
   getRuleProgress,
   isPuzzleSolved,
   regionEdges,
-} from "./game-core.js?v=968c80db90a1";
+} from "./game-core.js?v=af2eb3470263";
+import {
+  achievementFor,
+  challengeText,
+  challengeUrl,
+  shareChallenge,
+} from "../shared/share-core.js?v=af2eb3470263";
 
 const STORAGE_KEY = "leslie-play:lantern-grove:v1";
 const palette = [
@@ -38,6 +44,8 @@ const winTitle = document.querySelector("#win-title");
 const winCopy = document.querySelector("#win-copy");
 const nextButton = document.querySelector("#next-level");
 const closeWinButton = document.querySelector("#close-win");
+const shareButton = document.querySelector("#share-challenge");
+const shareStatus = document.querySelector("#share-status");
 
 let activeIndex = 0;
 let mode = "lantern";
@@ -45,6 +53,13 @@ let state = createGameState(LANTERN_GROVE_COLLECTION[0]);
 let history = [];
 let completed = new Set();
 let startedAt = Date.now();
+const GROVE_TITLES = [
+  { threshold: 1, title: "Grove Keeper" },
+  { threshold: 4, title: "Dawn Keeper" },
+  { threshold: 8, title: "Lantern Pathfinder" },
+  { threshold: 12, title: "Garden Cartographer" },
+  { threshold: 16, title: "Keeper of Sixteen" },
+];
 
 function loadProgress() {
   try {
@@ -176,8 +191,36 @@ function completePuzzle() {
     2,
     "0",
   )} restored in ${state.moves} moves and ${elapsedSeconds}s.`;
+  const achievement = achievementFor(completed.size, GROVE_TITLES);
+  document.querySelector("#achievement-title").textContent = achievement;
+  shareStatus.textContent = "";
   nextButton.hidden = activeIndex >= LANTERN_GROVE_COLLECTION.length - 1;
   winDialog.showModal();
+}
+
+async function shareCurrentChallenge() {
+  const achievement = achievementFor(completed.size, GROVE_TITLES);
+  const puzzleNumber = activeIndex + 1;
+  const text = challengeText({
+    achievement,
+    gameName: "Lantern Grove",
+    puzzleLabel: `Grove ${String(puzzleNumber).padStart(2, "0")}`,
+    detail: state.puzzle.difficulty,
+  });
+  const result = await shareChallenge({
+    navigatorLike: navigator,
+    title: "Lantern Grove challenge",
+    text,
+    url: challengeUrl(location, "g", puzzleNumber),
+  });
+  shareStatus.textContent =
+    result === "shared"
+      ? "Challenge sent."
+      : result === "copied"
+        ? "Challenge copied. Send it to someone sharp."
+        : result === "cancelled"
+          ? ""
+          : "Sharing is unavailable in this browser.";
 }
 
 function openLevel(index) {
@@ -214,7 +257,16 @@ helpDialog
   .addEventListener("click", () => helpDialog.close());
 closeWinButton.addEventListener("click", () => winDialog.close());
 nextButton.addEventListener("click", () => openLevel(activeIndex + 1));
+shareButton.addEventListener("click", shareCurrentChallenge);
 window.addEventListener("resize", renderBoard);
 
 loadProgress();
+const requestedGrove = Number(new URLSearchParams(location.search).get("g"));
+if (
+  Number.isInteger(requestedGrove) &&
+  requestedGrove >= 1 &&
+  requestedGrove <= LANTERN_GROVE_COLLECTION.length
+) {
+  activeIndex = requestedGrove - 1;
+}
 openLevel(activeIndex);

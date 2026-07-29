@@ -3,7 +3,8 @@
     "app.js",
     "collection-01.js",
     "game-core.js",
-    "styles.css"
+    "styles.css",
+    "../shared/share-core.js"
   ],
   "references": [
     "app.js",

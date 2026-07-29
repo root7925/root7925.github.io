@@ -3,6 +3,7 @@
     "app.js",
     "game-core.js",
     "collection-01.js",
+    "../shared/share-core.js",
     "styles.css",
     "index.html"
   ],

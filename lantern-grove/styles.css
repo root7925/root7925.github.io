@@ -240,6 +240,34 @@ footer a { color: var(--moss); font-weight: 800; }
 .primary-button { border: 0; background: var(--ink); color: white; }
 .secondary-button { border: 1px solid var(--line); background: transparent; }
 .dialog-actions { display: flex; gap: 9px; margin-top: 22px; }
+.dialog-actions { flex-wrap: wrap; }
+.share-button {
+  min-height: 46px;
+  padding: 0 18px;
+  border: 1px solid var(--moss);
+  border-radius: 12px;
+  background: #e2eedf;
+  color: var(--moss);
+  cursor: pointer;
+  font-weight: 800;
+}
+.achievement {
+  display: inline-flex;
+  margin: 3px 0 13px !important;
+  padding: 7px 10px;
+  border-radius: 999px;
+  background: #e4efdd;
+  color: var(--moss) !important;
+  font-size: .72rem;
+  font-weight: 850;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+}
+.share-status {
+  min-height: 1.3em;
+  margin: 12px 0 0 !important;
+  font-size: .78rem;
+}
 .celebration { display: flex; gap: 18px; margin-bottom: 20px; color: #d49b24; font-size: 1.7rem; }
 .celebration span:nth-child(2) { transform: translateY(-8px) scale(1.25); }
 

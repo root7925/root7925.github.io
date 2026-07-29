@@ -6,7 +6,7 @@
     <meta name="theme-color" content="#17251d" />
     <meta name="description" content="Lantern Grove is a calm daily-style logic puzzle by Leslie / Play." />
     <title>Lantern Grove — Leslie / Play</title>
-    <link rel="stylesheet" href="styles.css?v=968c80db90a1" />
+    <link rel="stylesheet" href="styles.css?v=af2eb3470263" />
   </head>
   <body>
     <main class="game-shell">
@@ -80,14 +80,17 @@
     <dialog id="win-dialog" class="dialog win-dialog">
       <div class="celebration" aria-hidden="true"><span>✦</span><span>✦</span><span>✦</span></div>
       <p class="eyebrow">Pattern restored</p>
+      <p class="achievement" id="achievement-title">Grove Keeper</p>
       <h2 id="win-title">Every garden is glowing.</h2>
       <p id="win-copy"></p>
       <div class="dialog-actions">
         <button id="next-level" class="primary-button" type="button">Next grove →</button>
+        <button id="share-challenge" class="share-button" type="button">Share challenge</button>
         <button id="close-win" class="secondary-button" type="button">Stay here</button>
       </div>
+      <p id="share-status" class="share-status" aria-live="polite"></p>
     </dialog>
 
-    <script type="module" src="app.js?v=968c80db90a1"></script>
+    <script type="module" src="app.js?v=af2eb3470263"></script>
   </body>
 </html>
