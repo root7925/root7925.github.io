@@ -32,6 +32,11 @@ When a user reports a bug, add a failing regression test before or with the fix.
 - Keep the browser layer thin: input, rendering, accessibility, and persistence.
 - Prefer extending shared test helpers over writing one-off manual checks.
 - Generate content through validated recipes; do not hand-copy large level packs.
+- A new game ships from the shared repository gate; it does not create a
+  private exception or a one-off release process.
+- Prefer one-thumb tap interactions on mobile. Any game that needs drag,
+  precision edge input, or separated reference/tray areas must prove that
+  interaction in a narrow-screen browser test before release.
 
 ## Public/private boundary
 

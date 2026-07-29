@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#17251d" />
+    <meta name="description" content="Lantern Grove is a calm daily-style logic puzzle by Leslie / Play." />
+    <title>Lantern Grove — Leslie / Play</title>
+    <link rel="stylesheet" href="styles.css?v=968c80db90a1" />
+  </head>
+  <body>
+    <main class="game-shell">
+      <header class="game-header">
+        <a href="../" class="brand">LESLIE / PLAY</a>
+        <button id="help" class="text-button" type="button">How to play</button>
+      </header>
+
+      <section class="game-intro" aria-labelledby="game-title">
+        <div>
+          <p class="eyebrow">A quiet logic collection</p>
+          <h1 id="game-title">Lantern Grove</h1>
+        </div>
+        <p>Place one light in every row, column, and garden. Lights may not touch.</p>
+      </section>
+
+      <section class="play-card" aria-label="Puzzle">
+        <div class="puzzle-meta">
+          <div>
+            <p id="level-label">Grove 01</p>
+            <span id="difficulty-label">Dawn · 5×5</span>
+          </div>
+          <strong id="progress-label">0 / 5 lights</strong>
+        </div>
+
+        <div id="board" class="board" role="grid"></div>
+
+        <div class="controls" aria-label="Puzzle controls">
+          <div class="mode-switch" aria-label="Input mode">
+            <button class="mode-button is-active" data-mode="lantern" aria-pressed="true" type="button">
+              <span class="mini-lantern" aria-hidden="true"></span> Light
+            </button>
+            <button class="mode-button" data-mode="mark" aria-pressed="false" type="button">
+              <span aria-hidden="true">×</span> Mark
+            </button>
+          </div>
+          <div class="edit-actions">
+            <button id="undo" class="icon-button" type="button">Undo</button>
+            <button id="restart" class="icon-button" type="button">Restart</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="collection" aria-labelledby="collection-title">
+        <div>
+          <p class="eyebrow">Collection 01</p>
+          <h2 id="collection-title">Sixteen groves</h2>
+        </div>
+        <div id="level-picker" class="level-picker"></div>
+      </section>
+
+      <footer>
+        <p>Designed and built by Leslie. No ads, no account, no tracking.</p>
+        <a href="../pattern-atlas/">Play Pattern Atlas →</a>
+      </footer>
+    </main>
+
+    <dialog id="help-dialog" class="dialog">
+      <div class="dialog-mark" aria-hidden="true">✦</div>
+      <h2>Light every garden.</h2>
+      <ol>
+        <li>Place exactly one lantern in each row.</li>
+        <li>Place exactly one lantern in each column.</li>
+        <li>Place exactly one lantern in each colored garden.</li>
+        <li>Lanterns cannot touch, even diagonally.</li>
+      </ol>
+      <p>Use <strong>Mark</strong> to cross out cells you know are empty.</p>
+      <button data-close class="primary-button" type="button">Begin</button>
+    </dialog>
+
+    <dialog id="win-dialog" class="dialog win-dialog">
+      <div class="celebration" aria-hidden="true"><span>✦</span><span>✦</span><span>✦</span></div>
+      <p class="eyebrow">Pattern restored</p>
+      <h2 id="win-title">Every garden is glowing.</h2>
+      <p id="win-copy"></p>
+      <div class="dialog-actions">
+        <button id="next-level" class="primary-button" type="button">Next grove →</button>
+        <button id="close-win" class="secondary-button" type="button">Stay here</button>
+      </div>
+    </dialog>
+
+    <script type="module" src="app.js?v=968c80db90a1"></script>
+  </body>
+</html>

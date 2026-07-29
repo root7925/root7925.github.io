@@ -3,10 +3,10 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "assets:stamp": "node scripts/stamp-game-assets.mjs pattern-atlas",
+    "assets:stamp": "node scripts/stamp-game-assets.mjs pattern-atlas && node scripts/stamp-game-assets.mjs lantern-grove",
     "prepare": "node scripts/install-git-hooks.mjs",
-    "test": "node --test pattern-atlas/tests/*.test.mjs",
-    "test:watch": "node --test --watch pattern-atlas/tests/*.test.mjs",
-    "verify": "npm test && node scripts/stamp-game-assets.mjs pattern-atlas --check"
+    "test": "node --test pattern-atlas/tests/*.test.mjs lantern-grove/tests/*.test.mjs",
+    "test:watch": "node --test --watch pattern-atlas/tests/*.test.mjs lantern-grove/tests/*.test.mjs",
+    "verify": "npm test && node scripts/stamp-game-assets.mjs pattern-atlas --check && node scripts/stamp-game-assets.mjs lantern-grove --check"
   }
 }

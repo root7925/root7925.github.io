@@ -1,0 +1,220 @@
+import { LANTERN_GROVE_COLLECTION } from "./collection-01.js?v=968c80db90a1";
+import {
+  CELL_LANTERN,
+  CELL_MARK,
+  applyCellAction,
+  computeBoardSize,
+  createGameState,
+  getConflicts,
+  getRuleProgress,
+  isPuzzleSolved,
+  regionEdges,
+} from "./game-core.js?v=968c80db90a1";
+
+const STORAGE_KEY = "leslie-play:lantern-grove:v1";
+const palette = [
+  "#f6d365",
+  "#9ed8c3",
+  "#aabcf5",
+  "#d4aceb",
+  "#f2aa8f",
+  "#b8d786",
+  "#efb8cd",
+  "#8fd1de",
+];
+
+const board = document.querySelector("#board");
+const levelLabel = document.querySelector("#level-label");
+const difficultyLabel = document.querySelector("#difficulty-label");
+const progressLabel = document.querySelector("#progress-label");
+const levelPicker = document.querySelector("#level-picker");
+const modeButtons = [...document.querySelectorAll("[data-mode]")];
+const restartButton = document.querySelector("#restart");
+const undoButton = document.querySelector("#undo");
+const helpButton = document.querySelector("#help");
+const helpDialog = document.querySelector("#help-dialog");
+const winDialog = document.querySelector("#win-dialog");
+const winTitle = document.querySelector("#win-title");
+const winCopy = document.querySelector("#win-copy");
+const nextButton = document.querySelector("#next-level");
+const closeWinButton = document.querySelector("#close-win");
+
+let activeIndex = 0;
+let mode = "lantern";
+let state = createGameState(LANTERN_GROVE_COLLECTION[0]);
+let history = [];
+let completed = new Set();
+let startedAt = Date.now();
+
+function loadProgress() {
+  try {
+    const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || "{}");
+    completed = new Set(saved.completed || []);
+    activeIndex = Math.min(
+      Math.max(Number(saved.activeIndex) || 0, 0),
+      LANTERN_GROVE_COLLECTION.length - 1,
+    );
+  } catch {
+    completed = new Set();
+    activeIndex = 0;
+  }
+}
+
+function saveProgress() {
+  localStorage.setItem(
+    STORAGE_KEY,
+    JSON.stringify({
+      activeIndex,
+      completed: [...completed],
+    }),
+  );
+}
+
+function renderLevelPicker() {
+  levelPicker.replaceChildren(
+    ...LANTERN_GROVE_COLLECTION.map((puzzle, index) => {
+      const button = document.createElement("button");
+      button.type = "button";
+      button.textContent = String(index + 1).padStart(2, "0");
+      button.className = "level-chip";
+      button.classList.toggle("is-active", index === activeIndex);
+      button.classList.toggle("is-complete", completed.has(puzzle.id));
+      button.setAttribute(
+        "aria-label",
+        `Puzzle ${index + 1}${completed.has(puzzle.id) ? ", completed" : ""}`,
+      );
+      button.addEventListener("click", () => openLevel(index));
+      return button;
+    }),
+  );
+}
+
+function setMode(nextMode) {
+  mode = nextMode;
+  modeButtons.forEach((button) => {
+    const active = button.dataset.mode === mode;
+    button.classList.toggle("is-active", active);
+    button.setAttribute("aria-pressed", String(active));
+  });
+}
+
+function renderBoard() {
+  const puzzle = state.puzzle;
+  const conflicts = getConflicts(state);
+  const metrics = computeBoardSize(window.innerWidth, puzzle.size);
+  board.style.setProperty("--grid-size", puzzle.size);
+  board.style.setProperty("--board-size", `${metrics.board}px`);
+  board.style.setProperty("--cell-size", `${metrics.cell}px`);
+  board.setAttribute(
+    "aria-label",
+    `${puzzle.size} by ${puzzle.size} Lantern Grove puzzle`,
+  );
+
+  board.replaceChildren(
+    ...state.cells.map((value, index) => {
+      const cell = document.createElement("button");
+      const edges = regionEdges(puzzle, index);
+      cell.type = "button";
+      cell.className = "cell";
+      cell.style.setProperty(
+        "--region-color",
+        palette[puzzle.regions[index] % palette.length],
+      );
+      for (const [edge, visible] of Object.entries(edges)) {
+        cell.classList.toggle(`edge-${edge}`, visible);
+      }
+      cell.classList.toggle("is-lantern", value === CELL_LANTERN);
+      cell.classList.toggle("is-mark", value === CELL_MARK);
+      cell.classList.toggle("is-conflict", conflicts.has(index));
+      cell.setAttribute(
+        "aria-label",
+        `Row ${Math.floor(index / puzzle.size) + 1}, column ${
+          (index % puzzle.size) + 1
+        }${value === CELL_LANTERN ? ", lantern" : value === CELL_MARK ? ", marked empty" : ""}`,
+      );
+      cell.innerHTML =
+        value === CELL_LANTERN
+          ? '<span class="lantern" aria-hidden="true"><i></i></span>'
+          : value === CELL_MARK
+            ? '<span class="mark" aria-hidden="true">×</span>'
+            : "";
+      cell.addEventListener("click", () => handleCell(index));
+      return cell;
+    }),
+  );
+
+  const progress = getRuleProgress(state);
+  progressLabel.textContent = `${progress.lanterns} / ${progress.target} lights`;
+  undoButton.disabled = history.length === 0;
+}
+
+function render() {
+  const puzzle = state.puzzle;
+  levelLabel.textContent = `Grove ${String(activeIndex + 1).padStart(2, "0")}`;
+  difficultyLabel.textContent = `${puzzle.difficulty} · ${puzzle.size}×${puzzle.size}`;
+  renderLevelPicker();
+  renderBoard();
+}
+
+function handleCell(index) {
+  history.push([...state.cells]);
+  state = applyCellAction(state, index, mode);
+  renderBoard();
+  if (isPuzzleSolved(state)) completePuzzle();
+}
+
+function completePuzzle() {
+  completed.add(state.puzzle.id);
+  saveProgress();
+  renderLevelPicker();
+  const elapsedSeconds = Math.max(
+    1,
+    Math.round((Date.now() - startedAt) / 1000),
+  );
+  winTitle.textContent = "Every garden is glowing.";
+  winCopy.textContent = `Grove ${String(activeIndex + 1).padStart(
+    2,
+    "0",
+  )} restored in ${state.moves} moves and ${elapsedSeconds}s.`;
+  nextButton.hidden = activeIndex >= LANTERN_GROVE_COLLECTION.length - 1;
+  winDialog.showModal();
+}
+
+function openLevel(index) {
+  activeIndex = index;
+  state = createGameState(LANTERN_GROVE_COLLECTION[index]);
+  history = [];
+  startedAt = Date.now();
+  saveProgress();
+  render();
+  winDialog.close();
+}
+
+modeButtons.forEach((button) =>
+  button.addEventListener("click", () => setMode(button.dataset.mode)),
+);
+
+restartButton.addEventListener("click", () => {
+  state = createGameState(state.puzzle);
+  history = [];
+  startedAt = Date.now();
+  renderBoard();
+});
+
+undoButton.addEventListener("click", () => {
+  const previous = history.pop();
+  if (!previous) return;
+  state = { ...state, cells: previous, moves: Math.max(0, state.moves - 1) };
+  renderBoard();
+});
+
+helpButton.addEventListener("click", () => helpDialog.showModal());
+helpDialog
+  .querySelector("[data-close]")
+  .addEventListener("click", () => helpDialog.close());
+closeWinButton.addEventListener("click", () => winDialog.close());
+nextButton.addEventListener("click", () => openLevel(activeIndex + 1));
+window.addEventListener("resize", renderBoard);
+
+loadProgress();
+openLevel(activeIndex);

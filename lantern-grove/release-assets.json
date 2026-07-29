@@ -1,0 +1,13 @@
+{
+  "assets": [
+    "app.js",
+    "game-core.js",
+    "collection-01.js",
+    "styles.css",
+    "index.html"
+  ],
+  "references": [
+    "app.js",
+    "index.html"
+  ]
+}

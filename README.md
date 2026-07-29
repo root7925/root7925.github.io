@@ -11,11 +11,17 @@ This repository is intended to be named `root7925.github.io` and published with 
 - no copied Nicky Case writing, illustration, branding, or site code;
 - no private Pattern Atlas generator or solver code.
 
-The first release is **Pattern Atlas: The First Atlas**, a static 16-study
-collection at `/pattern-atlas/`. Progress is saved locally in the browser.
+The current releases are:
 
-Only the client game and exported puzzle collection are public. Generator
-seeds, authored placements, the solver, and generation diagnostics stay in the
+- **Pattern Atlas: The First Atlas**, a 16-study spatial assembly collection at
+  `/pattern-atlas/`.
+- **Lantern Grove: Collection 01**, a 16-puzzle single-tap deduction collection
+  at `/lantern-grove/`.
+
+Progress is saved locally in the browser.
+
+Only the client games and exported puzzle collections are public. Generator
+seeds, authored placements, solvers, and generation diagnostics stay in the
 private product workspace.
 
 Run the public logic and collection checks with:

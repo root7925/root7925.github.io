@@ -65,3 +65,14 @@ For every reproducible bug:
 New games reuse this quality gate before adding monetization, analytics, or
 content scale. A second game may have different rules, but it must keep the same
 separation of content, pure core, browser adapter, and automated release checks.
+
+## Portfolio release contract
+
+Each shipped game must add itself to the repository-level `npm test`,
+`npm run assets:stamp`, and `npm run verify` commands. This makes the release
+gate cumulative: changing the second game still protects the first, and future
+shared refactors must keep every released title green.
+
+Private generators must reject unsolved or non-unique content before export.
+Public tests then verify the exported shape, interaction contract, completion
+rules, mobile tap budget, and absence of private fields.
