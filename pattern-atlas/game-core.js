@@ -60,6 +60,26 @@ export function placementAllowed({
   });
 }
 
+/**
+ * A completed board is only a win when every painted cell matches the intended
+ * field. This remains separate from placementAllowed: inference studies may
+ * permit provisional placements from partial clues, but must not celebrate an
+ * arrangement that merely fills the frame.
+ */
+export function boardMatchesTarget({ size, targetColors, placedCells }) {
+  if (placedCells.length !== size * size) return false;
+  const occupied = new Set();
+
+  return placedCells.every(({ x, y, color }) => {
+    const key = `${x},${y}`;
+    if (x < 0 || y < 0 || x >= size || y >= size || occupied.has(key)) {
+      return false;
+    }
+    occupied.add(key);
+    return targetColors.get(key) === color;
+  });
+}
+
 export function computeLayoutMetrics({
   stageWidth,
   viewportHeight,

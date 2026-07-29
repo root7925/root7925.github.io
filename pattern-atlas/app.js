@@ -1,4 +1,5 @@
 import {
+  boardMatchesTarget,
   computeLayoutMetrics,
   dimensions,
   placementAllowed,
@@ -252,8 +253,11 @@ function canPlace(piece, origin) {
     if (id === piece.id) continue;
     displayCells(getPiece(id)).forEach((cell) => occupied.add(`${cell.x + point.x},${cell.y + point.y}`));
   }
+  const constraints = level.clues ?? level.target.flatMap((row, y) =>
+    row.map((_, x) => [x, y]),
+  );
   const clueColors = new Map(
-    (level.clues ?? []).map(([x, y]) => [
+    constraints.map(([x, y]) => [
       `${x},${y}`,
       PALETTE[level.target[y][x]],
     ]),
@@ -267,13 +271,38 @@ function canPlace(piece, origin) {
   });
 }
 
+function placedCells() {
+  const cells = [];
+  for (const [id, origin] of placements) {
+    displayCells(getPiece(id)).forEach((cell) => {
+      cells.push({ x: cell.x + origin.x, y: cell.y + origin.y, color: cell.color });
+    });
+  }
+  return cells;
+}
+
+function boardMatchesSolution() {
+  const targetColors = new Map(
+    level.target.flatMap((row, y) => row.map((color, x) => [`${x},${y}`, PALETTE[color]])),
+  );
+  return boardMatchesTarget({
+    size: level.size,
+    targetColors,
+    placedCells: placedCells(),
+  });
+}
+
 function place(piece, origin) {
   if (!canPlace(piece, origin)) return false;
   placements.set(piece.id, origin);
   selectedId = piece.id;
   previewOrigin = null;
-  status.textContent = placements.size === pieces.length ? "Pattern restored." : "That fragment belongs. Keep going.";
-  checkComplete();
+  const solved = checkComplete();
+  status.textContent = solved
+    ? "Pattern restored."
+    : placements.size === pieces.length
+      ? "The frame is full, but the pattern still contradicts itself. Rotate or move one fragment."
+      : "That fragment belongs. Keep going.";
   render();
   return true;
 }
@@ -289,7 +318,9 @@ function rotatePiece(piece) {
 
 function checkComplete() {
   progress.textContent = `${placements.size} / ${pieces.length} fragments`;
-  if (placements.size === pieces.length) complete.hidden = false;
+  const solved = placements.size === pieces.length && boardMatchesSolution();
+  complete.hidden = !solved;
+  return solved;
 }
 
 function renderTarget() {

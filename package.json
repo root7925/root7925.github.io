@@ -1,0 +1,8 @@
+{
+  "name": "leslie-play",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test pattern-atlas/tests/*.test.mjs"
+  }
+}
