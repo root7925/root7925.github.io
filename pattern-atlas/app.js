@@ -4,17 +4,18 @@ import {
   dimensions,
   nextAllowedRotation,
   placementAllowed,
+  resolveBoardTap,
   resolveTapAction,
   rotateClockwise,
   stablePieceDimensions,
-} from "./game-core.js?v=c90d66c59981";
-import { COLLECTION } from "./collection-01.js?v=c90d66c59981";
+} from "./game-core.js?v=af68a9ab187d";
+import { COLLECTION } from "./collection-01.js?v=af68a9ab187d";
 import {
   achievementFor,
   challengeText,
   challengeUrl,
   shareChallenge,
-} from "../shared/share-core.js?v=c90d66c59981";
+} from "../shared/share-core.js?v=af68a9ab187d";
 
 const PALETTE = {
   coral: "#e45748",
@@ -84,7 +85,6 @@ const progress = document.querySelector("#progress");
 const status = document.querySelector("#status");
 const complete = document.querySelector("#complete");
 const rotateButton = document.querySelector("#rotate");
-const placeButton = document.querySelector("#place");
 const preview = document.querySelector("#preview");
 const selectionLabel = document.querySelector("#selection-label");
 const nextStudyButton = document.querySelector("#next-study");
@@ -403,10 +403,19 @@ function renderBoard() {
       cell.addEventListener("click", () => {
         const piece = getPiece(selectedId);
         if (!piece || !complete.hidden) return;
-        previewOrigin = { x, y };
-        status.textContent = canPlace(piece, previewOrigin)
-          ? "Preview ready. Press Place when it looks right."
-          : "This preview does not fit. Rotate it or choose another square.";
+        const origin = { x, y };
+        const action = resolveBoardTap({
+          hasSelection: Boolean(piece),
+          placementIsValid: canPlace(piece, origin),
+        });
+        if (action === "place") {
+          tapWasSelected = false;
+          place(piece, origin);
+          return;
+        }
+        previewOrigin = origin;
+        status.textContent =
+          "That position does not fit. Rotate it or choose another square.";
         render();
       });
       board.append(cell);
@@ -505,7 +514,6 @@ function render() {
   if (selectedId && getPiece(selectedId)?.allowedRotations.length < 2) {
     rotateButton.disabled = true;
   }
-  placeButton.disabled = !selectedId || !previewOrigin || !complete.hidden || !canPlace(getPiece(selectedId), previewOrigin);
   selectionLabel.textContent = selectedId
     ? getPiece(selectedId)?.allowedRotations.length > 1
       ? `Fragment ${pieces.findIndex((piece) => piece.id === selectedId) + 1} selected · tap again to rotate`
@@ -592,14 +600,6 @@ rotateButton.addEventListener("click", () => {
   const piece = getPiece(selectedId);
   tapWasSelected = false;
   rotatePiece(piece);
-});
-placeButton.addEventListener("click", () => {
-  const piece = getPiece(selectedId);
-  if (!piece || !previewOrigin || !complete.hidden) return;
-  if (!place(piece, previewOrigin)) {
-    status.textContent = "That placement no longer fits. Rotate it or choose another square.";
-    render();
-  }
 });
 nextStudyButton.addEventListener("click", () => {
   const current = currentLevelIndex();

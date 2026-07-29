@@ -6,6 +6,7 @@ import {
   computeLayoutMetrics,
   nextAllowedRotation,
   placementAllowed,
+  resolveBoardTap,
   resolveTapAction,
   rotateClockwise,
   stablePieceDimensions,
@@ -72,6 +73,53 @@ test("selecting and tapping the same fragment again advances its rotation", () =
   assert.equal(firstTap, "select");
   assert.equal(secondTap, "rotate");
   assert.notEqual(nextRotation, piece.rotation);
+});
+
+test("a valid board tap commits immediately after repeated-tap rotation", () => {
+  const source = COLLECTION.levels[0].pieces[2];
+  let rotation = source.rotation;
+
+  for (let tap = 0; tap < 3; tap += 1) {
+    rotation = nextAllowedRotation(rotation, source.allowedRotations);
+  }
+  let cells = source.cells.map(([x, y, color]) => ({ x, y, color }));
+  for (let turn = 0; turn < rotation; turn += 1) {
+    cells = rotateClockwise(cells);
+  }
+
+  const targetColors = new Map(
+    COLLECTION.levels[0].target.flatMap((row, y) =>
+      row.map((color, x) => [`${x},${y}`, color]),
+    ),
+  );
+  const allowed = placementAllowed({
+    cells,
+    origin: { x: 0, y: 0 },
+    size: COLLECTION.levels[0].size,
+    occupied: new Set(),
+    clueColors: targetColors,
+  });
+
+  assert.equal(rotation, 0);
+  assert.equal(allowed, true);
+  assert.equal(
+    resolveBoardTap({
+      hasSelection: true,
+      placementIsValid: allowed,
+    }),
+    "place",
+  );
+});
+
+test("invalid board taps reject without losing the selected fragment", () => {
+  assert.equal(
+    resolveBoardTap({ hasSelection: true, placementIsValid: false }),
+    "reject",
+  );
+  assert.equal(
+    resolveBoardTap({ hasSelection: false, placementIsValid: true }),
+    "ignore",
+  );
 });
 
 test("the first collection contains sixteen structurally complete studies", () => {

@@ -41,6 +41,11 @@ export function resolveTapAction({ wasSelected, selectedId, pieceId }) {
   return wasSelected && selectedId === pieceId ? "rotate" : "select";
 }
 
+export function resolveBoardTap({ hasSelection, placementIsValid }) {
+  if (!hasSelection) return "ignore";
+  return placementIsValid ? "place" : "reject";
+}
+
 export function nextAllowedRotation(current, allowedRotations) {
   if (allowedRotations.length < 2) return allowedRotations[0] ?? 0;
   const currentIndex = allowedRotations.indexOf(current);
