@@ -6,6 +6,7 @@ import {
   computeLayoutMetrics,
   nextAllowedRotation,
   placementAllowed,
+  placementOriginForTap,
   resolveBoardTap,
   resolveTapAction,
   rotateClockwise,
@@ -120,6 +121,27 @@ test("invalid board taps reject without losing the selected fragment", () => {
     resolveBoardTap({ hasSelection: false, placementIsValid: true }),
     "ignore",
   );
+});
+
+test("edge taps fit the whole selected fragment inside the board", () => {
+  const cells = [
+    { x: 0, y: 0, color: "teal" },
+    { x: 0, y: 1, color: "blue" },
+  ];
+  const origin = placementOriginForTap({
+    cells,
+    tap: { x: 0, y: 2 },
+    size: 3,
+    isAllowed: (candidate) => candidate.x === 0 && candidate.y === 1,
+  });
+
+  assert.deepEqual(origin, { x: 0, y: 1 });
+  assert.ok(cells.every((cell) =>
+    cell.x + origin.x >= 0 &&
+    cell.y + origin.y >= 0 &&
+    cell.x + origin.x < 3 &&
+    cell.y + origin.y < 3
+  ));
 });
 
 test("the first collection contains sixteen structurally complete studies", () => {

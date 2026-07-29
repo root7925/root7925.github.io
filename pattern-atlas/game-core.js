@@ -46,6 +46,45 @@ export function resolveBoardTap({ hasSelection, placementIsValid }) {
   return placementIsValid ? "place" : "reject";
 }
 
+export function placementOriginForTap({
+  cells,
+  tap,
+  size,
+  isAllowed = () => true,
+}) {
+  const { width, height } = dimensions(cells);
+  const centered = {
+    x: Math.max(0, Math.min(size - width, tap.x - Math.floor(width / 2))),
+    y: Math.max(0, Math.min(size - height, tap.y - Math.floor(height / 2))),
+  };
+  const candidates = [centered, ...cells.map((cell) => ({
+    x: tap.x - cell.x,
+    y: tap.y - cell.y,
+  }))];
+  const unique = new Map();
+
+  for (const origin of candidates) {
+    if (
+      origin.x < 0 ||
+      origin.y < 0 ||
+      origin.x + width > size ||
+      origin.y + height > size
+    ) {
+      continue;
+    }
+    unique.set(`${origin.x},${origin.y}`, origin);
+  }
+
+  return [...unique.values()]
+    .sort((left, right) =>
+      Math.abs(left.x - centered.x) +
+      Math.abs(left.y - centered.y) -
+      Math.abs(right.x - centered.x) -
+      Math.abs(right.y - centered.y)
+    )
+    .find(isAllowed) ?? centered;
+}
+
 export function nextAllowedRotation(current, allowedRotations) {
   if (allowedRotations.length < 2) return allowedRotations[0] ?? 0;
   const currentIndex = allowedRotations.indexOf(current);

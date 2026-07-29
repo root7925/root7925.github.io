@@ -1,19 +1,21 @@
 import {
+  CHOIR_PHYSICS,
   PEBBLE_TIERS,
   choirAchievement,
   clampDropX,
+  isPebbleSupported,
   mergeOutcome,
   safeChoirProgress,
   selectMergePairs,
   spawnTier,
   updateOverflowState,
-} from "./game-core.js?v=05e7b08d5a41";
-import { createFeedbackSystem } from "../shared/feedback-core.js?v=05e7b08d5a41";
+} from "./game-core.js?v=89a1342f9246";
+import { createFeedbackSystem } from "../shared/feedback-core.js?v=89a1342f9246";
 import {
   runScoreText,
   scoreUrl,
   shareChallenge,
-} from "../shared/share-core.js?v=05e7b08d5a41";
+} from "../shared/share-core.js?v=89a1342f9246";
 
 const {
   Bodies,
@@ -21,6 +23,7 @@ const {
   Composite,
   Engine,
   Events,
+  Sleeping,
 } = globalThis.Matter;
 
 const WORLD_WIDTH = 360;
@@ -50,7 +53,9 @@ const shareButton = document.querySelector("#share-score");
 const shareStatus = document.querySelector("#share-status");
 
 const feedback = createFeedbackSystem();
-const engine = Engine.create({ enableSleeping: true });
+const engine = Engine.create({
+  enableSleeping: CHOIR_PHYSICS.enableSleeping,
+});
 engine.gravity.y = 1.05;
 
 let progress = loadProgress();
@@ -102,12 +107,14 @@ function addVessel() {
     Bodies.rectangle(-7, WORLD_HEIGHT / 2, 28, WORLD_HEIGHT, {
       isStatic: true,
       label: "wall",
-      friction: 0.08,
+      friction: 0,
+      frictionStatic: 0,
     }),
     Bodies.rectangle(WORLD_WIDTH + 7, WORLD_HEIGHT / 2, 28, WORLD_HEIGHT, {
       isStatic: true,
       label: "wall",
-      friction: 0.08,
+      friction: 0,
+      frictionStatic: 0,
     }),
     Bodies.rectangle(WORLD_WIDTH / 2, WORLD_HEIGHT + 7, WORLD_WIDTH, 28, {
       isStatic: true,
@@ -429,10 +436,32 @@ function checkOverflow(now) {
   if (next.ended) finishRun();
 }
 
+function enforceSupportInvariant() {
+  const bodies = pebbleBodies();
+  const models = bodies.map(bodyModel);
+  for (const body of bodies) {
+    if (
+      body.isSleeping &&
+      !isPebbleSupported({
+        pebble: bodyModel(body),
+        pebbles: models,
+        worldHeight: WORLD_HEIGHT,
+      })
+    ) {
+      Sleeping.set(body, false);
+      Body.setVelocity(body, {
+        x: body.velocity.x * 0.5,
+        y: Math.max(0.45, body.velocity.y),
+      });
+    }
+  }
+}
+
 function frame(now) {
   const delta = Math.min(1000 / 60, Math.max(8, now - lastFrameAt));
   lastFrameAt = now;
   Engine.update(engine, delta);
+  enforceSupportInvariant();
   if (active) checkOverflow(now);
   drawScene(now);
   requestAnimationFrame(frame);

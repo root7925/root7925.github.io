@@ -4,18 +4,19 @@ import {
   dimensions,
   nextAllowedRotation,
   placementAllowed,
+  placementOriginForTap,
   resolveBoardTap,
   resolveTapAction,
   rotateClockwise,
   stablePieceDimensions,
-} from "./game-core.js?v=af68a9ab187d";
-import { COLLECTION } from "./collection-01.js?v=af68a9ab187d";
+} from "./game-core.js?v=7bd96f0d0100";
+import { COLLECTION } from "./collection-01.js?v=7bd96f0d0100";
 import {
   achievementFor,
   challengeText,
   challengeUrl,
   shareChallenge,
-} from "../shared/share-core.js?v=af68a9ab187d";
+} from "../shared/share-core.js?v=7bd96f0d0100";
 
 const PALETTE = {
   coral: "#e45748",
@@ -403,7 +404,12 @@ function renderBoard() {
       cell.addEventListener("click", () => {
         const piece = getPiece(selectedId);
         if (!piece || !complete.hidden) return;
-        const origin = { x, y };
+        const origin = placementOriginForTap({
+          cells: displayCells(piece),
+          tap: { x, y },
+          size: level.size,
+          isAllowed: (candidate) => canPlace(piece, candidate),
+        });
         const action = resolveBoardTap({
           hasSelection: Boolean(piece),
           placementIsValid: canPlace(piece, origin),

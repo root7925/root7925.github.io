@@ -3,12 +3,14 @@ import assert from "node:assert/strict";
 
 import {
   PEBBLE_TIERS,
+  CHOIR_PHYSICS,
   canMerge,
   choirAchievement,
   choirBoardMetrics,
   clampDropX,
   mergeOutcome,
   mergePoints,
+  isPebbleSupported,
   safeChoirProgress,
   selectMergePairs,
   spawnTier,
@@ -130,4 +132,41 @@ test("mobile vessel remains one-thumb sized without horizontal overflow", () => 
   assert.ok(mobile.height <= 474);
   const narrow = choirBoardMetrics(320);
   assert.equal(narrow.width, 300);
+});
+
+test("the choir never sleeps dynamic pebbles against a wall", () => {
+  assert.equal(CHOIR_PHYSICS.enableSleeping, false);
+
+  const floatingAtWall = pebble("floating", 0, 335, 140);
+  assert.equal(
+    isPebbleSupported({
+      pebble: floatingAtWall,
+      pebbles: [floatingAtWall],
+      worldHeight: 468,
+    }),
+    false,
+  );
+});
+
+test("only the floor or a lower pebble counts as physical support", () => {
+  const floorPebble = pebble("floor", 0, 100, 451);
+  assert.equal(
+    isPebbleSupported({
+      pebble: floorPebble,
+      pebbles: [floorPebble],
+      worldHeight: 468,
+    }),
+    true,
+  );
+
+  const upper = pebble("upper", 0, 100, 166);
+  const lower = pebble("lower", 0, 100, 199);
+  assert.equal(
+    isPebbleSupported({
+      pebble: upper,
+      pebbles: [upper, lower],
+      worldHeight: 468,
+    }),
+    true,
+  );
 });

@@ -9,6 +9,28 @@ export const PEBBLE_TIERS = Object.freeze([
   { name: "Choir", radius: 76, frequency: 783.99, color: "#f2d985" },
 ]);
 
+export const CHOIR_PHYSICS = Object.freeze({
+  enableSleeping: false,
+});
+
+export function isPebbleSupported({
+  pebble,
+  pebbles,
+  worldHeight,
+  tolerance = 2,
+}) {
+  const radius = PEBBLE_TIERS[pebble.tier]?.radius ?? PEBBLE_TIERS[0].radius;
+  if (pebble.y + radius >= worldHeight - tolerance) return true;
+
+  return pebbles.some((other) => {
+    if (other.id === pebble.id || other.y <= pebble.y) return false;
+    const otherRadius =
+      PEBBLE_TIERS[other.tier]?.radius ?? PEBBLE_TIERS[0].radius;
+    return Math.hypot(other.x - pebble.x, other.y - pebble.y) <=
+      radius + otherRadius + tolerance;
+  });
+}
+
 export function spawnTier(random = Math.random) {
   const value = Math.min(0.999999, Math.max(0, Number(random()) || 0));
   if (value < 0.58) return 0;
