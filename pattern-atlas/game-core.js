@@ -41,6 +41,12 @@ export function resolveTapAction({ wasSelected, selectedId, pieceId }) {
   return wasSelected && selectedId === pieceId ? "rotate" : "select";
 }
 
+export function nextAllowedRotation(current, allowedRotations) {
+  if (allowedRotations.length < 2) return allowedRotations[0] ?? 0;
+  const currentIndex = allowedRotations.indexOf(current);
+  return allowedRotations[(currentIndex + 1) % allowedRotations.length];
+}
+
 export function placementAllowed({
   cells,
   origin,

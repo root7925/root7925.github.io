@@ -11,6 +11,15 @@ This repository is intended to be named `root7925.github.io` and published with 
 - no copied Nicky Case writing, illustration, branding, or site code;
 - no private Pattern Atlas generator or solver code.
 
-The public playtest is a static build at `/pattern-atlas/`. It includes only the
-client game needed to play; the private generator and solver stay outside this
-repository.
+The first release is **Pattern Atlas: The First Atlas**, a static 16-study
+collection at `/pattern-atlas/`. Progress is saved locally in the browser.
+
+Only the client game and exported puzzle collection are public. Generator
+seeds, authored placements, the solver, and generation diagnostics stay in the
+private product workspace.
+
+Run the public logic and collection checks with:
+
+```sh
+npm test
+```

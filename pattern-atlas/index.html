@@ -5,16 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta
       name="description"
-      content="Pattern Atlas: a quiet visual logic puzzle by Leslie."
+      content="Pattern Atlas: sixteen handcrafted visual logic studies by Leslie."
     />
-    <title>Pattern Atlas — private playtest</title>
+    <title>Pattern Atlas — The First Atlas</title>
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
     <main>
       <nav>
         <a class="brand" href="../">Leslie / Play</a>
-        <span>Pattern Atlas · 01</span>
+        <span>The First Atlas · 16 studies</span>
       </nav>
 
       <section class="game-shell" aria-labelledby="puzzle-title">
@@ -29,6 +29,7 @@
           <div class="pills" aria-label="Puzzle details">
             <span id="difficulty">Daily</span>
             <span id="progress">0 / 5 fragments</span>
+            <span id="collection-progress">0 / 16 restored</span>
           </div>
           <div class="controls">
             <button class="reset" type="button" id="reset">Restart</button>
@@ -43,10 +44,9 @@
           <div class="stage-head">
             <p class="frame-label" id="field-label">target field</p>
             <div class="level-switcher" aria-label="Choose a puzzle">
-              <button type="button" data-level="warmup">01</button>
-              <button type="button" data-level="daily" class="active">02</button>
-              <button type="button" data-level="deep">03</button>
-              <button type="button" data-level="veiled">04</button>
+              <button type="button" id="previous-study" aria-label="Previous study">‹</button>
+              <span id="level-count">01 / 16</span>
+              <button type="button" id="following-study" aria-label="Next study">›</button>
             </div>
           </div>
           <div class="target" id="target" aria-label="Target color field"></div>
@@ -76,7 +76,7 @@
 
       <section class="hero">
         <div>
-          <p class="eyebrow">A daily visual logic puzzle</p>
+          <p class="eyebrow">A visual logic collection</p>
           <h1>Make the pattern<br /><em>click</em> back into place.</h1>
         </div>
         <p>
@@ -86,9 +86,8 @@
       </section>
 
       <footer>
-      <strong>Pattern Atlas</strong> — Tell the person who sent this: which study
-        felt satisfying, which felt unfair, and whether you would return for a new
-        one tomorrow.
+        <strong>Pattern Atlas</strong> — Sixteen quiet studies by Leslie.
+        Progress stays on this device. No account, timer, or advertisement.
       </footer>
     </main>
     <script src="app.js" type="module"></script>

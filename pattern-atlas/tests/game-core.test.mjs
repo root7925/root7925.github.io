@@ -3,9 +3,13 @@ import test from "node:test";
 
 import {
   boardMatchesTarget,
+  computeLayoutMetrics,
+  nextAllowedRotation,
   placementAllowed,
   rotateClockwise,
+  stablePieceDimensions,
 } from "../game-core.js";
+import { COLLECTION } from "../collection-01.js";
 
 test("a full board only wins when every color matches the target", () => {
   const targetColors = new Map([
@@ -38,4 +42,55 @@ test("four clockwise rotations restore a piece exactly", () => {
   let cells = initial;
   for (let turn = 0; turn < 4; turn += 1) cells = rotateClockwise(cells);
   assert.deepEqual(cells, initial);
+});
+
+test("restricted rotations cycle only through authored turns", () => {
+  assert.equal(nextAllowedRotation(0, [0]), 0);
+  assert.equal(nextAllowedRotation(0, [0, 2]), 2);
+  assert.equal(nextAllowedRotation(2, [0, 2]), 0);
+  assert.equal(nextAllowedRotation(3, [0, 1, 2, 3]), 0);
+});
+
+test("the first collection contains sixteen structurally complete studies", () => {
+  assert.equal(COLLECTION.levels.length, 16);
+  assert.equal(new Set(COLLECTION.levels.map((level) => level.id)).size, 16);
+
+  for (const level of COLLECTION.levels) {
+    assert.equal(level.target.length, level.size);
+    assert.ok(level.target.every((row) => row.length === level.size));
+    assert.equal(
+      level.pieces.reduce((total, piece) => total + piece.cells.length, 0),
+      level.size * level.size,
+    );
+    assert.ok(
+      level.pieces.every((piece) =>
+        piece.allowedRotations.includes(piece.rotation),
+      ),
+    );
+    assert.equal("diagnostics" in level, false);
+    assert.equal("authoredSolution" in level, false);
+    assert.equal("seed" in level, false);
+    if (level.mode === "clues") assert.ok(level.clues.length > 0);
+    if (level.mode === "target") assert.equal("clues" in level, false);
+  }
+});
+
+test("every collection study keeps its board and tray inside the mobile budget", () => {
+  for (const level of COLLECTION.levels) {
+    const stableSizes = level.pieces.map((piece) =>
+      stablePieceDimensions({
+        cells: piece.cells.map(([x, y, color]) => ({ x, y, color })),
+      }),
+    );
+    const layout = computeLayoutMetrics({
+      stageWidth: 362,
+      viewportHeight: 844,
+      levelSize: level.size,
+      stableSizes,
+      clueMode: level.mode === "clues",
+    });
+
+    assert.ok(layout.cell >= 42, `${level.id} cells became too small`);
+    assert.ok(layout.height <= 756, `${level.id} overflowed vertically`);
+  }
 });

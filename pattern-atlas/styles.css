@@ -59,8 +59,11 @@ h2 { font-size: clamp(2.35rem, 4vw, 3.7rem); line-height: .97; }
 .frame-label, .tray-label { position: absolute; z-index: 2; width: 100%; margin: 0; color: rgba(245,242,233,.46); font-size: .61rem; font-weight: 800; letter-spacing: .13em; text-align: center; text-transform: uppercase; }
 .stage-head .frame-label { position: static; width: auto; }
 .level-switcher { display: flex; gap: 4px; }
-.level-switcher button { width: 25px; height: 24px; border: 1px solid rgba(245,242,233,.16); border-radius: 6px; background: transparent; color: rgba(245,242,233,.55); cursor: pointer; font-size: .62rem; font-weight: 800; }
-.level-switcher button.active { border-color: #d5fe55; background: #d5fe55; color: #111722; }
+.level-switcher { align-items: center; }
+.level-switcher span { min-width: 45px; color: rgba(245,242,233,.7); font-size: .62rem; font-weight: 800; letter-spacing: .06em; text-align: center; }
+.level-switcher button { width: 25px; height: 24px; border: 1px solid rgba(245,242,233,.16); border-radius: 6px; background: transparent; color: rgba(245,242,233,.72); cursor: pointer; font-size: .85rem; font-weight: 800; }
+.level-switcher button:hover:not(:disabled) { border-color: #d5fe55; color: #d5fe55; }
+.level-switcher button:disabled { cursor: default; opacity: .24; }
 .target { position: absolute; z-index: 1; display: grid; overflow: hidden; border: 1px solid rgba(245,242,233,.2); border-radius: 12px; background: #111722; box-shadow: 0 12px 32px rgba(0,0,0,.22); }
 .target[hidden] { display: none; }
 .target .target-tile { border: 1px solid rgba(17,23,34,.32); }

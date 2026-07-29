@@ -2,11 +2,13 @@ import {
   boardMatchesTarget,
   computeLayoutMetrics,
   dimensions,
+  nextAllowedRotation,
   placementAllowed,
   resolveTapAction,
   rotateClockwise,
   stablePieceDimensions,
 } from "./game-core.js";
+import { COLLECTION } from "./collection-01.js";
 
 const PALETTE = {
   coral: "#e45748",
@@ -17,89 +19,31 @@ const PALETTE = {
   teal: "#43b6ad",
 };
 
-const LEVELS = {
-  warmup: {
-    number: "Study 01",
-    title: "First light",
-    difficulty: "Warm-up",
-    size: 3,
-    target: [
-      ["coral", "blue", "lime"],
-      ["blue", "lime", "coral"],
-      ["lime", "coral", "blue"],
-    ],
-    pieces: [
-      { id: "a", cells: [[0, 0], [0, 1], [0, 2]], rotation: 1 },
-      { id: "b", cells: [[1, 0], [2, 0], [1, 1]], rotation: 2 },
-      { id: "c", cells: [[2, 1], [1, 2], [2, 2]], rotation: 3 },
-    ],
-  },
-  daily: {
-    number: "Study 02",
-    title: "Nocturne grid",
-    difficulty: "Daily",
-    size: 4,
-    target: [
-      ["coral", "blue", "blue", "violet"],
-      ["coral", "blue", "blue", "violet"],
-      ["coral", "coral", "violet", "violet"],
-      ["lime", "lime", "orange", "orange"],
-    ],
-    pieces: [
-      { id: "a", cells: [[0, 0], [0, 1], [0, 2], [1, 2]], rotation: 2 },
-      { id: "b", cells: [[1, 0], [2, 0], [1, 1], [2, 1]], rotation: 1 },
-      { id: "c", cells: [[3, 0], [3, 1], [2, 2], [3, 2]], rotation: 3 },
-      { id: "d", cells: [[0, 3], [1, 3]], rotation: 1 },
-      { id: "e", cells: [[2, 3], [3, 3]], rotation: 2 },
-    ],
-  },
-  deep: {
-    number: "Study 03",
-    title: "Afterimage",
-    difficulty: "Deep",
-    size: 5,
-    target: [
-      ["coral", "blue", "lime", "blue", "violet"],
-      ["blue", "orange", "coral", "lime", "coral"],
-      ["lime", "coral", "blue", "violet", "teal"],
-      ["violet", "lime", "orange", "blue", "coral"],
-      ["coral", "blue", "lime", "orange", "violet"],
-    ],
-    pieces: [
-      { id: "a", cells: [[0, 0], [0, 1], [0, 2], [1, 2]], rotation: 3 },
-      { id: "b", cells: [[1, 0], [2, 0], [3, 0], [1, 1]], rotation: 1 },
-      { id: "c", cells: [[4, 0], [2, 1], [3, 1], [4, 1]], rotation: 2 },
-      { id: "d", cells: [[2, 2], [3, 2], [4, 2], [4, 3]], rotation: 1 },
-      { id: "e", cells: [[0, 3], [1, 3], [0, 4], [1, 4]], rotation: 2 },
-      { id: "f", cells: [[2, 3], [3, 3], [2, 4], [3, 4], [4, 4]], rotation: 3 },
-    ],
-  },
-  veiled: {
-    number: "Study 04",
-    title: "Veiled signal",
-    difficulty: "Inference",
-    size: 5,
-    description: "The colored dots in the frame are fixed clues. Cover each one with the same color while fitting every fragment into the board.",
-    clues: [[0, 0], [2, 0], [4, 0], [1, 1], [3, 1], [2, 2], [0, 3], [4, 3], [1, 4], [3, 4]],
-    target: [
-      ["violet", "blue", "teal", "coral", "violet"],
-      ["blue", "orange", "lime", "orange", "blue"],
-      ["teal", "lime", "coral", "lime", "teal"],
-      ["blue", "orange", "lime", "orange", "coral"],
-      ["violet", "blue", "teal", "blue", "lime"],
-    ],
-    pieces: [
-      { id: "a", cells: [[0, 0], [0, 1], [0, 2], [1, 2]], rotation: 1 },
-      { id: "b", cells: [[1, 0], [2, 0], [3, 0], [1, 1]], rotation: 3 },
-      { id: "c", cells: [[4, 0], [2, 1], [3, 1], [4, 1]], rotation: 2 },
-      { id: "d", cells: [[2, 2], [3, 2], [4, 2], [4, 3]], rotation: 1 },
-      { id: "e", cells: [[0, 3], [1, 3], [0, 4], [1, 4]], rotation: 3 },
-      { id: "f", cells: [[2, 3], [3, 3], [2, 4], [3, 4], [4, 4]], rotation: 2 },
-    ],
-  },
-};
+const LEVELS = Object.fromEntries(
+  COLLECTION.levels.map((entry) => [entry.id, entry]),
+);
+const LEVEL_ORDER = COLLECTION.levels.map((entry) => entry.id);
+const STORAGE_KEY = "leslie-play:pattern-atlas:collection-01";
+function loadProgress() {
+  try {
+    return JSON.parse(localStorage.getItem(STORAGE_KEY) ?? "{}");
+  } catch {
+    return {};
+  }
+}
 
-let levelKey = "daily";
+const savedProgress = loadProgress();
+const completedIds = new Set(
+  Array.isArray(savedProgress.completed)
+    ? savedProgress.completed.filter((id) => LEVELS[id])
+    : [],
+);
+const firstIncomplete =
+  LEVEL_ORDER.find((id) => !completedIds.has(id)) ?? LEVEL_ORDER[0];
+
+let levelKey = LEVELS[savedProgress.lastStudy]
+  ? savedProgress.lastStudy
+  : firstIncomplete;
 let level = null;
 let pieces = [];
 let rotations = new Map();
@@ -125,8 +69,27 @@ const preview = document.querySelector("#preview");
 const selectionLabel = document.querySelector("#selection-label");
 const nextStudyButton = document.querySelector("#next-study");
 const replayStudyButton = document.querySelector("#replay-study");
+const previousStudyButton = document.querySelector("#previous-study");
+const followingStudyButton = document.querySelector("#following-study");
+const levelCount = document.querySelector("#level-count");
+const collectionProgress = document.querySelector("#collection-progress");
 
 function getPiece(id) { return pieces.find((piece) => piece.id === id); }
+function currentLevelIndex() { return LEVEL_ORDER.indexOf(levelKey); }
+function saveProgress() {
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify({
+      completed: [...completedIds],
+      lastStudy: levelKey,
+    }));
+  } catch {
+    // Some private browsing modes disable storage; play should still continue.
+  }
+}
+
+function updateCollectionProgress() {
+  collectionProgress.textContent = `${completedIds.size} / ${LEVEL_ORDER.length} restored`;
+}
 
 function displayCells(piece) {
   let cells = piece.cells.map((cell) => ({ ...cell }));
@@ -137,7 +100,12 @@ function displayCells(piece) {
 function makePieces(source) {
   return source.pieces.map((piece) => ({
     id: piece.id,
-    cells: piece.cells.map(([x, y]) => ({ x, y, color: PALETTE[source.target[y][x]] })),
+    allowedRotations: piece.allowedRotations ?? [0, 1, 2, 3],
+    cells: piece.cells.map(([x, y, color]) => ({
+      x,
+      y,
+      color: PALETTE[color ?? source.target[y][x]],
+    })),
   }));
 }
 
@@ -152,22 +120,33 @@ function setLevel(nextLevelKey) {
   tapWasSelected = false;
   previewOrigin = null;
   complete.hidden = true;
+  saveProgress();
   document.querySelector("#study-number").textContent = level.number;
   document.querySelector("#puzzle-title").textContent = level.title;
-  document.querySelector("#difficulty").textContent = level.difficulty;
+  document.querySelector("#difficulty").textContent = `${level.chapter} · ${level.difficulty}`;
   document.querySelector("#puzzle-description").textContent = level.description
-    ?? "Reassemble the loose color fragments so that every square matches the field above it. Each study has one intended solution.";
-  document.querySelector("#field-label").textContent = level.clues ? "partial clue field" : "target field";
-  target.ariaLabel = level.clues ? "Partial color clue field" : "Target color field";
-  document.querySelector("#completion-copy").textContent = levelKey === "veiled"
-    ? "The concealed pattern has been revealed."
-    : "The next study is ready when you are.";
-  nextStudyButton.textContent = levelKey === "veiled" ? "Back to 01 →" : "Next study →";
+    ?? (level.mode === "clues"
+      ? "Only part of the field is visible. Use the fixed color clues and fragment shapes to reconstruct the concealed pattern."
+      : "Reassemble the loose color fragments so every square matches the field. Filling the frame alone is not enough.");
+  document.querySelector("#field-label").textContent = level.mode === "clues" ? "partial clue field" : "target field";
+  target.ariaLabel = level.mode === "clues" ? "Partial color clue field" : "Target color field";
+  document.querySelector("#completion-copy").textContent =
+    currentLevelIndex() === LEVEL_ORDER.length - 1
+      ? "The First Atlas is complete."
+      : "The next study is ready when you are.";
+  nextStudyButton.textContent =
+    currentLevelIndex() === LEVEL_ORDER.length - 1
+      ? "Return to 01 →"
+      : "Next study →";
   selectionLabel.textContent = "Select a fragment to rotate";
-  status.textContent = level.clues
+  status.textContent = level.mode === "clues"
     ? "Study the visible clues, then test one fragment at a time."
     : "Read the target field, then begin with any fragment.";
-  document.querySelectorAll("[data-level]").forEach((button) => button.classList.toggle("active", button.dataset.level === levelKey));
+  const displayIndex = currentLevelIndex();
+  levelCount.textContent = `${String(displayIndex + 1).padStart(2, "0")} / ${LEVEL_ORDER.length}`;
+  previousStudyButton.disabled = displayIndex === 0;
+  followingStudyButton.disabled = displayIndex === LEVEL_ORDER.length - 1;
+  updateCollectionProgress();
   updateLayout();
 }
 
@@ -180,7 +159,7 @@ function updateLayout() {
     viewportHeight: window.innerHeight,
     levelSize: level.size,
     stableSizes,
-    clueMode: Boolean(level.clues),
+    clueMode: level.mode === "clues",
   });
   const {
     boardPixels,
@@ -193,7 +172,7 @@ function updateLayout() {
   stage.classList.toggle("target-in-board", layout.hideTarget);
   document.querySelector("#field-label").textContent = layout.hideTarget
     ? "clues marked on board"
-    : level.clues ? "partial clue field" : "target field";
+    : level.mode === "clues" ? "partial clue field" : "target field";
   stage.style.setProperty("--stage-height", `${layout.height}px`);
   stage.style.setProperty("--board-label-top", `${boardTop - 27}px`);
   stage.style.setProperty("--tray-label-top", `${trayTop - 31}px`);
@@ -309,8 +288,15 @@ function place(piece, origin) {
 
 function rotatePiece(piece) {
   if (!piece || !complete.hidden) return;
+  const allowed = piece.allowedRotations;
+  if (allowed.length < 2) {
+    status.textContent = "This fragment is already in its fixed orientation.";
+    render();
+    return;
+  }
   placements.delete(piece.id);
-  rotations.set(piece.id, ((rotations.get(piece.id) ?? 0) + 1) % 4);
+  const current = rotations.get(piece.id) ?? allowed[0];
+  rotations.set(piece.id, nextAllowedRotation(current, allowed));
   previewOrigin = null;
   status.textContent = "Rotated. Compare its color sequence with the target field.";
   updateLayout();
@@ -320,6 +306,11 @@ function checkComplete() {
   progress.textContent = `${placements.size} / ${pieces.length} fragments`;
   const solved = placements.size === pieces.length && boardMatchesSolution();
   complete.hidden = !solved;
+  if (solved && !completedIds.has(levelKey)) {
+    completedIds.add(levelKey);
+    saveProgress();
+    updateCollectionProgress();
+  }
   return solved;
 }
 
@@ -454,9 +445,14 @@ function render() {
   renderPreview();
   renderPieces();
   rotateButton.disabled = !selectedId || !complete.hidden;
+  if (selectedId && getPiece(selectedId)?.allowedRotations.length < 2) {
+    rotateButton.disabled = true;
+  }
   placeButton.disabled = !selectedId || !previewOrigin || !complete.hidden || !canPlace(getPiece(selectedId), previewOrigin);
   selectionLabel.textContent = selectedId
-    ? `Fragment ${pieces.findIndex((piece) => piece.id === selectedId) + 1} selected · tap again to rotate`
+    ? getPiece(selectedId)?.allowedRotations.length > 1
+      ? `Fragment ${pieces.findIndex((piece) => piece.id === selectedId) + 1} selected · tap again to rotate`
+      : `Fragment ${pieces.findIndex((piece) => piece.id === selectedId) + 1} selected · fixed orientation`
     : "Select a fragment to rotate";
   checkComplete();
 }
@@ -549,12 +545,18 @@ placeButton.addEventListener("click", () => {
   }
 });
 nextStudyButton.addEventListener("click", () => {
-  const order = ["warmup", "daily", "deep", "veiled"];
-  const current = order.indexOf(levelKey);
-  setLevel(order[(current + 1) % order.length]);
+  const current = currentLevelIndex();
+  setLevel(LEVEL_ORDER[(current + 1) % LEVEL_ORDER.length]);
 });
 replayStudyButton.addEventListener("click", () => setLevel(levelKey));
-document.querySelectorAll("[data-level]").forEach((button) => button.addEventListener("click", () => setLevel(button.dataset.level)));
+previousStudyButton.addEventListener("click", () => {
+  const current = currentLevelIndex();
+  if (current > 0) setLevel(LEVEL_ORDER[current - 1]);
+});
+followingStudyButton.addEventListener("click", () => {
+  const current = currentLevelIndex();
+  if (current < LEVEL_ORDER.length - 1) setLevel(LEVEL_ORDER[current + 1]);
+});
 
 new ResizeObserver(updateLayout).observe(stage);
 setLevel(levelKey);
