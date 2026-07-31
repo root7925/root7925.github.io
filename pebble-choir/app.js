@@ -9,13 +9,13 @@ import {
   selectMergePairs,
   spawnTier,
   updateOverflowState,
-} from "./game-core.js?v=a7529f362a4f";
-import { createFeedbackSystem } from "../shared/feedback-core.js?v=a7529f362a4f";
+} from "./game-core.js?v=b8c878d292eb";
+import { createFeedbackSystem } from "../shared/feedback-core.js?v=b8c878d292eb";
 import {
   runScoreText,
   scoreUrl,
   shareChallenge,
-} from "../shared/share-core.js?v=a7529f362a4f";
+} from "../shared/share-core.js?v=b8c878d292eb";
 
 const {
   Bodies,

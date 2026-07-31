@@ -1,3 +1,15 @@
+/**
+ * @module signal-stack/game-core
+ * @contract
+ *  输入: grid (2D array), piece {cells}, origin {x,y}, rowTargets/columnTargets (number[]), combo (number), random, score
+ *  输出: turn 结果 {ok, grid, completed, evaluated, cleanLineCount, points, nextCombo} / 信号目标 / 成就标题 / 清洗后的进度
+ *  不变式: re-export grid-core 的公开函数；advanceTurn 顺序为 place→evaluate→clear→score；
+ *          safeProgress 仅接受 best/runs/cleanSignals 三个有限数值字段，拒绝 seed/board/state 等私有负载
+ *  边界: placeCells 失败 → {ok:false}；safeProgress 非 object → 全零；achievementForScore 阶梯式返回
+ *  公私: PUBLIC（可进 root7925.github.io）
+ *  依赖: shared/grid-core.js（带版本指纹 ?v=afc33e62604b）
+ *  状态: stable
+ */
 import {
   boardMetrics,
   canPlaceCells,
@@ -11,7 +23,7 @@ import {
   resolveGridPieceTap,
   rotateCellsClockwise,
   scorePlacement,
-} from "../shared/grid-core.js?v=6b5b81472a7a";
+} from "../shared/grid-core.js?v=afc33e62604b";
 
 export {
   boardMetrics,

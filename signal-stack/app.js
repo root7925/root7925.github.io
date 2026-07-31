@@ -10,13 +10,13 @@ import {
   resolveGridPieceTap,
   rotateCellsClockwise,
   safeProgress,
-} from "./game-core.js?v=6b5b81472a7a";
-import { drawPiece } from "./piece-deck.js?v=6b5b81472a7a";
+} from "./game-core.js?v=afc33e62604b";
+import { drawPiece } from "./piece-deck.js?v=afc33e62604b";
 import {
   scoreText,
   scoreUrl,
   shareChallenge,
-} from "../shared/share-core.js?v=6b5b81472a7a";
+} from "../shared/share-core.js?v=afc33e62604b";
 
 const ROWS = 8;
 const COLUMNS = 7;

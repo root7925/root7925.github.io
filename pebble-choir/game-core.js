@@ -1,3 +1,15 @@
+/**
+ * @module pebble-choir/game-core
+ * @contract
+ *  输入: pebbles [{id,tier,x,y,velocity,createdAt}], tier (0-7), random, worldWidth/Height, topLine, collisions
+ *  输出: 合并结果 {tier,x,y,velocity,points} / 得分 / 溢出状态 {since,ended} / 清洗后进度 / 成就 / 棋盘度量
+ *  不变式: PEBBLE_TIERS 固定 8 阶（0-7）；canMerge 要求同阶且非最高阶；
+ *          selectMergePairs 去重（每帧每颗 pebble 最多参与一次合并）；spawnTier 仅返回 0/1/2（加权）
+ *  边界: tier 越界 → 回退到 tier 0 半径；safeChoirProgress 非 object → 全零；isPebbleSupported 容差 tolerance
+ *  公私: PUBLIC（可进 root7925.github.io）
+ *  依赖: 无（纯规则模块；Matter.js 物理引擎仅在 app.js 中使用，本模块不依赖）
+ *  状态: stable
+ */
 export const PEBBLE_TIERS = Object.freeze([
   { name: "Hush", radius: 17, frequency: 261.63, color: "#f08b72" },
   { name: "Hum", radius: 22, frequency: 293.66, color: "#e8b75e" },

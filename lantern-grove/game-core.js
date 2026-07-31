@@ -1,3 +1,16 @@
+/**
+ * @module lantern-grove/game-core
+ * @contract
+ *  输入: puzzle {size, regions, clues}, state {puzzle, cells, moves}, index (number), mode ("mark"|"lantern")
+ *  输出: 新 state / 冲突 Set / 进度对象 {lanterns,rows,columns,regions,target} / 布尔判定
+ *  不变式: cells 长度 = size*size；CELL_EMPTY=0, CELL_MARK=1, CELL_LANTERN=2；
+ *          isPuzzleSolved 要求所有行/列/区域各有一灯且无冲突；
+ *          puzzleHasPrivateFields 拒绝 solution/answer/seed/diagnostics 字段
+ *  边界: index 越界 → 返回原 state；applyCellAction 在 mark/lantern 间切换
+ *  公私: PUBLIC（可进 root7925.github.io）
+ *  依赖: 无
+ *  状态: stable
+ */
 export const CELL_EMPTY = 0;
 export const CELL_MARK = 1;
 export const CELL_LANTERN = 2;
