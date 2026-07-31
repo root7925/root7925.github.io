@@ -1,3 +1,15 @@
+/**
+ * @module share-core
+ * @contract
+ *  输入: completedCount (number), titles [{threshold,title}], locationLike (Location), navigatorLike (Navigator)
+ *  输出: 成就标题 / 挑战 URL / 挑战文案 / share 结果 ("shared"|"cancelled"|"copied"|"unavailable")
+ *  不变式: challengeUrl 清除 hash+search 后只设单一 puzzle 参数；
+ *          shareChallenge 取消时返回 "cancelled" 不显示成功；无 share API 时降级到 clipboard
+ *  边界: titles 为空 → 默认 "Puzzle Solver"；无 navigator.share 且无 clipboard → "unavailable"
+ *  公私: PUBLIC（可进 root7925.github.io）
+ *  依赖: 无
+ *  状态: stable
+ */
 export function achievementFor(completedCount, titles) {
   const ordered = [...titles].sort(
     (left, right) => left.threshold - right.threshold,

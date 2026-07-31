@@ -1,4 +1,4 @@
-import { LANTERN_GROVE_COLLECTION } from "./collection-01.js?v=335dc7949f04";
+import { LANTERN_GROVE_COLLECTION } from "./collection-01.js?v=d739e7486edc";
 import {
   CELL_LANTERN,
   CELL_MARK,
@@ -9,14 +9,14 @@ import {
   getRuleProgress,
   isPuzzleSolved,
   regionEdges,
-} from "./game-core.js?v=335dc7949f04";
+} from "./game-core.js?v=d739e7486edc";
 import {
   achievementFor,
   challengeText,
   challengeUrl,
   shareChallenge,
-} from "../shared/share-core.js?v=335dc7949f04";
-import { createFeedbackSystem } from "../shared/feedback-core.js?v=335dc7949f04";
+} from "../shared/share-core.js?v=d739e7486edc";
+import { createFeedbackSystem } from "../shared/feedback-core.js?v=d739e7486edc";
 
 const STORAGE_KEY = "leslie-play:lantern-grove:v1";
 const palette = [

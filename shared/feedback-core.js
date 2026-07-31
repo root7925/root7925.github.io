@@ -1,3 +1,15 @@
+/**
+ * @module feedback-core
+ * @contract
+ *  输入: storageLike (localStorage), windowLike (window), cueName (string)
+ *  输出: feedback system { enabled, reducedMotion, play, playTone, vibrate, setEnabled, toggle }
+ *  不变式: 音效偏好通过 SOUND_PREFERENCE_KEY 跨游戏共享；reduced-motion 时禁用震动；
+ *          AudioContext 延迟到真实手势后启动
+ *  边界: storage/audio/vibration 不可用时静默降级，不抛异常
+ *  公私: PUBLIC（可进 root7925.github.io）
+ *  依赖: 无
+ *  状态: stable
+ */
 export const SOUND_PREFERENCE_KEY = "leslie-play:sound-enabled:v1";
 
 const CUES = Object.freeze({

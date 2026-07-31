@@ -1,3 +1,15 @@
+/**
+ * @module grid-core
+ * @contract
+ *  输入: cells [{x,y,tone?}], grid (2D array, null=空), origin {x,y}, tap {x,y}
+ *  输出: 变换后的 cells / 新 grid / 布尔判定 / 评分对象
+ *  不变式: 4 次 rotateCellsClockwise 回到原形状；normalizeCells 平移到 (0,0)；
+ *          canPlaceCells 检查边界 + 目标格为 null；placeCells 不修改原 grid
+ *  边界: 空 cells → 空结果；空 grid → 0 列；placementOriginForTap 无合法位时返回居中坐标
+ *  公私: PUBLIC（可进 root7925.github.io）
+ *  依赖: 无
+ *  状态: stable
+ */
 export function normalizeCells(cells) {
   const minX = Math.min(...cells.map((cell) => cell.x));
   const minY = Math.min(...cells.map((cell) => cell.y));
