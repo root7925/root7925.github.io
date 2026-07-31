@@ -878,7 +878,17 @@ export const LANTERN_GROVE_COLLECTION = [
       6,
       6,
       2
-    ]
+    ],
+    "clues": {
+      "fixedLanterns": [
+        0,
+        10,
+        21,
+        25,
+        36,
+        46
+      ]
+    }
   },
   {
     "id": "lantern-18",
@@ -949,7 +959,13 @@ export const LANTERN_GROVE_COLLECTION = [
       6,
       6,
       6
-    ]
+    ],
+    "clues": {
+      "fixedLanterns": [
+        0,
+        11
+      ]
+    }
   },
   {
     "id": "lantern-19",
@@ -1037,7 +1053,19 @@ export const LANTERN_GROVE_COLLECTION = [
       7,
       6,
       6
-    ]
+    ],
+    "clues": {
+      "fixedLanterns": [
+        0,
+        11,
+        23,
+        34,
+        40,
+        51,
+        55,
+        66
+      ]
+    }
   },
   {
     "id": "lantern-20",
@@ -1125,6 +1153,17 @@ export const LANTERN_GROVE_COLLECTION = [
       6,
       6,
       6
-    ]
+    ],
+    "clues": {
+      "fixedLanterns": [
+        0,
+        11,
+        22,
+        33,
+        39,
+        52,
+        55
+      ]
+    }
   }
 ];

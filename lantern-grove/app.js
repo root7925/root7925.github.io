@@ -1,4 +1,4 @@
-import { LANTERN_GROVE_COLLECTION } from "./collection-01.js?v=25966cd64e4c";
+import { LANTERN_GROVE_COLLECTION } from "./collection-01.js?v=10875d907e62";
 import {
   CELL_LANTERN,
   CELL_MARK,
@@ -9,20 +9,14 @@ import {
   getRuleProgress,
   isPuzzleSolved,
   regionEdges,
-} from "./game-core.js?v=25966cd64e4c";
+} from "./game-core.js?v=10875d907e62";
 import {
   achievementFor,
   challengeText,
   challengeUrl,
   shareChallenge,
-  renderShareCard,
-  shareCardImage,
-} from "../shared/share-core.js?v=25966cd64e4c";
-import { createFeedbackSystem } from "../shared/feedback-core.js?v=25966cd64e4c";
-import { createI18n, mountLangSwitcher, getLang } from "../shared/i18n.js?v=25966cd64e4c";
-import { messages } from "./i18n-messages.js?v=25966cd64e4c";
-
-const { t, apply, onLangChange } = createI18n(messages);
+} from "../shared/share-core.js?v=10875d907e62";
+import { createFeedbackSystem } from "../shared/feedback-core.js?v=10875d907e62";
 
 const STORAGE_KEY = "leslie-play:lantern-grove:v1";
 const palette = [
@@ -54,8 +48,6 @@ const nextButton = document.querySelector("#next-level");
 const closeWinButton = document.querySelector("#close-win");
 const shareButton = document.querySelector("#share-challenge");
 const shareStatus = document.querySelector("#share-status");
-const shareCardCanvas = document.querySelector("#share-card");
-const shareCardWrap = document.querySelector(".share-card-wrap");
 const soundToggle = document.querySelector("#sound-toggle");
 const feedback = createFeedbackSystem();
 
@@ -66,7 +58,6 @@ let history = [];
 let completed = new Set();
 let startedAt = Date.now();
 let completionTimer = null;
-let lastElapsedSeconds = 1;
 const GROVE_TITLES = [
   { threshold: 1, title: "Grove Keeper" },
   { threshold: 4, title: "Dawn Keeper" },
@@ -128,7 +119,7 @@ function setMode(nextMode) {
 }
 
 function updateSoundToggle() {
-  soundToggle.textContent = t(feedback.enabled ? "nav.soundOn" : "nav.soundOff");
+  soundToggle.textContent = feedback.enabled ? "Sound on" : "Sound off";
   soundToggle.setAttribute("aria-pressed", String(feedback.enabled));
 }
 
@@ -183,29 +174,30 @@ function renderBoard({ actionIndex = -1, progressPulse = false } = {}) {
   );
 
   const progress = getRuleProgress(state);
-  progressLabel.textContent = t(
-    "meta.progress",
-    progress.lanterns,
-    progress.target,
-    progress.rows,
-    progress.columns,
-    progress.regions,
-  );
+  progressLabel.textContent =
+    `Lights ${progress.lanterns}/${progress.target} · ` +
+    `Rows ${progress.rows}/${progress.target} · ` +
+    `Columns ${progress.columns}/${progress.target} · ` +
+    `Gardens ${progress.regions}/${progress.target}`;
   undoButton.disabled = history.length === 0;
 }
 
 function render() {
   const puzzle = state.puzzle;
-  levelLabel.textContent = t("meta.groveLabel", String(activeIndex + 1).padStart(2, "0"));
-  difficultyLabel.textContent = `${t("difficulty." + puzzle.difficulty)} · ${puzzle.size}×${puzzle.size}`;
+  levelLabel.textContent = `Grove ${String(activeIndex + 1).padStart(2, "0")}`;
+  difficultyLabel.textContent = `${puzzle.difficulty} · ${puzzle.size}×${puzzle.size}`;
   renderLevelPicker();
   renderBoard();
 }
 
 function handleCell(index) {
   const before = getRuleProgress(state);
-  history.push([...state.cells]);
+  const prevCells = state.cells;
   state = applyCellAction(state, index, mode);
+  // locked 格子或越界时 applyCellAction 返回原 state，不入历史栈
+  if (state.cells !== prevCells) {
+    history.push([...prevCells]);
+  }
   const after = getRuleProgress(state);
   const conflicts = getConflicts(state);
   const progressPulse =
@@ -217,16 +209,18 @@ function handleCell(index) {
   if (conflicts.size > 0) {
     feedback.play("conflict");
     feedback.vibrate(18);
-    ruleStatus.textContent = t("rule.status.conflict");
+    ruleStatus.textContent =
+      "Red lights conflict: they share a row, column, garden, or touch.";
   } else if (state.cells[index] === CELL_LANTERN) {
     feedback.play(progressPulse ? "progress" : "place");
-    ruleStatus.textContent = t("rule.status.good");
+    ruleStatus.textContent =
+      "Good. Keep every row, column, and colored garden to one light.";
   } else if (state.cells[index] === CELL_MARK) {
     feedback.play("mark");
-    ruleStatus.textContent = t("rule.status.marked");
+    ruleStatus.textContent = "Marked empty. Use marks to eliminate impossible squares.";
   } else {
     feedback.play("clear");
-    ruleStatus.textContent = t("rule.status.cleared");
+    ruleStatus.textContent = "Square cleared. Tap another square when you are ready.";
   }
   if (isPuzzleSolved(state)) completePuzzle();
 }
@@ -235,28 +229,17 @@ function completePuzzle() {
   completed.add(state.puzzle.id);
   saveProgress();
   renderLevelPicker();
-  lastElapsedSeconds = Math.max(
+  const elapsedSeconds = Math.max(
     1,
     Math.round((Date.now() - startedAt) / 1000),
   );
-  winTitle.textContent = t("win.title");
-  winCopy.textContent = t(
-    "win.copy",
-    String(activeIndex + 1).padStart(2, "0"),
-    state.moves,
-    lastElapsedSeconds,
-  );
+  winTitle.textContent = "Every garden is glowing.";
+  winCopy.textContent = `Grove ${String(activeIndex + 1).padStart(
+    2,
+    "0",
+  )} restored in ${state.moves} moves and ${elapsedSeconds}s.`;
   const achievement = achievementFor(completed.size, GROVE_TITLES);
   document.querySelector("#achievement-title").textContent = achievement;
-  renderShareCard(shareCardCanvas, {
-    achievement,
-    gameName: "Lantern Grove",
-    puzzleLabel: `Grove ${String(activeIndex + 1).padStart(2, "0")}`,
-    detail: `${state.moves} moves · ${lastElapsedSeconds}s`,
-    accent: "#f6d365",
-    background: "#17251d",
-  });
-  shareCardWrap.hidden = false;
   shareStatus.textContent = "";
   nextButton.hidden = activeIndex >= LANTERN_GROVE_COLLECTION.length - 1;
   board.classList.add("is-solved");
@@ -272,50 +255,26 @@ function completePuzzle() {
 async function shareCurrentChallenge() {
   const achievement = achievementFor(completed.size, GROVE_TITLES);
   const puzzleNumber = activeIndex + 1;
-  const puzzleLabel = `Grove ${String(puzzleNumber).padStart(2, "0")}`;
-  const detail = `${state.moves} moves · ${lastElapsedSeconds}s`;
   const text = challengeText({
     achievement,
     gameName: "Lantern Grove",
-    puzzleLabel,
-    detail,
+    puzzleLabel: `Grove ${String(puzzleNumber).padStart(2, "0")}`,
+    detail: state.puzzle.difficulty,
   });
-  const url = challengeUrl(location, "g", puzzleNumber);
-  const result = await shareCardImage({
+  const result = await shareChallenge({
     navigatorLike: navigator,
-    canvas: shareCardCanvas,
     title: "Lantern Grove challenge",
     text,
-    url,
-    fileName: `lantern-grove-grove-${puzzleNumber}.png`,
+    url: challengeUrl(location, "g", puzzleNumber),
   });
-  if (result === "unavailable") {
-    const fallback = await shareChallenge({
-      navigatorLike: navigator,
-      title: "Lantern Grove challenge",
-      text,
-      url,
-    });
-    shareStatus.textContent =
-      fallback === "shared"
-        ? t("share.sent")
-        : fallback === "copied"
-          ? t("share.copied")
-          : fallback === "cancelled"
-            ? ""
-            : t("share.unavailable");
-    return;
-  }
   shareStatus.textContent =
     result === "shared"
-      ? t("share.sent")
+      ? "Challenge sent."
       : result === "copied"
-        ? t("share.copied")
-        : result === "downloaded"
-          ? t("share.downloaded")
-          : result === "cancelled"
-            ? ""
-            : t("share.unavailable");
+        ? "Challenge copied. Send it to someone sharp."
+        : result === "cancelled"
+          ? ""
+          : "Sharing is unavailable in this browser.";
 }
 
 function openLevel(index) {
@@ -325,7 +284,8 @@ function openLevel(index) {
   history = [];
   startedAt = Date.now();
   ruleStatus.classList.remove("is-error");
-  ruleStatus.textContent = t("rule.status.first");
+  ruleStatus.textContent =
+    "Tap any square to place your first light. Red lights break a rule.";
   saveProgress();
   render();
   winDialog.close();
@@ -341,7 +301,8 @@ restartButton.addEventListener("click", () => {
   history = [];
   startedAt = Date.now();
   ruleStatus.classList.remove("is-error");
-  ruleStatus.textContent = t("rule.status.first");
+  ruleStatus.textContent =
+    "Tap any square to place your first light. Red lights break a rule.";
   renderBoard();
 });
 
@@ -365,23 +326,6 @@ soundToggle.addEventListener("click", () => {
   if (enabled) feedback.play("place");
 });
 window.addEventListener("resize", renderBoard);
-
-// 初始化语言切换器 + 应用翻译 + 语言切换时刷新动态文案
-mountLangSwitcher(document.querySelector("#lang-switcher"), () => {
-  apply();
-  updateSoundToggle();
-  render();
-  // 如果 win dialog 打开，刷新 win 文案
-  if (winDialog.open && isPuzzleSolved(state)) {
-    winTitle.textContent = t("win.title");
-    winCopy.textContent = t(
-      "win.copy",
-      String(activeIndex + 1).padStart(2, "0"),
-      state.moves,
-      lastElapsedSeconds,
-    );
-  }
-});
 
 loadProgress();
 updateSoundToggle();

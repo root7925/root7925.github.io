@@ -9,22 +9,22 @@ import {
   selectMergePairs,
   spawnTier,
   updateOverflowState,
-} from "./game-core.js?v=4713ce7de0ae";
-import { createFeedbackSystem } from "../shared/feedback-core.js?v=4713ce7de0ae";
+} from "./game-core.js?v=b1eb2d47e860";
+import { createFeedbackSystem } from "../shared/feedback-core.js?v=b1eb2d47e860";
 import {
   renderShareCard,
   runScoreText,
   scoreUrl,
   shareCardImage,
   shareChallenge,
-} from "../shared/share-core.js?v=4713ce7de0ae";
+} from "../shared/share-core.js?v=b1eb2d47e860";
 import {
   createIdentity,
   fallbackDisplayName,
   NAME_LIMITS,
-} from "../shared/identity-core.js?v=4713ce7de0ae";
-import { createI18n, mountLangSwitcher } from "../shared/i18n.js?v=4713ce7de0ae";
-import { messages } from "./i18n-messages.js?v=4713ce7de0ae";
+} from "../shared/identity-core.js?v=b1eb2d47e860";
+import { createI18n, mountLangSwitcher } from "../shared/i18n.js?v=b1eb2d47e860";
+import { messages } from "./i18n-messages.js?v=b1eb2d47e860";
 
 const {
   Bodies,

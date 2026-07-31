@@ -10,35 +10,18 @@ import {
   resolveGridPieceTap,
   rotateCellsClockwise,
   safeProgress,
-} from "./game-core.js?v=e7818979c2ab";
-import { drawPiece } from "./piece-deck.js?v=e7818979c2ab";
+} from "./game-core.js?v=917017c4c2bf";
+import { drawPiece } from "./piece-deck.js?v=917017c4c2bf";
 import {
   scoreText,
   scoreUrl,
   shareChallenge,
-  renderShareCard,
-  shareCardImage,
-} from "../shared/share-core.js?v=e7818979c2ab";
+} from "../shared/share-core.js?v=917017c4c2bf";
 import {
   createIdentity,
   fallbackDisplayName,
   NAME_LIMITS,
-} from "../shared/identity-core.js?v=e7818979c2ab";
-import { createI18n, mountLangSwitcher } from "../shared/i18n.js?v=e7818979c2ab";
-import { messages } from "./i18n-messages.js?v=e7818979c2ab";
-
-const { t, apply, onLangChange } = createI18n(messages);
-
-const ACHIEVEMENT_KEYS = {
-  "First Transmission": "achievement.firstTransmission",
-  "Clear Channel": "achievement.clearChannel",
-  "Frequency Finder": "achievement.frequencyFinder",
-  "Signal Keeper": "achievement.signalKeeper",
-  "Master Receiver": "achievement.masterReceiver",
-};
-function tAchievement(title) {
-  return t(ACHIEVEMENT_KEYS[title] ?? "achievement.firstTransmission");
-}
+} from "../shared/identity-core.js?v=917017c4c2bf";
 
 const ROWS = 8;
 const COLUMNS = 7;
@@ -62,8 +45,6 @@ const runTitleRoot = document.querySelector("#run-title");
 const restartButton = document.querySelector("#restart-run");
 const shareButton = document.querySelector("#share-score");
 const shareStatus = document.querySelector("#share-status");
-const shareCardCanvas = document.querySelector("#share-card");
-const shareCardWrap = document.querySelector(".share-card-wrap");
 const submitLeaderboardButton = document.querySelector("#submit-leaderboard");
 const rankStatus = document.querySelector("#rank-status");
 const leaderboardTop = document.querySelector("#leaderboard-top");
@@ -80,27 +61,13 @@ const GAME_ID = "signal-stack";
 function promptForDisplayNameIfNeeded() {
   if (identity.getDisplayName()) return;
   const input = window.prompt(
-    t("prompt.callsign", NAME_LIMITS.min, NAME_LIMITS.max),
+    `Pick a callsign for the global leaderboard (${NAME_LIMITS.min}-${NAME_LIMITS.max} chars). Skip to stay anonymous.`,
     "",
   );
   if (input === null) return; // 用户取消，保持匿名
   if (identity.setDisplayName(input)) return;
   // 输入无效（空或超长），用 fallback
   identity.setDisplayName(fallbackDisplayName(identity.ensurePlayerId()));
-}
-
-/** 排行榜状态文案的 i18n 缓存，语言切换时重新应用 */
-let lastRankStatus = null;
-let lastPanelRankStatus = null;
-function setRankStatus(key, ...args) {
-  lastRankStatus = { key, args };
-  rankStatus.hidden = false;
-  rankStatus.textContent = t(key, ...args);
-}
-function setPanelRankStatus(key, ...args) {
-  lastPanelRankStatus = { key, args };
-  panelRankStatus.hidden = false;
-  panelRankStatus.textContent = t(key, ...args);
 }
 
 /** 渲染 top 列表到指定 ol 元素 */
@@ -130,8 +97,9 @@ function escapeHtml(s) {
 }
 
 /** 拉取并展示排行榜到指定容器 */
-async function loadLeaderboardToList(listEl, statusSetter, showMyRank) {
-  statusSetter("leaderboard.scanning");
+async function loadLeaderboardToList(listEl, statusEl, showMyRank) {
+  statusEl.hidden = false;
+  statusEl.textContent = "SCANNING CHANNELS…";
   try {
     const data = await identity.fetchRank(GAME_ID, 10);
     const myEntry = data.myRank != null
@@ -140,15 +108,15 @@ async function loadLeaderboardToList(listEl, statusSetter, showMyRank) {
     renderLeaderboard(listEl, data.top, myEntry);
     if (showMyRank) {
       if (data.myRank != null) {
-        statusSetter("leaderboard.received", data.myRank, data.total, data.myScore.toLocaleString("en-US"));
+        statusEl.textContent = `RECEIVED · RANK ${data.myRank}/${data.total} · BEST ${data.myScore.toLocaleString("en-US")}`;
       } else {
-        statusSetter("leaderboard.awaiting", data.total);
+        statusEl.textContent = `AWAITING TRANSMISSION · ${data.total} OPERATORS ON AIR`;
       }
     } else {
-      statusSetter("leaderboard.operators", data.total);
+      statusEl.textContent = `${data.total} OPERATORS ON AIR`;
     }
   } catch (err) {
-    statusSetter("leaderboard.lost", err.message);
+    statusEl.textContent = `SIGNAL LOST: ${err.message}`;
     listEl.hidden = true;
   }
 }
@@ -156,20 +124,21 @@ async function loadLeaderboardToList(listEl, statusSetter, showMyRank) {
 /** game over 后点击「Send to leaderboard」 */
 async function submitToLeaderboard() {
   submitLeaderboardButton.disabled = true;
-  setRankStatus("leaderboard.transmitting");
+  rankStatus.hidden = false;
+  rankStatus.textContent = "TRANSMITTING…";
   try {
     const result = await identity.submitScore(GAME_ID, score);
-    setRankStatus("leaderboard.transmitted", result.rank, result.total, 100 - result.percentile);
-    await loadLeaderboardToList(leaderboardTop, setRankStatus, true);
+    rankStatus.textContent = `TRANSMITTED · RANK ${result.rank}/${result.total} · TOP ${100 - result.percentile}%`;
+    await loadLeaderboardToList(leaderboardTop, rankStatus, true);
   } catch (err) {
-    setRankStatus("leaderboard.failed", err.message);
+    rankStatus.textContent = `TRANSMISSION FAILED: ${err.message}`;
     submitLeaderboardButton.disabled = false;
   }
 }
 
 function openLeaderboardPanel() {
   leaderboardPanel.hidden = false;
-  loadLeaderboardToList(panelLeaderboardTop, setPanelRankStatus, true);
+  loadLeaderboardToList(panelLeaderboardTop, panelRankStatus, true);
 }
 
 function closeLeaderboardPanel() {
@@ -236,13 +205,6 @@ function setMessage(text) {
   messageRoot.textContent = text;
 }
 
-/** 动态提示文案走 i18n；缓存最近一条，语言切换时重新应用 */
-let lastMessage = { key: "message.intro", args: [] };
-function setMessageKey(key, ...args) {
-  lastMessage = { key, args };
-  setMessage(t(key, ...args));
-}
-
 function showFlash(text) {
   clearTimeout(flashTimer);
   flashRoot.textContent = text;
@@ -272,25 +234,9 @@ function startRun() {
   cleanThisRun = 0;
   active = true;
   gameOverRoot.hidden = true;
-  shareCardWrap.hidden = true;
   shareStatus.textContent = "";
-  setMessageKey("message.intro");
+  setMessage("1 Pick a piece · 2 tap it again to rotate · 3 tap its center.");
   render();
-}
-
-/** 渲染 game over 面板里的分数、成就名与分享卡（语言切换时复用） */
-function renderGameOverContent() {
-  const title = achievementForScore(score);
-  const localizedTitle = tAchievement(title);
-  finalScoreRoot.textContent = score.toLocaleString("en-US");
-  runTitleRoot.textContent = localizedTitle;
-  renderShareCard(shareCardCanvas, {
-    achievement: localizedTitle,
-    gameName: "Signal Stack",
-    detail: `${score.toLocaleString("en-US")} ${t("share.points")} · ${cleanThisRun} ${t(cleanThisRun === 1 ? "share.cleanSignal" : "share.cleanSignals")}`,
-    accent: "#5ee6a0",
-    background: "#090d09",
-  });
 }
 
 function finishRun() {
@@ -303,16 +249,16 @@ function finishRun() {
     cleanSignals: progress.cleanSignals + cleanThisRun,
   };
   saveProgress();
-  renderGameOverContent();
-  shareCardWrap.hidden = false;
+  const title = achievementForScore(score);
+  finalScoreRoot.textContent = score.toLocaleString("en-US");
+  runTitleRoot.textContent = title;
   gameOverRoot.hidden = false;
   // 默认隐藏按钮，异步比对历史最高分后再决定是否显示
   submitLeaderboardButton.hidden = true;
   submitLeaderboardButton.disabled = false;
   rankStatus.hidden = true;
-  lastRankStatus = null;
   leaderboardTop.hidden = true;
-  setMessageKey("message.noFit");
+  setMessage("No piece fits. The receiver is resting.");
   render();
   checkIfRecordBroken();
 }
@@ -330,7 +276,8 @@ async function checkIfRecordBroken() {
       submitLeaderboardButton.hidden = false;
     } else {
       // 未破纪录，不显示按钮，提示历史最高
-      setRankStatus("leaderboard.bestOnFile", data.myScore.toLocaleString("en-US"));
+      rankStatus.hidden = false;
+      rankStatus.textContent = `BEST ON FILE: ${data.myScore.toLocaleString("en-US")} · UNBROKEN`;
     }
   } catch {
     // 查询失败（离线/API 不可用），保守显示按钮让用户自行尝试
@@ -347,9 +294,9 @@ function selectOrRotate(pieceId) {
   hoverOrigin = null;
   if (action === "rotate") {
     piece.cells = rotateCellsClockwise(piece.cells);
-    setMessageKey("message.rotated");
+    setMessage("Rotated 90°. Tap the board to place.");
   } else {
-    setMessageKey("message.selected");
+    setMessage("Selected. Tap again to rotate, or tap the board to place.");
   }
   render();
 }
@@ -359,14 +306,14 @@ function rotateSelected() {
   if (!piece || !active) return;
   piece.cells = rotateCellsClockwise(piece.cells);
   hoverOrigin = null;
-  setMessageKey("message.rotated");
+  setMessage("Rotated 90°. Tap the board to place.");
   render();
 }
 
 function placeSelected(origin) {
   const piece = selectedPiece();
   if (!piece || !active) {
-    setMessageKey("message.selectFirst");
+    setMessage("Select one of the incoming pieces first.");
     return;
   }
   const fittedOrigin = placementOriginForTap(grid, piece.cells, origin);
@@ -385,7 +332,7 @@ function placeSelected(origin) {
     void boardRoot.offsetWidth;
     boardRoot.classList.add("is-rejected");
     rejectTimer = setTimeout(() => boardRoot.classList.remove("is-rejected"), 420);
-    setMessageKey("message.blocked");
+    setMessage("Red outline = blocked. Your piece is still selected—tap another spot.");
     render();
     return;
   }
@@ -402,15 +349,15 @@ function placeSelected(origin) {
   const lineCount = result.completed.rows.length + result.completed.columns.length;
   if (result.cleanLineCount > 0) {
     const label = result.cleanLineCount > 1
-      ? t("flash.cleanSignals", result.cleanLineCount, combo)
-      : t("flash.cleanSignal", combo);
+      ? `${result.cleanLineCount} CLEAN SIGNALS · ×${combo}`
+      : `CLEAN SIGNAL · ×${combo}`;
     showFlash(label);
-    setMessageKey("message.cleanMatched");
+    setMessage("Exact frequency matched. The chain is growing.");
   } else if (lineCount > 0) {
-    showFlash(lineCount === 1 ? t("flash.lineCleared", lineCount) : t("flash.linesCleared", lineCount));
-    setMessageKey("message.spaceCleared");
+    showFlash(`${lineCount} LINE${lineCount === 1 ? "" : "S"} CLEARED`);
+    setMessage("Space cleared. Match the edge numbers for a clean signal.");
   } else {
-    setMessageKey("message.pieceLocked");
+    setMessage("Piece locked. Keep a path open for the next three.");
   }
 
   if (tray.length === 0) refillTray();
@@ -439,7 +386,7 @@ function renderClues() {
     ...targets.columns.map((target) => {
       const clue = document.createElement("span");
       clue.textContent = target;
-      clue.title = t("clue.column", target);
+      clue.title = `${target} green cells for a clean column signal`;
       return clue;
     }),
   );
@@ -447,7 +394,7 @@ function renderClues() {
     ...targets.rows.map((target) => {
       const clue = document.createElement("span");
       clue.textContent = target;
-      clue.title = t("clue.row", target);
+      clue.title = `${target} green cells for a clean row signal`;
       return clue;
     }),
   );
@@ -532,49 +479,25 @@ function render() {
 
 async function shareRun() {
   const title = achievementForScore(score);
-  const localizedTitle = tAchievement(title);
-  const text = scoreText({
-    achievement: localizedTitle,
-    gameName: "Signal Stack",
-    score,
-    cleanCount: cleanThisRun,
-  });
-  const url = scoreUrl(location);
-  const result = await shareCardImage({
+  const result = await shareChallenge({
     navigatorLike: navigator,
-    canvas: shareCardCanvas,
-    title: `Signal Stack — ${localizedTitle}`,
-    text,
-    url,
-    fileName: "signal-stack-run.png",
+    title: `Signal Stack — ${title}`,
+    text: scoreText({
+      achievement: title,
+      gameName: "Signal Stack",
+      score,
+      cleanCount: cleanThisRun,
+    }),
+    url: scoreUrl(location),
   });
-  if (result === "unavailable") {
-    const fallback = await shareChallenge({
-      navigatorLike: navigator,
-      title: `Signal Stack — ${localizedTitle}`,
-      text,
-      url,
-    });
-    shareStatus.textContent =
-      fallback === "shared"
-        ? t("share.sent")
-        : fallback === "copied"
-          ? t("share.copiedLink")
-          : fallback === "cancelled"
-            ? ""
-            : t("share.unavailable");
-    return;
-  }
   shareStatus.textContent =
     result === "shared"
-      ? t("share.sentCard")
+      ? "Signal sent."
       : result === "copied"
-        ? t("share.copied")
-        : result === "downloaded"
-          ? t("share.downloaded")
-          : result === "cancelled"
-            ? ""
-            : t("share.unavailable");
+        ? "Score copied."
+        : result === "cancelled"
+          ? ""
+          : "Sharing is unavailable here.";
 }
 
 trayRoot.addEventListener("click", (event) => {
@@ -586,25 +509,93 @@ function activateBoardCell(event) {
   if (cell) placeSelected({ x: Number(cell.dataset.x), y: Number(cell.dataset.y) });
 }
 
+/** 找到屏幕坐标下的棋盘格子 */
+function cellAtPoint(clientX, clientY) {
+  const el = document.elementFromPoint(clientX, clientY);
+  return el ? el.closest("[data-x][data-y]") : null;
+}
+
+/** 更新 hover 预览到指定格子坐标 */
+function updateHoverAt(x, y) {
+  const piece = selectedPiece();
+  const pointer = { x, y };
+  hoverOrigin = piece ? placementOriginForTap(grid, piece.cells, pointer) : pointer;
+  applyBoardPreview();
+}
+
+// 触屏拖拽状态：pointerdown 时记录起点，pointermove 跟随，pointerup 放置
+let touchDrag = null;
+
 boardRoot.addEventListener("pointerdown", (event) => {
-  if (event.button !== 0) return;
+  if (event.button !== 0 && event.pointerType === "mouse") return;
+  const cell = event.target.closest("[data-x][data-y]");
+  if (!cell) return;
   event.preventDefault();
+
+  if (event.pointerType === "touch") {
+    // 触屏：进入拖拽预览模式，不立即放置
+    const x = Number(cell.dataset.x);
+    const y = Number(cell.dataset.y);
+    touchDrag = { activePointerId: event.pointerId, moved: false };
+    // 拖拽期间禁止页面滚动，避免 pointermove 被中断
+    boardRoot.style.touchAction = "none";
+    updateHoverAt(x, y);
+    return;
+  }
+  // 桌面：立即放置（保留原行为）
   activateBoardCell(event);
 });
+
+boardRoot.addEventListener("pointermove", (event) => {
+  if (!touchDrag || event.pointerId !== touchDrag.activePointerId) return;
+  const cell = cellAtPoint(event.clientX, event.clientY);
+  if (!cell) return;
+  const x = Number(cell.dataset.x);
+  const y = Number(cell.dataset.y);
+  // 与当前 hoverOrigin 不同才更新，避免冗余重绘
+  if (!hoverOrigin || hoverOrigin.x !== x || hoverOrigin.y !== y) {
+    touchDrag.moved = true;
+    updateHoverAt(x, y);
+  }
+});
+
+function endTouchDrag() {
+  if (!touchDrag) return;
+  touchDrag = null;
+  // 恢复 touch-action，允许页面滚动
+  boardRoot.style.touchAction = "";
+}
+
+boardRoot.addEventListener("pointerup", (event) => {
+  if (!touchDrag || event.pointerId !== touchDrag.activePointerId) return;
+  const cell = cellAtPoint(event.clientX, event.clientY);
+  endTouchDrag();
+  if (cell) {
+    placeSelected({ x: Number(cell.dataset.x), y: Number(cell.dataset.y) });
+  } else {
+    // 抬起在棋盘外 → 取消放置，保留预览状态清空
+    hoverOrigin = null;
+    applyBoardPreview();
+  }
+});
+
+boardRoot.addEventListener("pointercancel", () => {
+  endTouchDrag();
+  hoverOrigin = null;
+  applyBoardPreview();
+});
+
 boardRoot.addEventListener("click", (event) => {
   if (event.detail === 0) activateBoardCell(event);
 });
 boardRoot.addEventListener("pointerover", (event) => {
   const cell = event.target.closest("[data-x][data-y]");
   if (!cell || event.pointerType === "touch") return;
-  const piece = selectedPiece();
   const pointer = { x: Number(cell.dataset.x), y: Number(cell.dataset.y) };
-  hoverOrigin = piece
-    ? placementOriginForTap(grid, piece.cells, pointer)
-    : pointer;
-  applyBoardPreview();
+  updateHoverAt(pointer.x, pointer.y);
 });
 boardRoot.addEventListener("pointerleave", () => {
+  if (touchDrag) return; // 拖拽中不响应 leave（手指可能只是滑出边缘再滑回）
   hoverOrigin = null;
   applyBoardPreview();
 });
@@ -615,27 +606,6 @@ shareButton.addEventListener("click", shareRun);
 submitLeaderboardButton.addEventListener("click", submitToLeaderboard);
 openLeaderboardButton.addEventListener("click", openLeaderboardPanel);
 closeLeaderboardButton.addEventListener("click", closeLeaderboardPanel);
-
-// 初始化语言切换器 + 应用翻译 + 语言切换时刷新动态文案
-mountLangSwitcher(document.querySelector("#lang-switcher"), () => {
-  apply();
-  setMessageKey(lastMessage.key, ...lastMessage.args);
-  if (lastRankStatus) {
-    rankStatus.hidden = false;
-    rankStatus.textContent = t(lastRankStatus.key, ...lastRankStatus.args);
-  }
-  if (lastPanelRankStatus) {
-    panelRankStatus.hidden = false;
-    panelRankStatus.textContent = t(lastPanelRankStatus.key, ...lastPanelRankStatus.args);
-  }
-  render();
-  if (!gameOverRoot.hidden) renderGameOverContent();
-  if (!leaderboardPanel.hidden) {
-    loadLeaderboardToList(panelLeaderboardTop, setPanelRankStatus, true);
-  }
-});
-
-apply();
 
 // 首次进入时提示起名（不阻塞游戏，prompt 关闭后 startRun）
 promptForDisplayNameIfNeeded();

@@ -189,3 +189,97 @@ test("every shipped puzzle is solvable under the public rules", () => {
     assert.ok(solvable, `${puzzle.id} is not solvable`);
   }
 });
+
+test("every shipped puzzle has a unique solution under the public rules", () => {
+  // 严谨性守门：每关必须有且仅有一个合法放置。
+  // 多解关卡会让"逻辑推理"退化为"试错"，违反 Lantern Grove 作为逻辑谜题的契约。
+  // 规则公开，回溯实现内联在测试中，不依赖私有 solver。
+  // clues.fixedLanterns 作为预放灯约束参与求解（与 game-core.js 的 createGameState 一致）。
+  const countSolutions = (size, regions, fixedByRow, row, usedCols, usedRegions, placed, count) => {
+    if (count.value >= 2) return; // 提前终止：找到 2 个解即判定多解
+    if (row === size) {
+      count.value += 1;
+      return;
+    }
+    // 若该行有 fixed 灯，只尝试该列；否则尝试所有列
+    const fixedCol = fixedByRow.get(row);
+    const colsToTry = fixedCol !== undefined ? [fixedCol] : Array.from({ length: size }, (_, c) => c);
+    for (const col of colsToTry) {
+      if (usedCols.has(col)) continue;
+      const region = regions[row * size + col];
+      if (usedRegions.has(region)) continue;
+      if (row > 0 && Math.abs(col - placed[row - 1]) <= 1) continue;
+      placed[row] = col;
+      usedCols.add(col);
+      usedRegions.add(region);
+      countSolutions(size, regions, fixedByRow, row + 1, usedCols, usedRegions, placed, count);
+      usedCols.delete(col);
+      usedRegions.delete(region);
+      if (count.value >= 2) return;
+    }
+  };
+
+  for (const puzzle of LANTERN_GROVE_COLLECTION) {
+    // 构建 fixedByRow 映射（来自 clues.fixedLanterns）
+    const fixedByRow = new Map();
+    const fixedLanterns = puzzle.clues?.fixedLanterns ?? [];
+    for (const idx of fixedLanterns) {
+      const row = Math.floor(idx / puzzle.size);
+      const col = idx % puzzle.size;
+      fixedByRow.set(row, col);
+    }
+
+    const placed = new Array(puzzle.size);
+    const count = { value: 0 };
+    countSolutions(
+      puzzle.size,
+      puzzle.regions,
+      fixedByRow,
+      0,
+      new Set(),
+      new Set(),
+      placed,
+      count,
+    );
+    assert.equal(
+      count.value,
+      1,
+      `${puzzle.id} has ${count.value === 0 ? "no" : "multiple"} solutions (expected unique)`,
+    );
+  }
+});
+
+test("clues fixed lanterns are locked and cannot be removed by the player", () => {
+  // clues.fixedLanterns 的格子初始即为 CELL_LANTERN，且 applyCellAction 无法切换
+  const puzzleWithClues = {
+    id: "test-clues",
+    size: 4,
+    difficulty: "Test",
+    regions: [0, 1, 2, 3, 0, 1, 2, 3, 0, 1, 2, 3, 0, 1, 2, 3],
+    clues: { fixedLanterns: [1] }, // (0,1) 预放灯
+  };
+  const state = createGameState(puzzleWithClues);
+  assert.equal(state.cells[1], CELL_LANTERN);
+  assert.equal(state.locked.has(1), true);
+  // 尝试移除固定灯笼 → 状态不变
+  const afterToggle = applyCellAction(state, 1, "lantern");
+  assert.equal(afterToggle.cells[1], CELL_LANTERN);
+  // 尝试用 mark 覆盖 → 状态不变
+  const afterMark = applyCellAction(state, 1, "mark");
+  assert.equal(afterMark.cells[1], CELL_LANTERN);
+});
+
+test("clues fixed lanterns participate in conflict detection and completion", () => {
+  // 固定灯笼参与行/列/区域冲突检测，也参与完成判定
+  const puzzle = {
+    id: "test-clues-complete",
+    size: 4,
+    difficulty: "Test",
+    regions: [0, 1, 2, 3, 0, 1, 2, 3, 0, 1, 2, 3, 0, 1, 2, 3],
+    clues: { fixedLanterns: [1] }, // (0,1) 预放灯
+  };
+  const state = createGameState(puzzle);
+  // (0,1) 已放灯，在同行 (0,3) 再放一盏 → 应冲突
+  const conflictState = applyCellAction(state, 3, "lantern");
+  assert.deepEqual([...getConflicts(conflictState)].sort(), [1, 3]);
+});

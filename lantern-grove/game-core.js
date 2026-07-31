@@ -1,12 +1,13 @@
 /**
  * @module lantern-grove/game-core
  * @contract
- *  输入: puzzle {size, regions, clues}, state {puzzle, cells, moves}, index (number), mode ("mark"|"lantern")
+ *  输入: puzzle {size, regions, clues?}, state {puzzle, cells, moves, locked?}, index (number), mode ("mark"|"lantern")
  *  输出: 新 state / 冲突 Set / 进度对象 {lanterns,rows,columns,regions,target} / 布尔判定
  *  不变式: cells 长度 = size*size；CELL_EMPTY=0, CELL_MARK=1, CELL_LANTERN=2；
  *          isPuzzleSolved 要求所有行/列/区域各有一灯且无冲突；
+ *          clues.fixedLanterns 指定预放灯笼（初始即为 CELL_LANTERN 且 locked，玩家不可移除）；
  *          puzzleHasPrivateFields 拒绝 solution/answer/seed/diagnostics 字段
- *  边界: index 越界 → 返回原 state；applyCellAction 在 mark/lantern 间切换
+ *  边界: index 越界 → 返回原 state；locked 格子 → 返回原 state；applyCellAction 在 mark/lantern 间切换
  *  公私: PUBLIC（可进 root7925.github.io）
  *  依赖: 无
  *  状态: stable
@@ -16,11 +17,17 @@ export const CELL_MARK = 1;
 export const CELL_LANTERN = 2;
 
 export function createGameState(puzzle) {
-  return {
-    puzzle,
-    cells: Array(puzzle.size * puzzle.size).fill(CELL_EMPTY),
-    moves: 0,
-  };
+  const cells = Array(puzzle.size * puzzle.size).fill(CELL_EMPTY);
+  // 预设 clues 中的固定灯笼（不可移除），用于保证唯一解
+  const locked = new Set();
+  const fixedLanterns = puzzle.clues?.fixedLanterns ?? [];
+  for (const idx of fixedLanterns) {
+    if (idx >= 0 && idx < cells.length) {
+      cells[idx] = CELL_LANTERN;
+      locked.add(idx);
+    }
+  }
+  return { puzzle, cells, moves: 0, locked };
 }
 
 export function cellIndex(row, column, size) {
@@ -36,6 +43,8 @@ export function cellPosition(index, size) {
 
 export function applyCellAction(state, index, mode) {
   if (index < 0 || index >= state.cells.length) return state;
+  // 固定灯笼（clues）不可被玩家移除或覆盖
+  if (state.locked?.has(index)) return state;
   const next = [...state.cells];
   if (mode === "mark") {
     next[index] =
