@@ -1,3 +1,15 @@
+/**
+ * @module pattern-atlas/game-core
+ * @contract
+ *  输入: cells [{x,y,color}], rotation (0-3), size (board 边长), occupied (Set), clueColors (Map), targetColors (Map)
+ *  输出: 变换后的 cells / 旋转后的 cells / 布尔判定 / 布局度量对象
+ *  不变式: 4 次 rotateClockwise 回到原形状；normalize 平移到 (0,0)；
+ *          placementAllowed 检查边界+占用+线索色匹配；boardMatchesTarget 要求精确匹配 target（非仅填满）
+ *  边界: 空 cells → 空结果；allowedRotations 长度<2 → 返回首个或 0；placementOriginForTap 无合法位时返回居中坐标
+ *  公私: PUBLIC（可进 root7925.github.io）
+ *  依赖: 无（独立于 grid-core，因 Pattern Atlas 使用 color 而非 tone，且 board 为正方形 size×size）
+ *  状态: stable
+ */
 export function normalize(cells) {
   const minX = Math.min(...cells.map((cell) => cell.x));
   const minY = Math.min(...cells.map((cell) => cell.y));
