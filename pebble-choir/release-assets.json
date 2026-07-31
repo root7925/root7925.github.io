@@ -4,8 +4,10 @@
     "styles.css",
     "app.js",
     "game-core.js",
+    "i18n-messages.js",
     "../shared/feedback-core.js",
     "../shared/share-core.js",
+    "../shared/i18n.js",
     "../shared/vendor/matter-js/matter.min.js"
   ],
   "references": [

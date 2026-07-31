@@ -169,7 +169,7 @@ export function computeLayoutMetrics({
           : Math.min(132, Math.max(104, boardPixels * 0.38));
     const targetTop = compact ? 48 : 42;
     const boardTop = compact
-      ? hideTarget ? 88 : targetTop + targetPixels + 50
+      ? hideTarget ? 96 : targetTop + targetPixels + 50
       : 42 + targetPixels + 82;
     const trayCell = compact
       ? Math.max(

@@ -9,14 +9,20 @@ import {
   resolveTapAction,
   rotateClockwise,
   stablePieceDimensions,
-} from "./game-core.js?v=0093feb6640b";
-import { COLLECTION } from "./collection-01.js?v=0093feb6640b";
+} from "./game-core.js?v=6b54e696ee1e";
+import { COLLECTION } from "./collection-01.js?v=6b54e696ee1e";
 import {
   achievementFor,
   challengeText,
   challengeUrl,
   shareChallenge,
-} from "../shared/share-core.js?v=0093feb6640b";
+  renderShareCard,
+  shareCardImage,
+} from "../shared/share-core.js?v=6b54e696ee1e";
+import { createI18n, mountLangSwitcher } from "../shared/i18n.js?v=6b54e696ee1e";
+import { messages } from "./i18n-messages.js?v=6b54e696ee1e";
+
+const { t, apply, onLangChange } = createI18n(messages);
 
 const PALETTE = {
   coral: "#e45748",
@@ -92,6 +98,8 @@ const nextStudyButton = document.querySelector("#next-study");
 const replayStudyButton = document.querySelector("#replay-study");
 const shareButton = document.querySelector("#share-challenge");
 const shareStatus = document.querySelector("#share-status");
+const shareCardCanvas = document.querySelector("#share-card");
+const shareCardWrap = document.querySelector(".share-card-wrap");
 const achievementTitle = document.querySelector("#achievement-title");
 const previousStudyButton = document.querySelector("#previous-study");
 const followingStudyButton = document.querySelector("#following-study");
@@ -112,7 +120,14 @@ function saveProgress() {
 }
 
 function updateCollectionProgress() {
-  collectionProgress.textContent = `${completedIds.size} / ${LEVEL_ORDER.length} restored`;
+  collectionProgress.textContent = t("collection.progress", completedIds.size, LEVEL_ORDER.length);
+}
+
+// Tracks the active status message key so it can be re-translated on language change.
+let currentStatusKey = "status.dragFragment";
+function setStatus(key) {
+  currentStatusKey = key;
+  status.textContent = t(key);
 }
 
 function displayCells(piece) {
@@ -133,6 +148,25 @@ function makePieces(source) {
   }));
 }
 
+function applyLevelText() {
+  const displayIndex = currentLevelIndex();
+  document.querySelector("#study-number").textContent = t("study.number", String(displayIndex + 1).padStart(2, "0"));
+  document.querySelector("#puzzle-title").textContent = level.title;
+  document.querySelector("#difficulty").textContent = `${t("chapter." + level.chapter)} · ${t("difficulty." + level.difficulty)}`;
+  document.querySelector("#puzzle-description").textContent = level.description
+    ?? (level.mode === "clues" ? t("description.clues") : t("description.default"));
+  target.ariaLabel = level.mode === "clues" ? t("target.ariaClue") : t("target.ariaTarget");
+  const isLast = displayIndex === LEVEL_ORDER.length - 1;
+  document.querySelector("#completion-copy").textContent = isLast ? t("complete.copy.last") : t("complete.copy.next");
+  nextStudyButton.textContent = isLast ? t("complete.next.last") : t("complete.next.next");
+}
+
+function renderFieldLabel() {
+  document.querySelector("#field-label").textContent = layout.hideTarget
+    ? t("field.cluesOnBoard")
+    : level.mode === "clues" ? t("field.partialClue") : t("field.target");
+}
+
 function setLevel(nextLevelKey) {
   levelKey = nextLevelKey;
   level = LEVELS[levelKey];
@@ -147,27 +181,9 @@ function setLevel(nextLevelKey) {
   complete.hidden = true;
   shareStatus.textContent = "";
   saveProgress();
-  document.querySelector("#study-number").textContent = level.number;
-  document.querySelector("#puzzle-title").textContent = level.title;
-  document.querySelector("#difficulty").textContent = `${level.chapter} · ${level.difficulty}`;
-  document.querySelector("#puzzle-description").textContent = level.description
-    ?? (level.mode === "clues"
-      ? "Only part of the field is visible. Use the fixed color clues and fragment shapes to reconstruct the concealed pattern."
-      : "Reassemble the loose color fragments so every square matches the field. Filling the frame alone is not enough.");
-  document.querySelector("#field-label").textContent = level.mode === "clues" ? "partial clue field" : "target field";
-  target.ariaLabel = level.mode === "clues" ? "Partial color clue field" : "Target color field";
-  document.querySelector("#completion-copy").textContent =
-    currentLevelIndex() === LEVEL_ORDER.length - 1
-      ? "The First Atlas is complete."
-      : "The next study is ready when you are.";
-  nextStudyButton.textContent =
-    currentLevelIndex() === LEVEL_ORDER.length - 1
-      ? "Return to 01 →"
-      : "Next study →";
-  selectionLabel.textContent = "Select a fragment to rotate";
-  status.textContent = level.mode === "clues"
-    ? "Study the visible clues, then test one fragment at a time."
-    : "Read the target field, then begin with any fragment.";
+  applyLevelText();
+  selectionLabel.textContent = t("selection.default");
+  setStatus(level.mode === "clues" ? "status.studyClues" : "status.readTarget");
   const displayIndex = currentLevelIndex();
   levelCount.textContent = `${String(displayIndex + 1).padStart(2, "0")} / ${LEVEL_ORDER.length}`;
   previousStudyButton.disabled = displayIndex === 0;
@@ -196,13 +212,11 @@ function updateLayout() {
   target.hidden = layout.hideTarget;
   stage.classList.toggle("compact-layout", layout.compact);
   stage.classList.toggle("target-in-board", layout.hideTarget);
-  document.querySelector("#field-label").textContent = layout.hideTarget
-    ? "clues marked on board"
-    : level.mode === "clues" ? "partial clue field" : "target field";
+  renderFieldLabel();
   stage.style.setProperty("--stage-height", `${layout.height}px`);
   stage.style.setProperty("--board-label-top", `${boardTop - 27}px`);
   stage.style.setProperty("--tray-label-top", `${trayTop - 31}px`);
-  stage.style.setProperty("--action-top", `${layout.hideTarget ? 47 : boardTop - 62}px`);
+  stage.style.setProperty("--action-top", `${layout.hideTarget ? 56 : boardTop - 62}px`);
   stage.style.setProperty("--board-top", `${boardTop}px`);
   stage.style.setProperty("--board-left", `${layout.left}px`);
   stage.style.setProperty("--board-size", `${boardPixels}px`);
@@ -303,11 +317,11 @@ function place(piece, origin) {
   selectedId = piece.id;
   previewOrigin = null;
   const solved = checkComplete();
-  status.textContent = solved
-    ? "Pattern restored."
+  setStatus(solved
+    ? "status.restored"
     : placements.size === pieces.length
-      ? "The frame is full, but the pattern still contradicts itself. Rotate or move one fragment."
-      : "That fragment belongs. Keep going.";
+      ? "status.fullButConflict"
+      : "status.belongs");
   render();
   return true;
 }
@@ -316,7 +330,7 @@ function rotatePiece(piece) {
   if (!piece || !complete.hidden) return;
   const allowed = piece.allowedRotations;
   if (allowed.length < 2) {
-    status.textContent = "This fragment is already in its fixed orientation.";
+    setStatus("status.fixedOrientation");
     render();
     return;
   }
@@ -324,12 +338,12 @@ function rotatePiece(piece) {
   const current = rotations.get(piece.id) ?? allowed[0];
   rotations.set(piece.id, nextAllowedRotation(current, allowed));
   previewOrigin = null;
-  status.textContent = "Rotated. Compare its color sequence with the target field.";
+  setStatus("status.rotated");
   updateLayout();
 }
 
 function checkComplete() {
-  progress.textContent = `${placements.size} / ${pieces.length} fragments`;
+  progress.textContent = t("progress", placements.size, pieces.length);
   const solved = placements.size === pieces.length && boardMatchesSolution();
   complete.hidden = !solved;
   if (solved && !completionPresented) {
@@ -338,10 +352,17 @@ function checkComplete() {
       saveProgress();
       updateCollectionProgress();
     }
-    achievementTitle.textContent = achievementFor(
-      completedIds.size,
-      ATLAS_TITLES,
-    );
+    const achievement = achievementFor(completedIds.size, ATLAS_TITLES);
+    achievementTitle.textContent = achievement;
+    renderShareCard(shareCardCanvas, {
+      achievement,
+      gameName: "Pattern Atlas",
+      puzzleLabel: `Study ${String(currentLevelIndex() + 1).padStart(2, "0")}`,
+      detail: `${level.chapter} · ${level.difficulty}`,
+      accent: "#d5fe55",
+      background: "#111722",
+    });
+    shareCardWrap.hidden = false;
     shareStatus.textContent = "";
     completionPresented = true;
   }
@@ -356,20 +377,42 @@ async function shareCurrentChallenge() {
     puzzleLabel: `Study ${String(studyNumber).padStart(2, "0")}`,
     detail: `${level.chapter} · ${level.difficulty}`,
   });
-  const result = await shareChallenge({
+  const url = challengeUrl(location, "study", studyNumber);
+  const result = await shareCardImage({
     navigatorLike: navigator,
+    canvas: shareCardCanvas,
     title: "Pattern Atlas challenge",
     text,
-    url: challengeUrl(location, "study", studyNumber),
+    url,
+    fileName: `pattern-atlas-study-${studyNumber}.png`,
   });
+  if (result === "unavailable") {
+    const fallback = await shareChallenge({
+      navigatorLike: navigator,
+      title: "Pattern Atlas challenge",
+      text,
+      url,
+    });
+    shareStatus.textContent =
+      fallback === "shared"
+        ? t("share.challengeSent")
+        : fallback === "copied"
+          ? t("share.challengeCopied")
+          : fallback === "cancelled"
+            ? ""
+            : t("share.unavailable");
+    return;
+  }
   shareStatus.textContent =
     result === "shared"
-      ? "Challenge sent."
+      ? t("share.sent")
       : result === "copied"
-        ? "Challenge copied. Send it to someone sharp."
-        : result === "cancelled"
-          ? ""
-          : "Sharing is unavailable in this browser.";
+        ? t("share.copied")
+        : result === "downloaded"
+          ? t("share.downloaded")
+          : result === "cancelled"
+            ? ""
+            : t("share.unavailable");
 }
 
 function renderTarget() {
@@ -400,7 +443,9 @@ function renderBoard() {
         cell.classList.add("clue-cell");
         cell.style.setProperty("--clue-color", PALETTE[level.target[y][x]]);
       }
-      cell.ariaLabel = `${clue ? `${level.target[y][x]} clue. ` : ""}Place selected fragment at row ${y + 1}, column ${x + 1}`;
+      cell.ariaLabel = clue
+        ? t("cell.ariaClue", level.target[y][x], y + 1, x + 1)
+        : t("cell.aria", y + 1, x + 1);
       cell.addEventListener("click", () => {
         const piece = getPiece(selectedId);
         if (!piece || !complete.hidden) return;
@@ -420,8 +465,7 @@ function renderBoard() {
           return;
         }
         previewOrigin = origin;
-        status.textContent =
-          "That position does not fit. Rotate it or choose another square.";
+        setStatus("status.doesNotFit");
         render();
       });
       board.append(cell);
@@ -460,7 +504,12 @@ function renderPieces() {
     button.dataset.pieceId = piece.id;
     button.className = `piece${selectedId === piece.id ? " selected" : ""}${drag?.id === piece.id && drag.active ? " dragging" : ""}`;
     const isSelected = selectedId === piece.id;
-    button.ariaLabel = `Fragment ${index + 1}, ${placements.has(piece.id) ? "placed" : "loose"}. ${isSelected ? "Selected. Tap again to rotate." : "Tap to select."}`;
+    button.ariaLabel = t(
+      "piece.aria",
+      index + 1,
+      placements.has(piece.id) ? t("piece.placed") : t("piece.loose"),
+      isSelected ? t("piece.selectedHint") : t("piece.tapHint"),
+    );
     button.style.width = `${shape.width * view.scale}px`;
     button.style.height = `${shape.height * view.scale}px`;
     button.style.transform = `translate3d(${view.x}px, ${view.y}px, 0)`;
@@ -501,7 +550,7 @@ function renderPieces() {
           tapWasSelected = false;
           selectedId = piece.id;
           previewOrigin = null;
-          status.textContent = "Selected. Tap it again to rotate, or choose a square to preview.";
+          setStatus("status.selected");
           render();
         }
       }
@@ -522,9 +571,9 @@ function render() {
   }
   selectionLabel.textContent = selectedId
     ? getPiece(selectedId)?.allowedRotations.length > 1
-      ? `Fragment ${pieces.findIndex((piece) => piece.id === selectedId) + 1} selected · tap again to rotate`
-      : `Fragment ${pieces.findIndex((piece) => piece.id === selectedId) + 1} selected · fixed orientation`
-    : "Select a fragment to rotate";
+      ? t("selection.selected", pieces.findIndex((piece) => piece.id === selectedId) + 1)
+      : t("selection.fixed", pieces.findIndex((piece) => piece.id === selectedId) + 1)
+    : t("selection.default");
   checkComplete();
 }
 
@@ -569,7 +618,7 @@ function moveDrag(event) {
     piecesRoot.querySelectorAll(".piece.selected").forEach((item) => item.classList.remove("selected"));
     event.currentTarget.classList.add("selected", "dragging");
     resizePieceElement(event.currentTarget, displayCells(piece), layout.cell);
-    selectionLabel.textContent = `Fragment ${drag.index + 1} selected`;
+    selectionLabel.textContent = t("selection.dragging", drag.index + 1);
     rotateButton.disabled = false;
   }
   drag = { ...drag, x: localX - drag.grabX * shape.width * layout.cell, y: localY - drag.grabY * shape.height * layout.cell };
@@ -594,9 +643,7 @@ function endDrag(event) {
   window.setTimeout(() => { suppressClick = false; }, 300);
   const origin = { x: Math.round((x - layout.left) / layout.cell), y: Math.round((y - layout.top) / layout.cell) };
   if (!place(piece, origin)) {
-    status.textContent = level.clues
-      ? "That conflicts with a visible clue, another fragment, or the frame edge."
-      : "That fragment does not echo the target field. Try another position or rotate it.";
+    setStatus(level.clues ? "status.conflictClues" : "status.noEcho");
   }
   render();
 }
@@ -623,4 +670,16 @@ followingStudyButton.addEventListener("click", () => {
 });
 
 new ResizeObserver(updateLayout).observe(stage);
+
+// 语言切换：apply() 刷新静态文案，applyLevelText()/renderFieldLabel()/render() 刷新动态文案，
+// status 用记录的 key 重新翻译。
+mountLangSwitcher(document.querySelector("#lang-switcher"), () => {
+  apply();
+  applyLevelText();
+  renderFieldLabel();
+  status.textContent = t(currentStatusKey);
+  render();
+});
+
 setLevel(levelKey);
+apply();

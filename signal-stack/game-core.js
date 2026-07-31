@@ -7,7 +7,7 @@
  *          safeProgress 仅接受 best/runs/cleanSignals 三个有限数值字段，拒绝 seed/board/state 等私有负载
  *  边界: placeCells 失败 → {ok:false}；safeProgress 非 object → 全零；achievementForScore 阶梯式返回
  *  公私: PUBLIC（可进 root7925.github.io）
- *  依赖: shared/grid-core.js（带版本指纹 ?v=afc33e62604b）
+ *  依赖: shared/grid-core.js（带版本指纹 ?v=e7818979c2ab）
  *  状态: stable
  */
 import {
@@ -23,7 +23,7 @@ import {
   resolveGridPieceTap,
   rotateCellsClockwise,
   scorePlacement,
-} from "../shared/grid-core.js?v=afc33e62604b";
+} from "../shared/grid-core.js?v=e7818979c2ab";
 
 export {
   boardMetrics,

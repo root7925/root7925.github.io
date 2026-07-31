@@ -3,7 +3,7 @@
 export const COLLECTION = {
   "id": "collection-01",
   "title": "The First Atlas",
-  "version": 1,
+  "version": 2,
   "levels": [
     {
       "id": "study-01",
@@ -4616,6 +4616,1222 @@ export const COLLECTION = {
             ]
           ],
           "rotation": 2,
+          "allowedRotations": [
+            0,
+            1,
+            2,
+            3
+          ]
+        }
+      ]
+    },
+    {
+      "id": "study-17",
+      "number": "Study 17",
+      "title": "Drift map",
+      "chapter": "Echoes",
+      "difficulty": "Focus",
+      "size": 5,
+      "mode": "target",
+      "target": [
+        [
+          "coral",
+          "lime",
+          "violet",
+          "orange",
+          "teal"
+        ],
+        [
+          "lime",
+          "violet",
+          "orange",
+          "teal",
+          "coral"
+        ],
+        [
+          "violet",
+          "orange",
+          "teal",
+          "coral",
+          "lime"
+        ],
+        [
+          "orange",
+          "teal",
+          "coral",
+          "lime",
+          "violet"
+        ],
+        [
+          "teal",
+          "coral",
+          "lime",
+          "violet",
+          "orange"
+        ]
+      ],
+      "pieces": [
+        {
+          "id": "piece-1",
+          "cells": [
+            [
+              0,
+              0,
+              "coral"
+            ],
+            [
+              1,
+              0,
+              "lime"
+            ],
+            [
+              0,
+              1,
+              "lime"
+            ],
+            [
+              1,
+              1,
+              "violet"
+            ],
+            [
+              0,
+              2,
+              "violet"
+            ]
+          ],
+          "rotation": 3,
+          "allowedRotations": [
+            0,
+            1,
+            2,
+            3
+          ]
+        },
+        {
+          "id": "piece-2",
+          "cells": [
+            [
+              0,
+              0,
+              "violet"
+            ],
+            [
+              1,
+              0,
+              "orange"
+            ],
+            [
+              2,
+              0,
+              "teal"
+            ],
+            [
+              0,
+              1,
+              "orange"
+            ],
+            [
+              1,
+              1,
+              "teal"
+            ]
+          ],
+          "rotation": 3,
+          "allowedRotations": [
+            0,
+            1,
+            2,
+            3
+          ]
+        },
+        {
+          "id": "piece-3",
+          "cells": [
+            [
+              3,
+              0,
+              "coral"
+            ],
+            [
+              0,
+              1,
+              "orange"
+            ],
+            [
+              1,
+              1,
+              "teal"
+            ],
+            [
+              2,
+              1,
+              "coral"
+            ],
+            [
+              3,
+              1,
+              "lime"
+            ]
+          ],
+          "rotation": 3,
+          "allowedRotations": [
+            0,
+            1,
+            2,
+            3
+          ]
+        },
+        {
+          "id": "piece-4",
+          "cells": [
+            [
+              0,
+              0,
+              "orange"
+            ],
+            [
+              1,
+              0,
+              "teal"
+            ],
+            [
+              0,
+              1,
+              "teal"
+            ],
+            [
+              1,
+              1,
+              "coral"
+            ],
+            [
+              2,
+              1,
+              "lime"
+            ]
+          ],
+          "rotation": 2,
+          "allowedRotations": [
+            0,
+            1,
+            2,
+            3
+          ]
+        },
+        {
+          "id": "piece-5",
+          "cells": [
+            [
+              0,
+              0,
+              "coral"
+            ],
+            [
+              1,
+              0,
+              "lime"
+            ],
+            [
+              2,
+              0,
+              "violet"
+            ],
+            [
+              1,
+              1,
+              "violet"
+            ],
+            [
+              2,
+              1,
+              "orange"
+            ]
+          ],
+          "rotation": 0,
+          "allowedRotations": [
+            0,
+            1,
+            2,
+            3
+          ]
+        }
+      ]
+    },
+    {
+      "id": "study-18",
+      "number": "Study 18",
+      "title": "Slow return",
+      "chapter": "Echoes",
+      "difficulty": "Turn",
+      "size": 5,
+      "mode": "clues",
+      "target": [
+        [
+          "blue",
+          "violet",
+          "teal",
+          "blue",
+          "violet"
+        ],
+        [
+          "violet",
+          "teal",
+          "blue",
+          "violet",
+          "teal"
+        ],
+        [
+          "teal",
+          "blue",
+          "violet",
+          "teal",
+          "blue"
+        ],
+        [
+          "blue",
+          "violet",
+          "teal",
+          "blue",
+          "violet"
+        ],
+        [
+          "violet",
+          "teal",
+          "blue",
+          "violet",
+          "teal"
+        ]
+      ],
+      "clues": [
+        [
+          2,
+          0
+        ],
+        [
+          0,
+          1
+        ],
+        [
+          3,
+          1
+        ],
+        [
+          0,
+          2
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          2,
+          2
+        ],
+        [
+          0,
+          4
+        ],
+        [
+          2,
+          4
+        ],
+        [
+          3,
+          4
+        ]
+      ],
+      "pieces": [
+        {
+          "id": "piece-1",
+          "cells": [
+            [
+              0,
+              0,
+              "blue"
+            ],
+            [
+              1,
+              0,
+              "violet"
+            ],
+            [
+              0,
+              1,
+              "violet"
+            ],
+            [
+              1,
+              1,
+              "teal"
+            ]
+          ],
+          "rotation": 3,
+          "allowedRotations": [
+            0,
+            1,
+            2,
+            3
+          ]
+        },
+        {
+          "id": "piece-2",
+          "cells": [
+            [
+              0,
+              0,
+              "teal"
+            ],
+            [
+              1,
+              0,
+              "blue"
+            ],
+            [
+              2,
+              0,
+              "violet"
+            ],
+            [
+              0,
+              1,
+              "blue"
+            ]
+          ],
+          "rotation": 1,
+          "allowedRotations": [
+            0,
+            1,
+            2,
+            3
+          ]
+        },
+        {
+          "id": "piece-3",
+          "cells": [
+            [
+              0,
+              0,
+              "violet"
+            ],
+            [
+              1,
+              0,
+              "teal"
+            ],
+            [
+              0,
+              1,
+              "teal"
+            ],
+            [
+              1,
+              1,
+              "blue"
+            ]
+          ],
+          "rotation": 2,
+          "allowedRotations": [
+            0,
+            1,
+            2,
+            3
+          ]
+        },
+        {
+          "id": "piece-4",
+          "cells": [
+            [
+              0,
+              0,
+              "teal"
+            ],
+            [
+              1,
+              0,
+              "blue"
+            ],
+            [
+              0,
+              1,
+              "blue"
+            ],
+            [
+              1,
+              1,
+              "violet"
+            ]
+          ],
+          "rotation": 0,
+          "allowedRotations": [
+            0,
+            1,
+            2,
+            3
+          ]
+        },
+        {
+          "id": "piece-5",
+          "cells": [
+            [
+              0,
+              0,
+              "violet"
+            ],
+            [
+              0,
+              1,
+              "teal"
+            ],
+            [
+              1,
+              1,
+              "blue"
+            ],
+            [
+              2,
+              1,
+              "violet"
+            ]
+          ],
+          "rotation": 3,
+          "allowedRotations": [
+            0,
+            1,
+            2,
+            3
+          ]
+        },
+        {
+          "id": "piece-6",
+          "cells": [
+            [
+              0,
+              0,
+              "violet"
+            ],
+            [
+              1,
+              0,
+              "teal"
+            ],
+            [
+              2,
+              0,
+              "blue"
+            ],
+            [
+              3,
+              0,
+              "violet"
+            ],
+            [
+              4,
+              0,
+              "teal"
+            ]
+          ],
+          "rotation": 1,
+          "allowedRotations": [
+            0,
+            1,
+            2,
+            3
+          ]
+        }
+      ]
+    },
+    {
+      "id": "study-19",
+      "number": "Study 19",
+      "title": "Wide awake",
+      "chapter": "Echoes",
+      "difficulty": "Inference",
+      "size": 6,
+      "mode": "target",
+      "target": [
+        [
+          "coral",
+          "lime",
+          "violet",
+          "orange",
+          "teal",
+          "blue"
+        ],
+        [
+          "lime",
+          "violet",
+          "orange",
+          "teal",
+          "blue",
+          "coral"
+        ],
+        [
+          "violet",
+          "orange",
+          "teal",
+          "blue",
+          "coral",
+          "lime"
+        ],
+        [
+          "orange",
+          "teal",
+          "blue",
+          "coral",
+          "lime",
+          "violet"
+        ],
+        [
+          "teal",
+          "blue",
+          "coral",
+          "lime",
+          "violet",
+          "orange"
+        ],
+        [
+          "blue",
+          "coral",
+          "lime",
+          "violet",
+          "orange",
+          "teal"
+        ]
+      ],
+      "pieces": [
+        {
+          "id": "piece-1",
+          "cells": [
+            [
+              0,
+              0,
+              "coral"
+            ],
+            [
+              1,
+              0,
+              "lime"
+            ],
+            [
+              0,
+              1,
+              "lime"
+            ],
+            [
+              1,
+              1,
+              "violet"
+            ],
+            [
+              0,
+              2,
+              "violet"
+            ],
+            [
+              1,
+              2,
+              "orange"
+            ]
+          ],
+          "rotation": 1,
+          "allowedRotations": [
+            0,
+            1,
+            2,
+            3
+          ]
+        },
+        {
+          "id": "piece-2",
+          "cells": [
+            [
+              0,
+              0,
+              "violet"
+            ],
+            [
+              1,
+              0,
+              "orange"
+            ],
+            [
+              2,
+              0,
+              "teal"
+            ],
+            [
+              3,
+              0,
+              "blue"
+            ],
+            [
+              0,
+              1,
+              "orange"
+            ],
+            [
+              1,
+              1,
+              "teal"
+            ]
+          ],
+          "rotation": 1,
+          "allowedRotations": [
+            0,
+            1,
+            2,
+            3
+          ]
+        },
+        {
+          "id": "piece-3",
+          "cells": [
+            [
+              0,
+              0,
+              "blue"
+            ],
+            [
+              1,
+              0,
+              "coral"
+            ],
+            [
+              0,
+              1,
+              "coral"
+            ],
+            [
+              1,
+              1,
+              "lime"
+            ],
+            [
+              0,
+              2,
+              "lime"
+            ],
+            [
+              1,
+              2,
+              "violet"
+            ]
+          ],
+          "rotation": 0,
+          "allowedRotations": [
+            0,
+            1,
+            2,
+            3
+          ]
+        },
+        {
+          "id": "piece-4",
+          "cells": [
+            [
+              0,
+              0,
+              "teal"
+            ],
+            [
+              1,
+              0,
+              "blue"
+            ],
+            [
+              0,
+              1,
+              "blue"
+            ],
+            [
+              1,
+              1,
+              "coral"
+            ],
+            [
+              0,
+              2,
+              "coral"
+            ],
+            [
+              1,
+              2,
+              "lime"
+            ]
+          ],
+          "rotation": 0,
+          "allowedRotations": [
+            0,
+            1,
+            2,
+            3
+          ]
+        },
+        {
+          "id": "piece-5",
+          "cells": [
+            [
+              0,
+              0,
+              "orange"
+            ],
+            [
+              1,
+              0,
+              "teal"
+            ],
+            [
+              0,
+              1,
+              "teal"
+            ],
+            [
+              1,
+              1,
+              "blue"
+            ],
+            [
+              0,
+              2,
+              "blue"
+            ],
+            [
+              1,
+              2,
+              "coral"
+            ]
+          ],
+          "rotation": 1,
+          "allowedRotations": [
+            0,
+            1,
+            2,
+            3
+          ]
+        },
+        {
+          "id": "piece-6",
+          "cells": [
+            [
+              2,
+              0,
+              "violet"
+            ],
+            [
+              3,
+              0,
+              "orange"
+            ],
+            [
+              0,
+              1,
+              "lime"
+            ],
+            [
+              1,
+              1,
+              "violet"
+            ],
+            [
+              2,
+              1,
+              "orange"
+            ],
+            [
+              3,
+              1,
+              "teal"
+            ]
+          ],
+          "rotation": 0,
+          "allowedRotations": [
+            0,
+            1,
+            2,
+            3
+          ]
+        }
+      ]
+    },
+    {
+      "id": "study-20",
+      "number": "Study 20",
+      "title": "Still center",
+      "chapter": "Echoes",
+      "difficulty": "Deep",
+      "size": 6,
+      "mode": "clues",
+      "target": [
+        [
+          "teal",
+          "teal",
+          "teal",
+          "teal",
+          "teal",
+          "teal"
+        ],
+        [
+          "teal",
+          "coral",
+          "coral",
+          "coral",
+          "coral",
+          "teal"
+        ],
+        [
+          "teal",
+          "coral",
+          "lime",
+          "lime",
+          "coral",
+          "teal"
+        ],
+        [
+          "teal",
+          "coral",
+          "lime",
+          "lime",
+          "coral",
+          "teal"
+        ],
+        [
+          "teal",
+          "coral",
+          "coral",
+          "coral",
+          "coral",
+          "teal"
+        ],
+        [
+          "teal",
+          "teal",
+          "teal",
+          "teal",
+          "teal",
+          "teal"
+        ]
+      ],
+      "clues": [
+        [
+          0,
+          0
+        ],
+        [
+          2,
+          0
+        ],
+        [
+          5,
+          0
+        ],
+        [
+          4,
+          1
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          2,
+          2
+        ],
+        [
+          1,
+          4
+        ],
+        [
+          2,
+          4
+        ],
+        [
+          3,
+          4
+        ],
+        [
+          4,
+          4
+        ],
+        [
+          3,
+          5
+        ],
+        [
+          5,
+          5
+        ]
+      ],
+      "pieces": [
+        {
+          "id": "piece-1",
+          "cells": [
+            [
+              0,
+              0,
+              "teal"
+            ],
+            [
+              1,
+              0,
+              "teal"
+            ],
+            [
+              2,
+              0,
+              "teal"
+            ],
+            [
+              3,
+              0,
+              "teal"
+            ],
+            [
+              4,
+              0,
+              "teal"
+            ],
+            [
+              5,
+              0,
+              "teal"
+            ]
+          ],
+          "rotation": 1,
+          "allowedRotations": [
+            0,
+            1,
+            2,
+            3
+          ]
+        },
+        {
+          "id": "piece-2",
+          "cells": [
+            [
+              0,
+              0,
+              "teal"
+            ],
+            [
+              0,
+              1,
+              "teal"
+            ],
+            [
+              0,
+              2,
+              "teal"
+            ],
+            [
+              0,
+              3,
+              "teal"
+            ],
+            [
+              0,
+              4,
+              "teal"
+            ]
+          ],
+          "rotation": 2,
+          "allowedRotations": [
+            0,
+            1,
+            2,
+            3
+          ]
+        },
+        {
+          "id": "piece-3",
+          "cells": [
+            [
+              0,
+              0,
+              "teal"
+            ],
+            [
+              0,
+              1,
+              "teal"
+            ],
+            [
+              0,
+              2,
+              "teal"
+            ],
+            [
+              0,
+              3,
+              "teal"
+            ],
+            [
+              0,
+              4,
+              "teal"
+            ]
+          ],
+          "rotation": 3,
+          "allowedRotations": [
+            0,
+            1,
+            2,
+            3
+          ]
+        },
+        {
+          "id": "piece-4",
+          "cells": [
+            [
+              0,
+              0,
+              "teal"
+            ],
+            [
+              1,
+              0,
+              "teal"
+            ],
+            [
+              2,
+              0,
+              "teal"
+            ],
+            [
+              3,
+              0,
+              "teal"
+            ]
+          ],
+          "rotation": 2,
+          "allowedRotations": [
+            0,
+            1,
+            2,
+            3
+          ]
+        },
+        {
+          "id": "piece-5",
+          "cells": [
+            [
+              0,
+              0,
+              "coral"
+            ],
+            [
+              1,
+              0,
+              "coral"
+            ],
+            [
+              2,
+              0,
+              "coral"
+            ],
+            [
+              3,
+              0,
+              "coral"
+            ],
+            [
+              0,
+              1,
+              "coral"
+            ],
+            [
+              0,
+              2,
+              "coral"
+            ]
+          ],
+          "rotation": 3,
+          "allowedRotations": [
+            0,
+            1,
+            2,
+            3
+          ]
+        },
+        {
+          "id": "piece-6",
+          "cells": [
+            [
+              3,
+              0,
+              "coral"
+            ],
+            [
+              3,
+              1,
+              "coral"
+            ],
+            [
+              0,
+              2,
+              "coral"
+            ],
+            [
+              1,
+              2,
+              "coral"
+            ],
+            [
+              2,
+              2,
+              "coral"
+            ],
+            [
+              3,
+              2,
+              "coral"
+            ]
+          ],
+          "rotation": 0,
+          "allowedRotations": [
+            0,
+            1,
+            2,
+            3
+          ]
+        },
+        {
+          "id": "piece-7",
+          "cells": [
+            [
+              0,
+              0,
+              "lime"
+            ],
+            [
+              0,
+              1,
+              "lime"
+            ]
+          ],
+          "rotation": 2,
+          "allowedRotations": [
+            0,
+            1,
+            2,
+            3
+          ]
+        },
+        {
+          "id": "piece-8",
+          "cells": [
+            [
+              0,
+              0,
+              "lime"
+            ],
+            [
+              0,
+              1,
+              "lime"
+            ]
+          ],
+          "rotation": 0,
           "allowedRotations": [
             0,
             1,

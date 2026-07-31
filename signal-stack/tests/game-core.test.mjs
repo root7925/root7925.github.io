@@ -208,3 +208,59 @@ test("progress parsing cannot restore arbitrary private payloads", () => {
   );
   assert.equal(achievementForScore(5200), "Signal Keeper");
 });
+
+test("every deck shape fits onto a standard board in some orientation", () => {
+  // 可玩性不变式：标准 8×7 board 上，每个 shape 至少有一种旋转能放置。
+  // 用固定 random 序列遍历 deck 抽取所有 shape，验证每个都能放进空 board。
+  const contract = publicDeckContract();
+  const seen = new Map(); // shape name -> 能放置
+  const draws = Array.from({ length: 200 }, (_, i) => i / 200);
+  let idx = 0;
+  for (const r of draws) {
+    const piece = drawPiece(() => r, `probe-${idx++}`);
+    const grid = createGrid(8, 7);
+    const orientations = [piece.cells];
+    let rotated = piece.cells;
+    for (let turn = 0; turn < 3; turn += 1) {
+      rotated = rotateCellsClockwise(rotated);
+      orientations.push(rotated);
+    }
+    const fits = orientations.some((cells) =>
+      cells.every((c) => c.x >= 0 && c.y >= 0 && c.x < 7 && c.y < 8),
+    );
+    seen.set(piece.name, fits || seen.get(piece.name) || false);
+  }
+  // 每个 shape 至少出现一次且能放置
+  for (const [name, fits] of seen) {
+    assert.equal(fits, true, `shape ${name} cannot fit on standard board`);
+  }
+  // 覆盖所有 shape（contract.shapeCount 个）
+  assert.ok(seen.size === contract.shapeCount, `expected ${contract.shapeCount} shapes, saw ${seen.size}`);
+});
+
+test("drawn pieces never leak private fields and stay within cell budget", () => {
+  const contract = publicDeckContract();
+  const tones = new Set(contract.tones);
+  for (let i = 0; i < 100; i += 1) {
+    const piece = drawPiece(() => i / 100, `budget-${i}`);
+    assert.ok(piece.cells.length >= 2 && piece.cells.length <= contract.maximumCells);
+    assert.ok(piece.cells.every((c) => tones.has(c.tone)));
+    for (const forbidden of ["seed", "solution", "answer", "diagnostics"]) {
+      assert.equal(forbidden in piece, false);
+    }
+  }
+});
+
+test("rotating any drawn piece preserves its tone multiset", () => {
+  // 旋转不变式：旋转只改变坐标，不改变 tone 组成。
+  for (let i = 0; i < 50; i += 1) {
+    const piece = drawPiece(() => i / 50, `rot-${i}`);
+    const originalTones = piece.cells.map((c) => c.tone).sort();
+    let cells = piece.cells;
+    for (let turn = 0; turn < 4; turn += 1) {
+      cells = rotateCellsClockwise(cells);
+    }
+    const rotatedTones = cells.map((c) => c.tone).sort();
+    assert.deepEqual(rotatedTones, originalTones);
+  }
+});

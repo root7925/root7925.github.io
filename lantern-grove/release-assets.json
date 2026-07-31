@@ -3,8 +3,10 @@
     "app.js",
     "game-core.js",
     "collection-01.js",
+    "i18n-messages.js",
     "../shared/feedback-core.js",
     "../shared/share-core.js",
+    "../shared/i18n.js",
     "styles.css",
     "index.html"
   ],

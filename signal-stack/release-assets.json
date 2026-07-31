@@ -3,8 +3,10 @@
     "app.js",
     "game-core.js",
     "piece-deck.js",
+    "i18n-messages.js",
     "../shared/grid-core.js",
     "../shared/share-core.js",
+    "../shared/i18n.js",
     "styles.css",
     "index.html"
   ],

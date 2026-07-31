@@ -5,16 +5,28 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta
       name="description"
-      content="Pattern Atlas: sixteen carefully selected visual logic studies by Leslie."
+      content="Pattern Atlas: twenty carefully selected visual logic studies by Leslie."
     />
     <title>Pattern Atlas — The First Atlas</title>
-    <link rel="stylesheet" href="styles.css?v=0093feb6640b" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Pattern Atlas — Leslie·Play" />
+    <meta property="og:description" content="Twenty carefully selected visual logic studies. Rotate pieces, match the pattern." />
+    <meta property="og:image" content="https://leslieplay.xyz/og/pattern-atlas.jpg" />
+    <meta property="og:url" content="https://leslieplay.xyz/pattern-atlas/" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Pattern Atlas — Leslie·Play" />
+    <meta name="twitter:description" content="Twenty carefully selected visual logic studies. Rotate pieces, match the pattern." />
+    <meta name="twitter:image" content="https://leslieplay.xyz/og/pattern-atlas.jpg" />
+    <link rel="stylesheet" href="styles.css?v=6b54e696ee1e" />
   </head>
   <body>
     <main>
       <nav>
-        <a class="brand" href="../">Leslie / Play</a>
-        <span>The First Atlas · 16 studies</span>
+        <a class="brand" href="../" data-i18n="nav.brand">Leslie·Play</a>
+        <div class="nav-actions">
+          <span data-i18n="nav.subtitle">The First Atlas · 20 studies</span>
+          <div id="lang-switcher"></div>
+        </div>
       </nav>
 
       <section class="game-shell" aria-labelledby="puzzle-title">
@@ -32,44 +44,49 @@
             <span id="collection-progress">0 / 16 restored</span>
           </div>
           <div class="controls">
-            <button class="reset" type="button" id="reset">Restart</button>
+            <button class="reset" type="button" id="reset" data-i18n="controls.restart">Restart</button>
           </div>
           <p class="status" id="status" aria-live="polite">
             Drag a fragment into the frame. Tap a fragment, then a square if
             you prefer.
           </p>
+          <p class="help-gestures" data-i18n="help.gestures">Drag a fragment into the frame, or tap a fragment and then a square. Tap a selected fragment again to rotate it. Use the arrows above the board to move between studies.</p>
         </aside>
 
-        <div class="stage" id="stage" aria-label="Pattern Atlas puzzle">
+        <div class="stage" id="stage" data-i18n-aria="stage.ariaLabel" aria-label="Pattern Atlas puzzle">
           <div class="stage-head">
             <p class="frame-label" id="field-label">target field</p>
             <div class="level-switcher" aria-label="Choose a puzzle">
-              <button type="button" id="previous-study" aria-label="Previous study">‹</button>
+              <button type="button" id="previous-study" data-i18n-aria="nav.prevStudy" aria-label="Previous study">‹</button>
               <span id="level-count">01 / 16</span>
-              <button type="button" id="following-study" aria-label="Next study">›</button>
+              <button type="button" id="following-study" data-i18n-aria="nav.nextStudy" aria-label="Next study">›</button>
             </div>
           </div>
           <div class="target" id="target" aria-label="Target color field"></div>
           <div class="stage-actions" aria-live="polite">
             <span id="selection-label">Select a fragment to rotate</span>
-            <button class="rotate" type="button" id="rotate" disabled>Rotate ↻</button>
+            <button class="rotate" type="button" id="rotate" disabled data-i18n="controls.rotate">Rotate ↻</button>
           </div>
-          <p class="frame-label restoration-label">restoration frame</p>
-          <div class="board" id="board" aria-label="Restoration board"></div>
+          <p class="frame-label restoration-label" data-i18n="field.restoration">restoration frame</p>
+          <div class="board" id="board" data-i18n-aria="board.ariaLabel" aria-label="Restoration board"></div>
           <div class="preview" id="preview" aria-hidden="true"></div>
-          <p class="tray-label">loose pieces</p>
+          <p class="tray-label" data-i18n="tray.label">loose pieces</p>
           <div id="pieces"></div>
           <div class="complete" id="complete" hidden role="status">
             <span>✦</span>
             <div>
-              <strong>Pattern restored</strong>
+              <strong data-i18n="complete.title">Pattern restored</strong>
               <span class="achievement" id="achievement-title">Pattern Reader</span>
               <small id="completion-copy">Try the next study when you are ready.</small>
             </div>
+            <figure class="share-card-wrap" hidden>
+              <canvas id="share-card" width="1200" height="630" aria-label="Achievement card"></canvas>
+              <figcaption data-i18n="share.caption">Screenshot or tap Share to send this card.</figcaption>
+            </figure>
             <div class="completion-actions">
               <button type="button" id="next-study">Next study →</button>
-              <button type="button" id="share-challenge">Challenge a friend</button>
-              <button type="button" id="replay-study">Play again</button>
+              <button type="button" id="share-challenge" data-i18n="share.card">Share card</button>
+              <button type="button" id="replay-study" data-i18n="complete.replay">Play again</button>
             </div>
             <small class="share-status" id="share-status" aria-live="polite"></small>
           </div>
@@ -78,20 +95,20 @@
 
       <section class="hero">
         <div>
-          <p class="eyebrow">A visual logic collection</p>
-          <h1>Make the pattern<br /><em>click</em> back into place.</h1>
+          <p class="eyebrow" data-i18n="hero.eyebrow">A visual logic collection</p>
+          <h1 data-i18n-html="hero.title">Make the pattern<br /><em>click</em> back into place.</h1>
         </div>
-        <p>
+        <p data-i18n="hero.body">
           Read the color field. Rotate the fragments. Find the one exact
           arrangement—without a clock running beside you.
         </p>
       </section>
 
-      <footer>
-        <strong>Pattern Atlas</strong> — Sixteen quiet studies by Leslie.
+      <footer data-i18n-html="footer.copy">
+        <strong>Pattern Atlas</strong> — Twenty quiet studies by Leslie.
         Progress stays on this device. No account, timer, or advertisement.
       </footer>
     </main>
-    <script src="app.js?v=0093feb6640b" type="module"></script>
+    <script src="app.js?v=6b54e696ee1e" type="module"></script>
   </body>
 </html>

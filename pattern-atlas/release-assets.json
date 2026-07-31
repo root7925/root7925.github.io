@@ -3,8 +3,10 @@
     "app.js",
     "collection-01.js",
     "game-core.js",
+    "i18n-messages.js",
     "styles.css",
-    "../shared/share-core.js"
+    "../shared/share-core.js",
+    "../shared/i18n.js"
   ],
   "references": [
     "app.js",

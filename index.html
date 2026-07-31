@@ -5,6 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content="Leslie makes small games and interactive things about patterns, attention, and little moments of repair." />
     <title>Leslie — small games & interactive things</title>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Leslie·Play — small games & interactive things" />
+    <meta property="og:description" content="Leslie makes small games about patterns, attention, and little moments of repair." />
+    <meta property="og:image" content="https://leslieplay.xyz/og/leslieplay.jpg" />
+    <meta property="og:url" content="https://leslieplay.xyz/" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Leslie·Play — small games & interactive things" />
+    <meta name="twitter:description" content="Leslie makes small games about patterns, attention, and little moments of repair." />
+    <meta name="twitter:image" content="https://leslieplay.xyz/og/leslieplay.jpg" />
     <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
     <link rel="stylesheet" href="styles.css" />
   </head>
@@ -13,28 +22,31 @@
       <nav aria-label="Primary">
         <a class="wordmark" href="/" aria-label="Leslie Play home">
           <img src="assets/leslie-play-mark.svg" alt="" width="34" height="34" />
-          <span>LESLIE / PLAY</span>
+          <span data-i18n="nav.brand">LESLIE·PLAY</span>
         </a>
-        <a href="#notes">Field notes</a>
+        <div class="nav-actions">
+          <a href="#notes" data-i18n="nav.fieldNotes">Field notes</a>
+          <div id="lang-switcher"></div>
+        </div>
       </nav>
 
       <section class="hero" aria-labelledby="hero-title">
-        <p class="eyebrow">Independent game maker · 2026—</p>
-        <h1 id="hero-title">Small games for<br /><em>slower attention.</em></h1>
-        <p class="intro">
+        <p class="eyebrow" data-i18n="hero.eyebrow">Independent game maker · 2026—</p>
+        <h1 id="hero-title" data-i18n-html="hero.title">Small games for<br /><em>slower attention.</em></h1>
+        <p class="intro" data-i18n="hero.intro">
           I make tactile little worlds about patterns, observation, and the quiet
           satisfaction of figuring something out.
         </p>
         <div class="hero-actions">
-          <a class="button" href="pebble-choir/">Play Pebble Choir <span>→</span></a>
-          <a class="text-button" href="#games">Browse all four games</a>
+          <a class="button" href="pebble-choir/" data-i18n-html="hero.playPebble">Play Pebble Choir <span>→</span></a>
+          <a class="text-button" href="#games" data-i18n="hero.browseAll">Browse all four games</a>
         </div>
       </section>
 
       <section class="work" id="games" aria-labelledby="work-title">
         <div class="section-heading">
-          <p class="eyebrow">Games 01—04</p>
-          <h2 id="work-title">Four ways to notice.</h2>
+          <p class="eyebrow" data-i18n="work.eyebrow">Games 01—04</p>
+          <h2 id="work-title" data-i18n="work.title">Four ways to notice.</h2>
         </div>
         <div class="project-grid">
           <a class="project-card" href="pattern-atlas/" aria-label="Play Pattern Atlas">
@@ -46,13 +58,13 @@
             </div>
             <div class="project-copy">
               <div>
-                <small>01 · 16 STUDIES</small>
-                <p>Pattern Atlas</p>
-                <p class="project-description">
+                <small data-i18n="game.patternAtlas.label">01 · 16 STUDIES</small>
+                <p data-i18n="game.patternAtlas.title">Pattern Atlas</p>
+                <p class="project-description" data-i18n="game.patternAtlas.description">
                   Rotate and fit colored fragments to restore sixteen visual patterns.
                 </p>
               </div>
-              <span>Fit the fragments →</span>
+              <span data-i18n="game.patternAtlas.cta">Fit the fragments →</span>
             </div>
           </a>
           <a class="project-card lantern-card" href="lantern-grove/" aria-label="Play Lantern Grove">
@@ -65,13 +77,13 @@
             </div>
             <div class="project-copy">
               <div>
-                <small>02 · 16 GARDENS</small>
-                <p>Lantern Grove</p>
-                <p class="project-description">
+                <small data-i18n="game.lanternGrove.label">02 · 16 GARDENS</small>
+                <p data-i18n="game.lanternGrove.title">Lantern Grove</p>
+                <p class="project-description" data-i18n="game.lanternGrove.description">
                   Place lanterns by row, region, and spacing clues in a quiet deduction puzzle.
                 </p>
               </div>
-              <span>Light every garden →</span>
+              <span data-i18n="game.lanternGrove.cta">Light every garden →</span>
             </div>
           </a>
           <a class="project-card signal-card" href="signal-stack/" aria-label="Play Signal Stack">
@@ -86,13 +98,13 @@
             </div>
             <div class="project-copy">
               <div>
-                <small>03 · ENDLESS</small>
-                <p>Signal Stack</p>
-                <p class="project-description">
+                <small data-i18n="game.signalStack.label">03 · ENDLESS</small>
+                <p data-i18n="game.signalStack.title">Signal Stack</p>
+                <p class="project-description" data-i18n="game.signalStack.description">
                   Place two-tone pieces, clear full lines, and keep the signal alive for one more turn.
                 </p>
               </div>
-              <span>Keep the channel open →</span>
+              <span data-i18n="game.signalStack.cta">Keep the channel open →</span>
             </div>
           </a>
           <a class="project-card choir-card" href="pebble-choir/" aria-label="Play Pebble Choir">
@@ -107,13 +119,13 @@
             </div>
             <div class="project-copy">
               <div>
-                <small>04 · PHYSICS TEST</small>
-                <p>Pebble Choir</p>
-                <p class="project-description">
+                <small data-i18n="game.pebbleChoir.label">04 · PHYSICS TEST</small>
+                <p data-i18n="game.pebbleChoir.title">Pebble Choir</p>
+                <p class="project-description" data-i18n="game.pebbleChoir.description">
                   Drop matching pebbles, grow eight voices, and let every collision add a note.
                 </p>
               </div>
-              <span>Grow the choir →</span>
+              <span data-i18n="game.pebbleChoir.cta">Grow the choir →</span>
             </div>
           </a>
         </div>
@@ -121,14 +133,14 @@
 
       <section class="notes" id="notes" aria-labelledby="notes-title">
         <div class="section-heading">
-          <p class="eyebrow">Field notes</p>
-          <h2 id="notes-title">Making things slowly.</h2>
+          <p class="eyebrow" data-i18n="notes.eyebrow">Field notes</p>
+          <h2 id="notes-title" data-i18n="notes.title">Making things slowly.</h2>
         </div>
         <article>
-          <p class="date">JUL 2026</p>
+          <p class="date" data-i18n="notes.article1.date">JUL 2026</p>
           <div>
-            <h3>Why start with a puzzle?</h3>
-            <p>
+            <h3 data-i18n="notes.article1.title">Why start with a puzzle?</h3>
+            <p data-i18n="notes.article1.body">
               Because an honest game needs no explanation: you either want one
               more turn, or you do not. Pattern Atlas explores fitting pieces;
               Lantern Grove explores quiet deduction. Signal Stack asks
@@ -137,12 +149,26 @@
             </p>
           </div>
         </article>
+        <article>
+          <p class="date" data-i18n="notes.article2.date">JUL 31 2026</p>
+          <div>
+            <h3 data-i18n="notes.article2.title">Leaderboards, quietly.</h3>
+            <p data-i18n="notes.article2.body">
+              Two games learned to remember a score today. Signal Stack and
+              Pebble Choir now keep a small board — not for crowning winners,
+              just for noticing that you came back and tried once more. A score
+              only gets sent when it beats your own best, which felt like the
+              right amount of pressure. Finally.
+            </p>
+          </div>
+        </article>
       </section>
     </main>
 
     <footer>
-      <p>Made by Leslie. Small, independent, and still becoming.</p>
-      <p>© 2026 Leslie / Play</p>
+      <p data-i18n="footer.madeBy">Made by Leslie. Small, independent, and still becoming.</p>
+      <p data-i18n="footer.copyright">© 2026 Leslie·Play</p>
     </footer>
+    <script type="module" src="i18n-init.js?v=1"></script>
   </body>
 </html>

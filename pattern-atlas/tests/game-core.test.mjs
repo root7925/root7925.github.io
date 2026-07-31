@@ -4,6 +4,7 @@ import test from "node:test";
 import {
   boardMatchesTarget,
   computeLayoutMetrics,
+  dimensions,
   nextAllowedRotation,
   placementAllowed,
   placementOriginForTap,
@@ -144,9 +145,9 @@ test("edge taps fit the whole selected fragment inside the board", () => {
   ));
 });
 
-test("the first collection contains sixteen structurally complete studies", () => {
-  assert.equal(COLLECTION.levels.length, 16);
-  assert.equal(new Set(COLLECTION.levels.map((level) => level.id)).size, 16);
+test("the first collection contains twenty structurally complete studies", () => {
+  assert.equal(COLLECTION.levels.length, 20);
+  assert.equal(new Set(COLLECTION.levels.map((level) => level.id)).size, 20);
 
   for (const level of COLLECTION.levels) {
     assert.equal(level.target.length, level.size);
@@ -198,3 +199,37 @@ test("every collection study keeps its board and tray inside the mobile budget",
     assert.ok(layout.height <= 756, `${level.id} overflowed vertically`);
   }
 });
+
+test("every collection study is solvable: pieces at rotation=0 cover the target", () => {
+  // piece.cells 本身就是 rotation=0（原始设计）状态，rotation 字段只是初始展示提示。
+  // 用回溯搜索验证：所有 piece 在 rotation=0 下存在一种放置方案，能无重叠覆盖整个 board 且每格颜色匹配 target。
+  // 贪心按顺序放置无法处理 target 有重复模式、多个 piece 同形状的情况，必须搜索组合。
+  const tryPlace = (pieces, idx, size, target, covered) => {
+    if (idx === pieces.length) return covered.size === size * size;
+    const cells = pieces[idx].cells;
+    const { width, height } = dimensions(cells.map(([x, y]) => ({ x, y })));
+    for (let oy = 0; oy <= size - height; oy += 1) {
+      for (let ox = 0; ox <= size - width; ox += 1) {
+        const candidate = cells.map(([x, y, color]) => ({ x: x + ox, y: y + oy, color }));
+        const fits = candidate.every((c) =>
+          c.x >= 0 && c.y >= 0 && c.x < size && c.y < size &&
+          target[c.y][c.x] === c.color &&
+          !covered.has(`${c.x},${c.y}`),
+        );
+        if (!fits) continue;
+        for (const c of candidate) covered.set(`${c.x},${c.y}`, c.color);
+        if (tryPlace(pieces, idx + 1, size, target, covered)) return true;
+        for (const c of candidate) covered.delete(`${c.x},${c.y}`);
+      }
+    }
+    return false;
+  };
+
+  for (const level of COLLECTION.levels) {
+    const covered = new Map();
+    const solvable = tryPlace(level.pieces, 0, level.size, level.target, covered);
+    assert.ok(solvable, `${level.id} is not solvable at rotation=0`);
+    assert.equal(covered.size, level.size * level.size, `${level.id} does not cover the whole board`);
+  }
+});
+

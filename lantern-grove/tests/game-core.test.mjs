@@ -116,8 +116,8 @@ test("region edge calculation outlines garden boundaries", () => {
   });
 });
 
-test("the shipped collection has sixteen valid public puzzles", () => {
-  assert.equal(LANTERN_GROVE_COLLECTION.length, 16);
+test("the shipped collection has twenty valid public puzzles", () => {
+  assert.equal(LANTERN_GROVE_COLLECTION.length, 20);
   const ids = new Set();
   for (const puzzle of LANTERN_GROVE_COLLECTION) {
     assert.equal(ids.has(puzzle.id), false);
@@ -153,4 +153,39 @@ test("mobile board budgets keep every cell comfortably tappable", () => {
   const narrow = computeBoardSize(320, 8);
   assert.equal(narrow.board <= 292, true);
   assert.equal(narrow.cell >= 36, true);
+});
+
+test("every shipped puzzle is solvable under the public rules", () => {
+  // 公开规则：每行/列/区域各一灯 + 任意两灯不相邻（含对角）。
+  // 用按行回溯验证存在合法放置。规则本身公开，不依赖私有 solver。
+  const tryPlace = (size, regions, row, usedCols, usedRegions, placed) => {
+    if (row === size) return true;
+    for (let col = 0; col < size; col += 1) {
+      if (usedCols.has(col)) continue;
+      const region = regions[row * size + col];
+      if (usedRegions.has(region)) continue;
+      // 与上一行灯不相邻（含对角）：列差 ≤1 即禁止
+      if (row > 0 && Math.abs(col - placed[row - 1]) <= 1) continue;
+      placed[row] = col;
+      usedCols.add(col);
+      usedRegions.add(region);
+      if (tryPlace(size, regions, row + 1, usedCols, usedRegions, placed)) return true;
+      usedCols.delete(col);
+      usedRegions.delete(region);
+    }
+    return false;
+  };
+
+  for (const puzzle of LANTERN_GROVE_COLLECTION) {
+    const placed = new Array(puzzle.size);
+    const solvable = tryPlace(
+      puzzle.size,
+      puzzle.regions,
+      0,
+      new Set(),
+      new Set(),
+      placed,
+    );
+    assert.ok(solvable, `${puzzle.id} is not solvable`);
+  }
 });

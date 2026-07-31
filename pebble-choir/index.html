@@ -8,38 +8,49 @@
       name="description"
       content="Pebble Choir is a small physics merge game where every collision makes music."
     />
-    <title>Pebble Choir — Leslie / Play</title>
-    <link rel="stylesheet" href="styles.css?v=b8c878d292eb" />
+    <title>Pebble Choir — Leslie·Play</title>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Pebble Choir — Leslie·Play" />
+    <meta property="og:description" content="A small physics merge game where every collision makes music." />
+    <meta property="og:image" content="https://leslieplay.xyz/og/pebble-choir.jpg" />
+    <meta property="og:url" content="https://leslieplay.xyz/pebble-choir/" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Pebble Choir — Leslie·Play" />
+    <meta name="twitter:description" content="A small physics merge game where every collision makes music." />
+    <meta name="twitter:image" content="https://leslieplay.xyz/og/pebble-choir.jpg" />
+    <link rel="stylesheet" href="styles.css?v=4713ce7de0ae" />
   </head>
   <body>
     <main class="game-shell">
       <header>
-        <a href="../" class="brand">LESLIE / PLAY</a>
+        <a href="../" class="brand" data-i18n="nav.brand">LESLIE·PLAY</a>
         <div class="header-actions">
+          <div id="lang-switcher"></div>
           <button id="sound-toggle" type="button" aria-pressed="true">Sound on</button>
-          <button id="new-run" type="button">New run</button>
+          <button id="open-leaderboard" type="button" class="leaderboard-link" data-i18n="nav.leaderboard">Leaderboard</button>
+          <button id="new-run" type="button" data-i18n="nav.newRun">New run</button>
         </div>
       </header>
 
       <section class="intro" aria-labelledby="game-title">
         <div>
-          <p class="eyebrow">A pocket physics toy</p>
-          <h1 id="game-title">Pebble<br />Choir</h1>
+          <p class="eyebrow" data-i18n="intro.eyebrow">A pocket physics toy</p>
+          <h1 id="game-title" data-i18n-html="intro.title">Pebble<br />Choir</h1>
         </div>
         <div class="intro-copy">
-          <p>Drop a note. Match two. Grow a choir.</p>
-          <span>Tap inside the vessel to release the next pebble.</span>
+          <p data-i18n="intro.body">Drop a note. Match two. Grow a choir.</p>
+          <span data-i18n="intro.gestures">Tap inside the vessel to drop a pebble. Match two equal voices to merge. Keep the rim clear.</span>
         </div>
       </section>
 
       <section class="play-card" aria-label="Pebble Choir game">
         <div class="score-bar">
-          <div><span>Score</span><strong id="score">000000</strong></div>
+          <div><span data-i18n="score.label">Score</span><strong id="score">000000</strong></div>
           <div class="next-wrap">
-            <span>Next note</span>
+            <span data-i18n="score.next">Next note</span>
             <i id="next-pebble" aria-hidden="true"></i>
           </div>
-          <div><span>Best</span><strong id="best">000000</strong></div>
+          <div><span data-i18n="score.best">Best</span><strong id="best">000000</strong></div>
         </div>
 
         <div class="vessel-wrap">
@@ -50,6 +61,7 @@
             role="button"
             tabindex="0"
             aria-label="Tap to drop a pebble into the choir vessel"
+            data-i18n-aria="vessel.aria"
           ></canvas>
           <div id="drop-guide" class="drop-guide" aria-hidden="true"></div>
           <p id="status" class="status" aria-live="polite">
@@ -60,31 +72,47 @@
 
       <section class="note-ladder" aria-labelledby="ladder-title">
         <div>
-          <p class="eyebrow">Eight voices</p>
-          <h2 id="ladder-title">Every merge adds a note.</h2>
+          <p class="eyebrow" data-i18n="ladder.eyebrow">Eight voices</p>
+          <h2 id="ladder-title" data-i18n="ladder.title">Every merge adds a note.</h2>
         </div>
         <div id="tier-list" class="tier-list"></div>
       </section>
 
       <footer>
-        <p>Physics by Matter.js · no ads, account, or tracking.</p>
-        <a href="../lantern-grove/">Play Lantern Grove →</a>
+        <p data-i18n="footer.madeBy">Physics by Matter.js · no ads, account, or tracking.</p>
+        <a href="../lantern-grove/" data-i18n="footer.next">Play Lantern Grove →</a>
       </footer>
     </main>
 
     <dialog id="game-over" class="result-dialog">
-      <p class="eyebrow">The vessel is full</p>
+      <p class="eyebrow" data-i18n="gameover.eyebrow">The vessel is full</p>
       <p id="achievement" class="achievement">First Note</p>
-      <h2>Your choir reached <span id="largest-name">Hush</span>.</h2>
-      <p><strong id="final-score">0</strong> points · best <span id="final-best">0</span></p>
+      <h2><span data-i18n="gameover.titlePrefix">Your choir reached </span><span id="largest-name">Hush</span><span data-i18n="gameover.titleSuffix">.</span></h2>
+      <p><strong id="final-score">0</strong><span data-i18n="gameover.pointsLabel"> points</span> · <span data-i18n="gameover.bestLabel">best </span><span id="final-best">0</span></p>
+      <figure class="share-card-wrap" hidden>
+        <canvas id="share-card" width="1200" height="630" aria-label="Achievement card"></canvas>
+        <figcaption data-i18n="share.caption">Screenshot or tap Share to send this card.</figcaption>
+      </figure>
       <div class="dialog-actions">
-        <button id="restart-run" class="primary-button" type="button">Sing again →</button>
-        <button id="share-score" class="secondary-button" type="button">Share score</button>
+        <button id="restart-run" class="primary-button" type="button" data-i18n="gameover.singAgain">Sing again →</button>
+        <button id="share-score" class="secondary-button" type="button" data-i18n="gameover.shareCard">Share card</button>
+        <button id="submit-leaderboard" class="submit-leaderboard" type="button" hidden data-i18n="gameover.submit">Send to leaderboard</button>
       </div>
       <p id="share-status" class="share-status" aria-live="polite"></p>
+      <p id="rank-status" class="rank-status" aria-live="polite" hidden></p>
+      <ol id="leaderboard-top" class="leaderboard-top" hidden aria-label="Top scores"></ol>
     </dialog>
 
-    <script src="../shared/vendor/matter-js/matter.min.js?v=b8c878d292eb"></script>
-    <script type="module" src="app.js?v=b8c878d292eb"></script>
+    <div id="leaderboard-panel" class="leaderboard-panel" hidden role="dialog" aria-modal="true" aria-labelledby="leaderboard-title">
+      <div class="leaderboard-head">
+        <h2 id="leaderboard-title" data-i18n="leaderboard.title">Choir Ranking</h2>
+        <button id="close-leaderboard" type="button" aria-label="Close leaderboard" data-i18n-aria="leaderboard.close">×</button>
+      </div>
+      <p id="panel-rank-status" class="rank-status" aria-live="polite"></p>
+      <ol id="panel-leaderboard-top" class="leaderboard-top" aria-label="Top scores"></ol>
+    </div>
+
+    <script src="../shared/vendor/matter-js/matter.min.js?v=4713ce7de0ae"></script>
+    <script type="module" src="app.js?v=4713ce7de0ae"></script>
   </body>
 </html>

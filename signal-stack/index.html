@@ -8,26 +8,37 @@
       content="Signal Stack is an endless retro logic game by Leslie. Place two-tone pieces, tune the row signals, and keep the channel open."
     />
     <meta name="theme-color" content="#090d09" />
-    <title>Signal Stack — an endless Leslie / Play puzzle</title>
+    <title>Signal Stack — an endless Leslie·Play puzzle</title>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Signal Stack — Leslie·Play" />
+    <meta property="og:description" content="An endless retro logic game. Place two-tone pieces, tune the row signals, and keep the channel open." />
+    <meta property="og:image" content="https://leslieplay.xyz/og/signal-stack.jpg" />
+    <meta property="og:url" content="https://leslieplay.xyz/signal-stack/" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Signal Stack — Leslie·Play" />
+    <meta name="twitter:description" content="An endless retro logic game. Place two-tone pieces, tune the row signals, and keep the channel open." />
+    <meta name="twitter:image" content="https://leslieplay.xyz/og/signal-stack.jpg" />
     <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml" />
-    <link rel="stylesheet" href="styles.css?v=afc33e62604b" />
+    <link rel="stylesheet" href="styles.css?v=e7818979c2ab" />
   </head>
   <body>
     <main>
       <nav>
         <a class="brand" href="../">
           <img src="../assets/leslie-play-mark.svg" alt="" width="30" height="30" />
-          <span>Leslie / Play</span>
+          <span data-i18n="nav.brand">Leslie·Play</span>
         </a>
-        <span>Transmission 03 · Endless</span>
+        <span data-i18n="nav.transmission">Transmission 03 · Endless</span>
+        <div id="lang-switcher"></div>
+        <button type="button" id="open-leaderboard" class="leaderboard-link" data-i18n="nav.leaderboard" data-i18n-aria="nav.leaderboardAria" aria-label="Open global leaderboard">Leaderboard</button>
       </nav>
 
       <header class="game-hero">
         <div>
-          <p class="eyebrow">A pocket logic transmission</p>
+          <p class="eyebrow" data-i18n="hero.eyebrow">A pocket logic transmission</p>
           <h1>Signal<br /><em>Stack</em></h1>
         </div>
-        <p>
+        <p data-i18n="hero.body">
           Place the two-tone pieces. Complete rows and columns. Match the
           numbered signal for a clean transmission—and keep the channel alive.
         </p>
@@ -37,15 +48,15 @@
         <section class="console" aria-label="Signal Stack endless game">
           <div class="console-top">
             <div>
-              <small>score</small>
+              <small data-i18n="console.score">score</small>
               <strong id="score">000000</strong>
             </div>
             <div>
-              <small>best</small>
+              <small data-i18n="console.best">best</small>
               <strong id="best">000000</strong>
             </div>
             <div>
-              <small>chain</small>
+              <small data-i18n="console.chain">chain</small>
               <strong id="combo">×0</strong>
             </div>
           </div>
@@ -53,7 +64,7 @@
           <div class="signal-message" id="message" aria-live="polite">
             1 Pick a piece · 2 tap it again to rotate · 3 tap its center.
           </div>
-          <p class="rule-line">
+          <p class="rule-line" data-i18n="console.ruleLine">
             Fill any row or column to clear it. Edge number = green-cell bonus.
           </p>
 
@@ -65,41 +76,48 @@
             </div>
             <div class="signal-flash" id="signal-flash" hidden aria-live="polite"></div>
             <div class="game-over" id="game-over" hidden role="dialog" aria-modal="true" aria-labelledby="game-over-title">
-              <span>TRANSMISSION ENDED</span>
-              <h2 id="game-over-title">Channel closed.</h2>
+              <span data-i18n="gameover.eyebrow">TRANSMISSION ENDED</span>
+              <h2 id="game-over-title" data-i18n="gameover.title">Channel closed.</h2>
               <strong id="final-score">0</strong>
               <p id="run-title">First Transmission</p>
+              <figure class="share-card-wrap" hidden>
+                <canvas id="share-card" width="1200" height="630" aria-label="Achievement card"></canvas>
+                <figcaption data-i18n="gameover.shareCaption">Screenshot or tap Share to send this card.</figcaption>
+              </figure>
               <div>
-                <button type="button" id="restart-run">Tune again</button>
-                <button type="button" id="share-score">Share score</button>
+                <button type="button" id="restart-run" data-i18n="gameover.restart">Tune again</button>
+                <button type="button" id="share-score" data-i18n="gameover.shareCard">Share card</button>
+                <button type="button" id="submit-leaderboard" hidden data-i18n="gameover.submitLeaderboard">Send to leaderboard</button>
               </div>
               <small id="share-status" aria-live="polite"></small>
+              <p class="rank-status" id="rank-status" aria-live="polite" hidden></p>
+              <ol class="leaderboard-top" id="leaderboard-top" hidden aria-label="Top scores"></ol>
             </div>
           </div>
 
           <div class="tray-head">
-            <span>incoming pieces</span>
-            <button type="button" id="rotate-piece" disabled>Rotate ↻</button>
+            <span data-i18n="tray.incoming">incoming pieces</span>
+            <button type="button" id="rotate-piece" disabled data-i18n="tray.rotate">Rotate ↻</button>
           </div>
           <div class="piece-tray" id="piece-tray" aria-label="Available signal pieces"></div>
 
           <div class="console-bottom">
-            <span><i class="lamp lamp-light"></i> light</span>
-            <span><i class="lamp lamp-dark"></i> dark</span>
-            <button type="button" id="new-run">New run</button>
+            <span><i class="lamp lamp-light"></i> <span data-i18n="console.light">light</span></span>
+            <span><i class="lamp lamp-dark"></i> <span data-i18n="console.dark">dark</span></span>
+            <button type="button" id="new-run" data-i18n="console.newRun">New run</button>
           </div>
         </section>
 
         <aside>
-          <p class="eyebrow">How the receiver works</p>
-          <h2>Clear space.<br />Tune the signal.</h2>
+          <p class="eyebrow" data-i18n="aside.eyebrow">How the receiver works</p>
+          <h2 data-i18n-html="aside.title">Clear space.<br />Tune the signal.</h2>
           <ol>
-            <li><strong>Select</strong> one of three pieces.</li>
-            <li><strong>Tap it again</strong> to rotate 90°.</li>
-            <li><strong>Tap the board</strong> to place it.</li>
-            <li>Any full line clears. Match its edge number with the number of green cells for a <strong>Clean Signal</strong>.</li>
+            <li data-i18n-html="aside.step1"><strong>Select</strong> one of three pieces.</li>
+            <li data-i18n-html="aside.step2"><strong>Tap it again</strong> to rotate 90°.</li>
+            <li data-i18n-html="aside.step3"><strong>Tap the board</strong> to place it.</li>
+            <li data-i18n-html="aside.step4">Any full line clears. Match its edge number with the number of green cells for a <strong>Clean Signal</strong>.</li>
           </ol>
-          <p class="privacy">
+          <p class="privacy" data-i18n="aside.privacy">
             Runs stay on this device. Shared results contain only the public
             game address, score, and clean-signal count—never a seed, identity,
             board state, or diagnostic.
@@ -107,11 +125,20 @@
         </aside>
       </section>
 
-      <footer>
-        <strong>Signal Stack</strong> is an endless Leslie / Play experiment.
+      <footer data-i18n-html="footer.note">
+        <strong>Signal Stack</strong> is an endless Leslie·Play experiment.
         No account, tracking, advertisement, or hidden purchase.
       </footer>
+
+      <div class="leaderboard-panel" id="leaderboard-panel" hidden role="dialog" aria-modal="true" aria-labelledby="leaderboard-title">
+        <div class="leaderboard-head">
+          <h2 id="leaderboard-title" data-i18n="leaderboard.title">Transmission Log</h2>
+          <button type="button" id="close-leaderboard" data-i18n-aria="leaderboard.close" aria-label="Close leaderboard">×</button>
+        </div>
+        <p class="rank-status" id="panel-rank-status" aria-live="polite"></p>
+        <ol class="leaderboard-top" id="panel-leaderboard-top" aria-label="Top scores"></ol>
+      </div>
     </main>
-    <script src="app.js?v=afc33e62604b" type="module"></script>
+    <script src="app.js?v=e7818979c2ab" type="module"></script>
   </body>
 </html>

@@ -170,3 +170,66 @@ test("only the floor or a lower pebble counts as physical support", () => {
     true,
   );
 });
+
+test("the full merge chain from tier 0 reaches the final Choir tier", () => {
+  // 可玩性不变式：从最低阶连续合并能到最高阶，游戏可通关。
+  let current = pebble("seed", 0);
+  for (let tier = 0; tier < PEBBLE_TIERS.length - 1; tier += 1) {
+    const partner = pebble(`partner-${tier}`, current.tier);
+    const outcome = mergeOutcome(current, partner);
+    assert.ok(outcome, `merge at tier ${tier} should succeed`);
+    assert.equal(outcome.tier, current.tier + 1);
+    current = { ...current, tier: outcome.tier, id: `t${outcome.tier}` };
+  }
+  assert.equal(current.tier, PEBBLE_TIERS.length - 1);
+  // 最高阶不可再合并
+  assert.equal(canMerge(current, pebble("dup", current.tier)), false);
+});
+
+test("tier radii and frequencies increase monotonically", () => {
+  for (let i = 1; i < PEBBLE_TIERS.length; i += 1) {
+    assert.ok(
+      PEBBLE_TIERS[i].radius > PEBBLE_TIERS[i - 1].radius,
+      `radius not monotonic at tier ${i}`,
+    );
+    assert.ok(
+      PEBBLE_TIERS[i].frequency > PEBBLE_TIERS[i - 1].frequency,
+      `frequency not monotonic at tier ${i}`,
+    );
+  }
+});
+
+test("merge points reward higher tiers and longer chains", () => {
+  // 同 chain 下，高 tier 合并分更高
+  for (let tier = 0; tier < PEBBLE_TIERS.length - 2; tier += 1) {
+    assert.ok(
+      mergePoints(tier + 1, 0) > mergePoints(tier, 0),
+      `points not monotonic at tier ${tier}`,
+    );
+  }
+  // 同 tier 下，长 chain 分更高
+  for (let chain = 0; chain < 5; chain += 1) {
+    assert.ok(
+      mergePoints(0, chain + 1) > mergePoints(0, chain),
+      `points not monotonic at chain ${chain}`,
+    );
+  }
+});
+
+test("three mutually collidable same-tier pebbles merge into only one pair", () => {
+  // 三体去重：a/b/c 互碰，只应选一对，第三个被 used 过滤。
+  const a = pebble("a", 0);
+  const b = pebble("b", 0);
+  const c = pebble("c", 0);
+  const selected = selectMergePairs([
+    { first: a, second: b },
+    { first: a, second: c },
+    { first: b, second: c },
+  ]);
+  assert.equal(selected.length, 1);
+  const pair = selected[0];
+  assert.ok(
+    (pair.first.id === "a" && pair.second.id === "b") ||
+      (pair.first.id === "b" && pair.second.id === "a"),
+  );
+});
